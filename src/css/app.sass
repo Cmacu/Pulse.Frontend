@@ -1,0 +1,169 @@
+// app global css in Sass form
+@font-face
+  font-family: title-font
+  src: url(./fonts/BenguiatBold.ttf)
+
+.top-title
+  font-family: 'title-font'
+  font-variant: small-caps
+
+.page-container
+  width: 100%
+  max-width: 800px
+  margin: 0 auto
+
+// OVERWRITES
+html
+  background: $grey-2
+
+a
+  color: $accent
+  text-decoration: none
+
+body.body--dark h2
+  color: secondary
+
+.q-notifications__list--top
+  top: 40px
+
+.q-notification
+  width: 100%
+  max-width: 776px
+
+.q-linear-progress
+  margin-top: -3px
+
+.bottom-tabs .q-tab__label
+  font-size: 0.9em
+
+// CUSTOM STYLES
+.bg-default
+  color: $dark
+  background: white
+body.body--dark .bg-default
+  background: $dark
+  color: white
+
+.glow-win
+  -webkit-filter: drop-shadow(0 0 15px $primary)
+  -moz-filter: drop-shadow(0 0 15px $primary)
+  -ms-filter: drop-shadow(0 0 15px $primary)
+  -o-filter: drop-shadow(0 0 15px $primary)
+
+.glow-1st
+  -webkit-filter: drop-shadow(0 0 10px $primary)
+  -moz-filter: drop-shadow(0 0 10px $primary)
+  -ms-filter: drop-shadow(0 0 10px $primary)
+  -o-filter: drop-shadow(0 0 10px $primary)
+
+.glow-2nd
+  -webkit-filter: drop-shadow(0 0 10px $info)
+  -moz-filter: drop-shadow(0 0 10px $info)
+  -ms-filter: drop-shadow(0 0 10px $info)
+  -o-filter: drop-shadow(0 0 10px $info)
+
+.glow-3rd
+  -webkit-filter: drop-shadow(0 0 10px $secondary)
+  -moz-filter: drop-shadow(0 0 10px $secondary)
+  -ms-filter: drop-shadow(0 0 10px $secondary)
+  -o-filter: drop-shadow(0 0 10px $secondary)
+
+.stripped > .q-item:nth-child(even)
+  background: rgba(150, 150, 150, 0.1)
+
+.border-bottom
+  border-bottom: 1px solid white
+
+body.body-dark .border-bottom
+  border-color: $dark
+
+.text-underline
+  text-decoration: underline
+  text-underline-position: under
+
+.text-special-40
+  font-family: serif
+  font-size: 4em
+  font-weight: bold
+  line-height: 1.1
+
+.text-special-30
+  font-family: serif
+  font-size: 3em
+  font-weight: bold
+  line-height: 1.1
+
+.text-special-20
+  font-family: serif
+  font-size: 2em
+  font-weight: bold
+  line-height: 1.1
+
+.text-special-13
+  font-size: 1.3em
+  line-height: 1.1
+
+.text-special-16
+  font-size: 1.6em
+  line-height: 1.1
+
+.text-special-07
+  text-transform: uppercase
+  font-size: 0.7em
+  opacity: 0.7
+  line-height: 1
+
+.text-special-06
+  text-transform: uppercase
+  font-size: 0.6em
+  line-height: 1
+
+.text-special-05
+  text-transform: uppercase
+  font-size: 0.5em
+  line-height: 1
+
+.text-caps
+  text-transform: uppercase
+
+.cog-border
+  border-radius: 50%
+  -webkit-mask-box-image: url(/divisions/player-border.png)
+  mask-border: url(/divisions/player-border.png)
+  background: transparent !important
+
+.cog-border-1
+  border-radius: 50%
+  -webkit-mask-box-image: url(/divisions/badge-border.png)
+  mask-border: url(/divisions/badge-border.png)
+
+// ANIMATIONS
+@keyframes tickRotate
+  100%
+    transform: rotate(3deg)
+
+.rotate-tick
+  animation: tickRotate 1s infinite
+
+@keyframes fullRotate
+  100%
+    transform: rotateZ(360deg)
+
+.rotate-seconds
+  animation: fullRotate 60s infinite steps(60)
+
+.rotate-minutes
+  animation: fullRotate 720s infinite steps(12)
+
+// Confetti
+
+#confetti
+  pointer-events: none
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='your_transparent.png', sizingMethod='scale')
+  position: fixed
+  top: 0
+  left: 0
+  bottom: 0
+  right: 0
+  height: 100vh
+  width: 100vw

@@ -1,0 +1,9 @@
+{
+  "extends": "@quasar/app/tsconfig-preset",
+  "compileOnSave": true,
+  "compilerOptions": {
+    "baseUrl": ".",
+    "types": ["quasar", "webpack-env"],
+    "target": "es6"
+  }
+}
