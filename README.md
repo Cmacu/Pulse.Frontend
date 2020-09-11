@@ -2,7 +2,7 @@
 
 1v1 Competitive Board Games Community App
 
-## Required global depedencies: `quasar`
+## Required global dependencies: `quasar`
 
 ```bash
 npm install -g quasar-cli

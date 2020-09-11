@@ -52,7 +52,7 @@
         class="text-subtitle2 text-primary q-mb-md"
         style="font-size: 3rem !important;"
       >
-        {{ player.cgeUsername }}
+        {{ player.username }}
       </div>
     </section>
     <section>

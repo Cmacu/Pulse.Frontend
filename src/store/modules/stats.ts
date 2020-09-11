@@ -62,7 +62,7 @@ const getFullHistory = async (): Promise<MatchInterface[]> => {
 
 export const isWin = (match: MatchInterface, player: string): boolean => {
   for (const opponent of match.opponents) {
-    if (opponent.cgeUsername == player && opponent.isWin) {
+    if (opponent.username == player && opponent.isWin) {
       return true
     }
   }
@@ -75,7 +75,7 @@ const getTrends = (
 ): TrendDataPoint[] => {
   const trends: TrendDataPoint[] = []
   const now = new Date().getTime()
-  const player = store.state.player.cgeUsername
+  const player = store.state.player.username
   let date = new Date(store.state.config.seasonStart).getTime()
   let index = 0
   while (date < now) {
@@ -134,14 +134,14 @@ const recentModule = defineModule({
     },
     getTotalWins(context): number {
       return context.matches.filter((match) =>
-        isWin(match, store.state.player.cgeUsername),
+        isWin(match, store.state.player.username),
       ).length
     },
     getWinRate(context): string {
       const matchCount = context.matches.length
       if (!matchCount) return ''
       const winCount: number = context.matches.filter((match) =>
-        isWin(match, store.state.player.cgeUsername),
+        isWin(match, store.state.player.username),
       ).length
       return ((winCount / matchCount) * 100).toFixed(1)
     },

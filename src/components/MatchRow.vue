@@ -11,7 +11,7 @@
         <base-avatar hide-rank v-bind="left" />
         <div class="col q-px-md" :class="`text-${leftColor}`">
           <div>
-            <strong> {{ left.cgeUsername }} </strong>
+            <strong> {{ left.username }} </strong>
           </div>
           <q-chip :color="leftColor">
             <q-icon v-if="leftIcon.length" :name="leftIcon" />
@@ -24,7 +24,7 @@
       <div class="row" @click="$router.push('/profile/' + right.id)">
         <div class="col q-px-md" :class="`text-${rightColor}`">
           <div>
-            <strong> {{ right.cgeUsername }} </strong>
+            <strong> {{ right.username }} </strong>
           </div>
           <q-chip :color="rightColor">
             <q-icon v-if="rightIcon.length" :name="rightIcon" />

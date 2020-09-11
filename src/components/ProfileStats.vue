@@ -1,7 +1,7 @@
 <template>
   <base-card
     :icon="buttons.profile.icon"
-    :title="player.cgeUsername"
+    :title="player.username"
     :loading="stats.loading"
     subtitle="Recent Stats"
   >

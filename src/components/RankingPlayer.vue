@@ -19,7 +19,7 @@
     </q-item-section>
     <q-item-section>
       <q-item-label class="ellipsis text-special-13">
-        {{ player.cgeUsername }}
+        {{ player.username }}
       </q-item-label>
     </q-item-section>
     <q-item-section v-if="$q.screen.gt.xs && player.country" side>

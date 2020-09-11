@@ -25,7 +25,7 @@
     <q-card-section horizontal>
       <q-card-section class="col-5 flex flex-center">
         <div class="text-overline full-width text-center">
-          {{ match.opponents[0].cgeUsername }}
+          {{ match.opponents[0].username }}
         </div>
       </q-card-section>
       <q-card-section class="col-2 flex flex-center">
@@ -40,7 +40,7 @@
       </q-card-section>
       <q-card-section class="col-5 flex flex-center">
         <div class="text-overline full-width text-center">
-          {{ match.opponents[1].cgeUsername }}
+          {{ match.opponents[1].username }}
         </div>
       </q-card-section>
     </q-card-section>

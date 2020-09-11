@@ -10,7 +10,7 @@ export interface PlayerInterface {
   id: string
   status: MATCH_STATES
   badges: Badge[]
-  cgeUsername: string
+  username: string
   country: string
   avatar: string
   division: string
@@ -30,7 +30,7 @@ const defaultState: PlayerInterface = {
   id: '',
   status: MATCH_STATES.AVAILABLE,
   badges: [],
-  cgeUsername: '',
+  username: '',
   country: '',
   avatar: '',
   division: '',
@@ -138,7 +138,7 @@ const playerModule = defineModule({
       const response = await api.getCurrentPlayer()
       const player = response.data
       store.dispatch.stats.getHistory()
-      updateLogRocket(player.id, player.cgeUsername)
+      updateLogRocket(player.id, player.username)
       updateMatchState(player.status.toUpperCase())
       updateRank(
         context.state.division,

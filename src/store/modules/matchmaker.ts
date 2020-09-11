@@ -14,7 +14,7 @@ import { playMatchedSound } from 'src/utils/audio'
 
 export interface OpponentInterface {
   id: string
-  cgeUsername: string
+  username: string
   avatar: string
   country: string
   division: string
@@ -36,7 +36,7 @@ export interface MatchmakerInterface extends MatchState {
 
 export const defaultOpponent: OpponentInterface = {
   id: '',
-  cgeUsername: '???',
+  username: '???',
   avatar: 'symbols/Unknown.png',
   country: '',
   division: '',
@@ -210,7 +210,7 @@ const matchmakerModule = defineModule({
         return
       }
       store.state.matchmaker.opponents.forEach((opponent) => {
-        if (opponent.cgeUsername != store.state.player.cgeUsername) {
+        if (opponent.username != store.state.player.username) {
           return
         }
         Notify.create(

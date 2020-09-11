@@ -9,7 +9,9 @@
         <Buttons />
       </div>
     </div>
-    <Info class="row" />
+
+    <!-- Information -->
+    <Info class="row" style="position: relative; z-index: 100;" />
 
     <table class="schotten-wall">
       <!-- Opponent Cards -->
@@ -57,7 +59,6 @@
                 <q-icon :name="suits[card.suit].icon" />
               </div>
             </Card>
-            <!-- eslint-disable -->
             <Container
               v-if="part.acceptCard"
               :class="part.dropClass"
@@ -171,12 +172,12 @@ export default defineComponent({
 .schotten-card
   border-color: $dark-page
   width: 3rem
-  height: 4rem
+  height: 4.2rem
 
 .drop-zone
   background: $dark-page
   width: 3rem
-  height: 4rem
+  height: 4.2rem
 .drop-zone-active
   -webkit-filter: drop-shadow(0 0 0.3rem $accent)
   -moz-filter: drop-shadow(0 0 0.3rem $accent)

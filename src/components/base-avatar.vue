@@ -68,7 +68,7 @@ export default defineComponent({
   props: {
     id: [Number, String],
     avatar: String,
-    cgeUsername: String,
+    username: String,
     division: [Number, String],
     level: [Number, String],
     score: [Number, String],
@@ -85,13 +85,8 @@ export default defineComponent({
     },
   },
   setup(props, { attrs, listeners }) {
-    const lstnrs = {}
-
     const image = computed(() =>
-      store.getters.config.getAvatar(
-        props.cgeUsername || '',
-        props.avatar || '',
-      ),
+      store.getters.config.getAvatar(props.username || '', props.avatar || ''),
     )
 
     return {
@@ -122,7 +117,7 @@ export default defineComponent({
           store.state.matchmaker.showSearching,
       ),
       attributes: computed(() => Object.assign(props, attrs)),
-      listeners: computed(() => Object.assign(lstnrs, listeners)),
+      listeners: computed(() => Object.assign({}, listeners)),
     }
   },
 })
