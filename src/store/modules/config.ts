@@ -2,6 +2,7 @@ import { defineModule } from 'direct-vuex'
 import { Screen } from 'quasar'
 import api from 'src/utils/api'
 import objectAssignDeep from 'object-assign-deep'
+import { version, name, productName } from '../../../package.json'
 
 export interface TabItem {
   to: string
@@ -77,10 +78,11 @@ interface Stats extends SettingsButton {
 
 export interface ConfigInterface {
   version: string
-  gameName: string
-  gameNameShort: string
-  projectName: string
-  projectIcon: string
+  name: string
+  nameShort: string
+  productName: string
+  game: string
+  icon: string
   matchesPerDayLimit: number
   leaderboardConfig: ListConfig
   historyConfig: ListConfig
@@ -111,11 +113,12 @@ export const defaultMatchState: MatchState = {
 }
 
 const defaultState: ConfigInterface = {
-  version: '0.6.4',
-  gameName: 'Pulse Games',
-  gameNameShort: 'Pulse',
-  projectName: 'Pulse',
-  projectIcon: '/icons/favicon-128x128.png',
+  version,
+  name,
+  nameShort: 'Pulse',
+  productName,
+  game: 'Schotten Totten 2',
+  icon: '/icon.png',
   matchesPerDayLimit: 25,
   leaderboardConfig: {
     pageSize: 10,

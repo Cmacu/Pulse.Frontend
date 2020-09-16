@@ -47,7 +47,7 @@ const responseInterceptor = (response: AxiosResponse): AxiosResponse => {
 const handleLogout = async (message: string): Promise<void> => {
   auth.logout(window.location.href)
   if (!router.currentRoute.fullPath.includes('/login')) {
-    await router.push(`/login?message=${message}`)
+    await router.push(`/public/login?message=${message}`)
   }
   return
 }

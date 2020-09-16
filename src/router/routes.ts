@@ -5,7 +5,34 @@ type Next = Parameters<NavigationGuard>[2]
 
 const routes: RouteConfig[] = [
   {
-    path: '/games/',
+    path: 'logout',
+    beforeEnter: (to, from, next) => {
+      auth.logout(from.fullPath)
+      return next('/public/login')
+    },
+  },
+  {
+    path: '/public',
+    component: () => import('layouts/PublicLayout.vue'),
+    children: [
+      {
+        path: 'login',
+        component: () => import('pages/Login.vue'),
+        beforeEnter: async (to: Route, from: Route, next: Next) => {
+          const isLoggedIn = await auth.isLoggedIn()
+          if (isLoggedIn) {
+            const redirectUrl = auth.getRedirectUrl()
+            return next(redirectUrl)
+          }
+          next()
+        },
+      },
+      { path: 'support', component: () => import('pages/Support.vue') },
+    ],
+  },
+
+  {
+    path: '/games',
     component: () => import('layouts/MatchLayout.vue'),
     children: [
       {
@@ -15,36 +42,14 @@ const routes: RouteConfig[] = [
       },
     ],
   },
-  {
-    path: '/login',
-    beforeEnter: async (to: Route, from: Route, next: Next) => {
-      const isLoggedIn = await auth.isLoggedIn()
-      if (isLoggedIn) {
-        const redirectUrl = auth.getRedirectUrl()
-        return next(redirectUrl)
-      }
-      next()
-    },
-    component: () => import('layouts/AuthLayout.vue'),
-    children: [
-      { path: '', component: () => import('pages/Login.vue') },
-      { path: 'support', component: () => import('pages/Support.vue') },
-    ],
-  },
-  {
-    path: '/logout',
-    beforeEnter: (to, from, next) => {
-      auth.logout(from.fullPath)
-      return next('/login')
-    },
-  },
+
   {
     path: '/',
     beforeEnter: async (to: Route, from: Route, next: Next) => {
       const isLoggedIn = await auth.isLoggedIn()
       if (!isLoggedIn) {
         auth.setRedirectUrl(to.fullPath)
-        return next('/login' + location.search)
+        return next('/public/login' + location.search)
       }
       next()
     },
@@ -65,20 +70,12 @@ const routes: RouteConfig[] = [
       { path: 'events', component: () => import('pages/Events.vue') },
     ],
   },
-  {
-    path: '/youtube',
-    beforeEnter: () => {
-      window.location.href =
-        'https://www.youtube.com/channel/UCSuaz7dnb5oWFFbjQvqY-1A'
-      return
-    },
-  },
 ]
 
 // Always leave this as last one
 routes.push({
   path: '*',
-  component: () => import('layouts/AuthLayout.vue'),
+  component: () => import('layouts/PublicLayout.vue'),
   children: [{ path: '', component: () => import('pages/Error404.vue') }],
 })
 

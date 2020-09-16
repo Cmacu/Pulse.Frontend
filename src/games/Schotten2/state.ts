@@ -6,8 +6,8 @@ interface Card {
   selectedClass?: string
 }
 
-interface WallSection {
-  type: string
+interface Section {
+  name: string
   attackFormation: Card[]
   defendFormation: Card[]
   acceptCard?: boolean
@@ -23,15 +23,15 @@ const hand: Card[] = [
   { suit: 3, rank: 1 },
 ]
 
-const wall: WallSection[] = [
+const wall: Section[] = [
   {
-    type: 'pit',
+    name: 'pit',
     defendFormation: [],
     attackFormation: [],
     acceptCard: true,
   },
   {
-    type: 'tower',
+    name: 'tower',
     defendFormation: [
       { suit: 1, rank: 9 },
       { suit: 2, rank: 3 },
@@ -47,32 +47,32 @@ const wall: WallSection[] = [
     acceptCard: false,
   },
   {
-    type: 'wall',
+    name: 'wall',
     defendFormation: [],
     attackFormation: [],
     acceptCard: true,
   },
   {
-    type: 'gate',
+    name: 'gate',
     defendFormation: [],
     attackFormation: [],
     acceptCard: true,
   },
   {
-    type: 'wall',
+    name: 'wall',
     defendFormation: [],
     attackFormation: [],
     dropClass: '',
     acceptCard: true,
   },
   {
-    type: 'tower',
+    name: 'tower',
     defendFormation: [],
     attackFormation: [],
     acceptCard: true,
   },
   {
-    type: 'pit',
+    name: 'pit',
     defendFormation: [],
     attackFormation: [],
     acceptCard: true,
@@ -115,7 +115,7 @@ const disableWallDrop = () => {
 //     defender: Player
 //   }
 //   board: {
-//     wall: WallSection[]
+//     wall: Section[]
 //     hand: Card[]
 //     discardDeck: Card[]
 //     opponentHandCount: number

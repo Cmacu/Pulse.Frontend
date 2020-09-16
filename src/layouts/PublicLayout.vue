@@ -7,13 +7,11 @@
         @click="location.href = 'https://pulsegames.io/index.html'"
       >
         <q-toolbar-title class="top-title">
-          <q-avatar class="q-mr-md">
-            <img :src="settings.projectIcon" />
+          <q-avatar class="q-mr-xs">
+            <img :src="config.icon" />
           </q-avatar>
-          <span>{{ titleGame }}</span>
-          <span class="text-bold text-primary"
-            >&nbsp;{{ settings.projectName }}</span
-          >
+          <span class="text-bold text-primary">{{ title }}</span>
+          <span>&nbsp;{{ config.game }}</span>
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
@@ -26,9 +24,7 @@
       class="bg-default text-center text-white"
       style="border-top: 1px solid #111;"
     >
-      <div class="q-ma-md">
-        {{ settings.gameName }} {{ settings.projectName }} @ 2020
-      </div>
+      <div class="q-ma-md">{{ config.name }} @ 2020 - {{ config.game }}</div>
     </q-footer>
   </q-layout>
 </template>
@@ -41,12 +37,12 @@ import { Screen } from 'quasar'
 export default defineComponent({
   name: 'MainLayout',
   setup() {
-    const settings = computed(() => store.state.config)
+    const config = computed(() => store.state.config)
     return {
-      settings,
+      config,
       location: window.location,
-      titleGame: computed(() =>
-        Screen.gt.sm ? settings.value.gameName : settings.value.gameNameShort,
+      title: computed(() =>
+        Screen.gt.sm ? config.value.name : config.value.nameShort,
       ),
       current: ref('/'),
     }
@@ -54,7 +50,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="sass" scopped>
+<style lang="sass" scoped>
 .menu-item
   width: 80px
   height: 80px

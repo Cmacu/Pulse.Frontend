@@ -4,7 +4,7 @@
       <!-- Ranking -->
       <base-card
         :icon="ranking.icon"
-        :title="projectName + ' ' + ranking.label"
+        :title="game + ' ' + ranking.label"
         subtitle="Season I: The Age of Competition (July 18 - Sep 30 2020)"
         :loading="loading"
       >
@@ -90,7 +90,7 @@ export default defineComponent({
       totalPages,
       startPosition: computed(() => (page.value - 1) * pageSize.value),
       loading,
-      projectName: computed(() => store.state.config.projectName),
+      game: computed(() => store.state.config.game),
       ranking: computed(() => store.state.config.buttons.ranking),
       rankingHelp: computed(() => store.state.config.buttons.rankingHelp),
       leaderboard,

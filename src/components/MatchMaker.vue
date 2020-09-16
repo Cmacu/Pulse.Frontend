@@ -1,7 +1,7 @@
 <template>
   <base-card
     :icon="matchmakerButton.icon"
-    :title="projectName"
+    :title="game"
     :subtitle="matchmakerButton.label"
     :loading="loading"
   >
@@ -138,7 +138,7 @@ export default defineComponent({
       loading: computed(() => store.state.matchmaker.loading),
       matchmakerButton: computed(() => store.state.config.buttons.matchmaker),
       matchmakerHelp: computed(() => store.state.config.buttons.matchmakerHelp),
-      projectName: computed(() => store.state.config.projectName),
+      game: computed(() => store.state.config.game),
       modes: computed(() => store.state.config.matchModes),
       toggleMatchmaking: store.dispatch.matchmaker.toggle,
       viewProfile: (playerId: string) => router.push(`/profile/${playerId}`),

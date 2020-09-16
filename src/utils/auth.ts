@@ -3,8 +3,8 @@ import { LocalStorage, date } from 'quasar'
 import store from 'src/store'
 
 export const AUTH_API = {
-  login: '/v1/auth',
-  refresh: '/v1/auth/refresh',
+  login: '/auth/login',
+  refresh: '/auth/refresh',
 }
 
 const ERRORS = {

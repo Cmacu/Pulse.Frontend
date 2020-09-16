@@ -1,6 +1,6 @@
 {
   "name": "pulsegames.io",
-  "version": "0.8.0",
+  "version": "0.0.1",
   "description": "1v1 Competitive Board Games Community Hub",
   "productName": "Pulse Games",
   "cordovaId": "",
@@ -8,7 +8,7 @@
   "author": "Stasi Vladimirov <cmacu.mail@gmail.com>",
   "private": true,
   "scripts": {
-    "dev": "API=https://localhost:44392 quasar dev",
+    "dev": "API=https://localhost:50001 quasar dev",
     "build-stage": "API=https://pulsegames-api-staging.azurewebsites.net/ quasar build",
     "build-prod": "API=https://pulsegames-api.azurewebsites.net/ quasar build",
     "release": "release-it",

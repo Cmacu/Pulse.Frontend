@@ -32,8 +32,8 @@
               Explore the Pulse App and find your first opponent
             </li>
             <li class="q-pa-sm">
-              In case you have trouble loggging in, please copy and paste this
-              in your browser:<br />
+              In case you have trouble logging in, please copy and paste this in
+              your browser:<br />
               https://account.czechgames.com/oauth/login?client_id=APP-1465392902
             </li>
           </ol>

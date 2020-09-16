@@ -7,8 +7,8 @@
       <div class="q-pa-sm row">
         <div class="col">
           <div class="row no-wrap">
-            <q-avatar class="q-mr-sm" size="1.25rem">
-              <img :src="config.projectIcon" />
+            <q-avatar class="q-mr-xs" size="1.25rem">
+              <img :src="config.icon" />
             </q-avatar>
             <div class="ellipsis">
               <span>Pulse {{ matchId }}</span

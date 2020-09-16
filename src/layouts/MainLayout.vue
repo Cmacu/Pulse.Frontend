@@ -11,10 +11,10 @@
         @click="location.href = '/'"
       >
         <q-toolbar-title class="top-title">
-          <q-avatar class="q-mr-md">
-            <img :src="config.projectIcon" />
+          <q-avatar class="q-mr-xs">
+            <img :src="config.icon" />
           </q-avatar>
-          <span>{{ titleGame }}</span>
+          <span>{{ title }}</span>
           <span class="text-bold text-primary"
             >&nbsp;{{ config.projectName }}</span
           >
@@ -95,7 +95,7 @@
         />
       </div>
       <div v-else class="q-ma-md" style="height: 18px;">
-        {{ config.gameName }} {{ config.projectName }} @ 2020
+        {{ config.name }} @ 2020 - {{ config.game }}
       </div>
     </q-footer>
   </q-layout>
@@ -130,8 +130,8 @@ export default defineComponent({
       config,
       showMenu,
       location: window.location,
-      titleGame: computed(() =>
-        Screen.gt.sm ? config.value.gameName : config.value.gameNameShort,
+      title: computed(() =>
+        Screen.gt.sm ? config.value.name : config.value.nameShort,
       ),
       current: ref('/'),
       match: computed(() => store.state.matchmaker),
