@@ -3,20 +3,20 @@ import { LocalStorage, date } from 'quasar'
 import store from 'src/store'
 
 export const AUTH_API = {
+  request: '/auth/request',
+  register: '/auth/register',
   login: '/auth/login',
   refresh: '/auth/refresh',
 }
 
 const ERRORS = {
+  invalidEmail: 'Invalid email',
   invalidToken: 'Invalid token',
-  invalidRefreshToken: 'Invalid token (r)',
+  invalidAccessCode: 'Invalid access token. Check your email.',
+  invalidUsername: 'Invalid username. Enter new value.',
+  invalidColor: 'Invalid color. Select value.',
   tokenExpired: 'Token expired!',
   invalidResponse: 'Invalid server response',
-}
-
-interface AuthResponse {
-  success: boolean
-  message?: string
 }
 
 interface AuthAxiosResponse extends AxiosResponse {
@@ -29,6 +29,11 @@ interface AuthSession {
   refreshToken?: string
   expiresIn?: number
   expiresAt?: Date
+}
+
+interface AuthResponse {
+  success: boolean
+  message?: string
 }
 
 class Auth {
@@ -64,45 +69,52 @@ class Auth {
     return isLoggedIn ? this.getAccessToken() : ''
   }
 
-  private getAccessToken(): string {
-    return this.session?.accessToken || ''
-  }
-
-  private getRefreshToken(): string {
-    return this.session?.refreshToken || ''
-  }
-
-  public async login(
-    cgeToken: string,
-    cgeRefreshToken: string,
-  ): Promise<AuthResponse> {
-    if (!cgeToken) {
-      return { success: false, message: ERRORS.invalidToken }
-    }
-    if (!cgeRefreshToken) {
-      return { success: false, message: ERRORS.invalidRefreshToken }
-    }
+  public async request(email: string): Promise<AuthResponse> {
+    if (!email) return { success: false, message: ERRORS.invalidEmail }
     const response = await axiosInstance.get(
-      `${AUTH_API.login}?token=${cgeToken}&refresh_token=${cgeRefreshToken}`,
+      `${AUTH_API.request}?email=${email}`,
     )
+    return { success: true, message: response.data ? 'register' : 'login' }
+  }
+
+  public async register(email: string, accessCode: string, username: string) {
+    if (!email) return { success: false, message: ERRORS.invalidEmail }
+    if (!accessCode)
+      return { success: false, message: ERRORS.invalidAccessCode }
+    if (!username) return { success: false, message: ERRORS.invalidUsername }
+    if (username.length < 3)
+      return { success: false, message: ERRORS.invalidUsername }
+
+    const response = await axiosInstance.get(AUTH_API.register, {
+      params: { email, accessCode, username },
+    })
     return this.handleResponse(response)
   }
 
-  public async refresh(): Promise<{ success: boolean; message?: string }> {
+  public async login(email: string, accessCode: string): Promise<AuthResponse> {
+    if (!email) {
+      return { success: false, message: ERRORS.invalidEmail }
+    }
+    if (!accessCode) {
+      return { success: false, message: ERRORS.invalidAccessCode }
+    }
+    const response = await axiosInstance.get(AUTH_API.login, {
+      params: { email, accessCode },
+    })
+    return this.handleResponse(response)
+  }
+
+  public async refresh(): Promise<AuthResponse> {
     const accessToken = this.getAccessToken()
     const refreshToken = this.getRefreshToken()
     if (!accessToken || !refreshToken) {
       return {
         success: false,
-        message: ERRORS.invalidToken,
+        message: ERRORS.invalidAccessCode,
       }
     }
-    const response = await axiosInstance.post(
-      `${AUTH_API.refresh}?jwt=${accessToken}&jwtRefresh=${refreshToken}`,
-      {
-        jwt: accessToken,
-        refreshToken,
-      },
+    const response = await axiosInstance.get(
+      `${AUTH_API.refresh}?accessToken=${accessToken}&refreshToken=${refreshToken}`,
     )
     return this.handleResponse(response)
   }
@@ -123,6 +135,14 @@ class Auth {
     if (url.includes('auth')) return
     if (url.includes('error')) return
     this.redirectUrl = url.replace(window.location.origin, '')
+  }
+
+  private getAccessToken(): string {
+    return this.session?.accessToken || ''
+  }
+
+  private getRefreshToken(): string {
+    return this.session?.refreshToken || ''
   }
 
   private isValid(): boolean {

@@ -5,29 +5,47 @@ type Next = Parameters<NavigationGuard>[2]
 
 const routes: RouteConfig[] = [
   {
-    path: 'logout',
-    beforeEnter: (to, from, next) => {
-      auth.logout(from.fullPath)
-      return next('/public/login')
-    },
-  },
-  {
     path: '/public',
     component: () => import('layouts/PublicLayout.vue'),
     children: [
+      { path: 'leaderboard', component: () => import('pages/Leaderboard.vue') },
+    ],
+  },
+  {
+    path: '/logout',
+    beforeEnter: (to, from, next) => {
+      auth.logout(from.fullPath)
+      return next('/auth/email')
+    },
+  },
+  {
+    path: '/auth',
+    component: () => import('layouts/AuthLayout.vue'),
+    beforeEnter: async (to: Route, from: Route, next: Next) => {
+      const isLoggedIn = await auth.isLoggedIn()
+      if (isLoggedIn) {
+        const redirectUrl = auth.getRedirectUrl()
+        return next(redirectUrl)
+      }
+      if (!to.path.includes('email') && !to.query['email'])
+        return next('/auth/email')
+      next()
+    },
+    children: [
+      {
+        path: 'email',
+        component: () => import('pages/Email.vue'),
+      },
+      {
+        path: 'register',
+        props: (route) => Object.assign({}, route.query),
+        component: () => import('pages/Register.vue'),
+      },
       {
         path: 'login',
+        props: (route) => Object.assign({}, route.query),
         component: () => import('pages/Login.vue'),
-        beforeEnter: async (to: Route, from: Route, next: Next) => {
-          const isLoggedIn = await auth.isLoggedIn()
-          if (isLoggedIn) {
-            const redirectUrl = auth.getRedirectUrl()
-            return next(redirectUrl)
-          }
-          next()
-        },
       },
-      { path: 'support', component: () => import('pages/Support.vue') },
     ],
   },
 
@@ -49,7 +67,7 @@ const routes: RouteConfig[] = [
       const isLoggedIn = await auth.isLoggedIn()
       if (!isLoggedIn) {
         auth.setRedirectUrl(to.fullPath)
-        return next('/public/login' + location.search)
+        return next('/auth/login' + location.search)
       }
       next()
     },
@@ -66,7 +84,7 @@ const routes: RouteConfig[] = [
         component: () => import('pages/Profile.vue'),
       },
       { path: 'settings', component: () => import('pages/Settings.vue') },
-      { path: 'ranking', component: () => import('pages/Ranking.vue') },
+      { path: 'leaderboard', component: () => import('pages/Leaderboard.vue') },
       { path: 'events', component: () => import('pages/Events.vue') },
     ],
   },
