@@ -11,7 +11,7 @@
         :class="{ 'text-center': titleCenter }"
       >
         <q-item-label class="text-primary">{{ title }}</q-item-label>
-        <q-item-label caption>{{ subtitle }}</q-item-label>
+        <q-item-label caption v-html="subtitle" />
       </q-item-section>
       <q-item-section side>
         <slot name="extra" />

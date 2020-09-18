@@ -62,9 +62,10 @@ export enum NOTIFICATIONS {
 
 export interface BadgeDetails {
   name: string
-  image: string
-  notify: string
   tooltip: string
+  image: string
+  notify?: string
+  label?: string
 }
 
 export interface ListConfig {
@@ -74,6 +75,17 @@ export interface ListConfig {
 
 interface Stats extends SettingsButton {
   info: string
+}
+
+export interface LeaderboardPlayer {
+  playerId: number
+  username: string
+  avatar: string
+  country: string
+  leaderboardRating: number
+  totalDecay: number
+  rank: number
+  previousRank?: number
 }
 
 export interface ConfigInterface {
@@ -189,13 +201,23 @@ const defaultState: ConfigInterface = {
       `,
     },
     leaderboard: { icon: 'img:divisions/badge-3-3.png', label: 'Leaderboard' },
-    rankingHelp: {
+    leaderboardHelp: {
       icon: 'help_outline',
       tooltip: `
         <div class="text-h6 text-center text-accent">Pulse Leaderboard</div>
         The <strong class="text-primary">Pulse Leaderboard</strong> shows the top
         players in the league. Reach the Master Division to be ranked according to your rating.
         <a href="https://pulsegames.io/faq.html#about-leaderboard" target="_blank" >Learn more</a>
+      `,
+    },
+    leaderboardChart: { icon: 'show_chart', label: 'Leaderboard History' },
+    leaderboardChartHelp: {
+      icon: 'help_outline',
+      tooltip: `
+        <div class="text-h6 text-center text-accent">Leaderboard History</div>
+        The <strong class="text-primary">Leaderboard History</strong> shows the
+        position of top competitors over time. It combines rating with activity decay.
+        <a href="https://ttapulse.com/the-rating-system.html" target="_blank" >Learn more</a>
       `,
     },
     history: {
@@ -266,7 +288,7 @@ const defaultState: ConfigInterface = {
   mainTabs: [
     {
       icon: 'star_outline',
-      label: 'Leaderboard',
+      label: 'Ranking',
       to: '/leaderboard',
     },
     { icon: 'o_gamepad', label: 'Match', to: '/' },
@@ -375,6 +397,22 @@ const defaultState: ConfigInterface = {
       notify: 'Congratulations',
       tooltip: 'Badge for playing on the Pulse Games platform',
     },
+    SeasonMaster: {
+      name: 'Season Master',
+      image: 'img:/divisions/badge-3-3.png',
+      notify: `
+        Congratulations!
+        You earned a Season Master badge for reaching the <strong>Master Division</strong>.<br/>
+        Learn more how to reach higher position in this
+        <a href="https://pulsegames.io/the-rating-system.html">blog article</a>.
+      `,
+      tooltip: `
+        This badge was earned by reaching <strong>Master Division</strong> in the current season.<br>
+        Learn more in this
+        <a href="https://pulsegames.io/the-leaderboard-system.html">blog post</a>.
+        Current leaderboard position is
+      `,
+    },
     ColosseumBronze: {
       name: 'Bronze Colosseum',
       image: '/symbols/ColosseumBronze.png',
@@ -442,6 +480,16 @@ const defaultState: ConfigInterface = {
   },
 }
 
+const handleNewMajorVersion = (prev: string, next: string): void => {
+  const re = new RegExp(/^\d+/)
+  const prevVersion = re.exec(prev)?.[0] ?? 0
+  const nextVersion = re.exec(next)?.[0] ?? 0
+  if (nextVersion > prevVersion) {
+    console.error('hard reload')
+    location.href = location.origin
+  }
+}
+
 const mutations = {
   TOGGLE_MENU(state: ConfigInterface) {
     state.showMenu = !state.showMenu
@@ -453,12 +501,10 @@ const mutations = {
     state: ConfigInterface,
     payload: ConfigInterface = defaultState,
   ) {
+    const currentVersion = state.version
+    const newVersion = payload.version
     state = objectAssignDeep(state, payload)
-    // Object.keys(payload).forEach((key) => {
-    //   if(Object.prototype.hasOwnProperty.call(payload, key)) {
-    //     // state[key] = objectAssignDeep()
-    //   }
-    // })
+    handleNewMajorVersion(currentVersion, newVersion)
   },
   UPDATE_LEADERBOARD_PAGE(state: ConfigInterface, payload: number) {
     state.leaderboardConfig.currentPage = payload
@@ -483,7 +529,7 @@ const compareVersions = (a: string, b: string): number => {
   return segmentsA.length - segmentsB.length
 }
 
-const settingsModule = defineModule({
+const configModule = defineModule({
   namespaced: true,
   state: (): ConfigInterface => Object.assign({}, defaultState),
   getters: {
@@ -509,7 +555,7 @@ const settingsModule = defineModule({
       let title = 'Age'
       if (division == 3) {
         title = ''
-        rank = (+level + 1).toString()
+        rank = level.toString()
         level = 3 // Set option 4 for Master
       }
       const badge = `divisions/badge-${division}-${level}.png`
@@ -531,11 +577,10 @@ const settingsModule = defineModule({
     },
     getBadgeDetails: (state: ConfigInterface) => (
       badge: string,
-    ): BadgeDetails => {
+    ): BadgeDetails | undefined => {
       if (Object.prototype.hasOwnProperty.call(state.badges, badge)) {
         return state.badges[badge]
       }
-      return state.badges['Default']
     },
   },
   mutations,
@@ -564,4 +609,4 @@ const settingsModule = defineModule({
   },
 })
 
-export default settingsModule
+export default configModule

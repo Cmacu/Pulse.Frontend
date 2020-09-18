@@ -2,17 +2,17 @@
   <q-page class="flex flex-center" v-touch-swipe.right="swipeRight">
     <div class="page-container row q-pa-sm q-gutter-sm">
       <!-- Info -->
-      <ProfileInfo :playerId="playerId" />
+      <ProfileInfo :player="player" />
       <!-- VS History -->
       <MatchHistory
         v-if="!isCurrentPlayer"
-        :playerId="playerId"
-        :opponentId="opponentId"
+        :player="player"
+        :opponent="opponent"
         title="Games Against You"
         subtitle="History"
       />
       <!-- Game History -->
-      <MatchHistory :playerId="playerId" />
+      <MatchHistory :player="player" />
     </div>
   </q-page>
 </template>
@@ -30,24 +30,24 @@ export default defineComponent({
     MatchHistory: () => import('components/MatchHistory.vue'),
   },
   props: {
-    id: {
+    name: {
       type: String,
       default: '',
     },
   },
   setup(props) {
-    const playerId = computed<string>(() =>
-      props.id ? props.id.toString() : store.state.player.id.toString(),
+    const player = computed<string>(() =>
+      props.name ? props.name : store.state.player.username,
     )
-    const opponentId = computed<string>(() =>
-      playerId.value != store.state.player.id
-        ? store.state.player.id.toString()
+    const opponent = computed<string>(() =>
+      player.value != store.state.player.username
+        ? store.state.player.username
         : '',
     )
     return {
-      playerId,
-      opponentId,
-      isCurrentPlayer: computed<boolean>(() => opponentId.value == ''),
+      player,
+      opponent,
+      isCurrentPlayer: computed<boolean>(() => opponent.value == ''),
       swipeRight: () => {
         router.push('/')
       },

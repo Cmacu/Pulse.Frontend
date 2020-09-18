@@ -5,7 +5,6 @@
     :class="`${glowClass} ${borderClass}`"
   >
     <q-img
-      class="avatar-image"
       :class="{
         'rotate-tick': animate,
         'cgeAvatarFix': isCgeImage,
@@ -92,9 +91,6 @@ export default defineComponent({
     return {
       glowClass: computed<string>(() => {
         if (props.isWin) return 'glow-win'
-        if (props.division == 3 && props.level == 1) return 'glow-1st'
-        if (props.division == 3 && props.level == 2) return 'glow-2nd'
-        if (props.division == 3 && props.level == 3) return 'glow-3rd'
         return ''
       }),
       borderClass: computed<string>(() =>
@@ -124,12 +120,6 @@ export default defineComponent({
 </script>
 
 <style lang="sass">
-.cgeAvatarFix .q-img__image
-  margin-left: -15%;
-  margin-top: -20%;
-  width: 130%
-  height: 130%
-
 .avatar-border .q-avatar__content
   background: white
   border: 10px solid white
@@ -137,8 +127,6 @@ body.body--dark
   .avatar-border .q-avatar__content
     background: $dark
     border-color: $dark
-.avatar-image
-  // background: $grey-4
 
 .flag-background
   background-position: center;

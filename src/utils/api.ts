@@ -20,10 +20,11 @@ const api = {
       `/matchmaker/aggregate?utcFrom=${utcFrom}&utcTo=${utcTo}`,
     )
   },
-  getPlayer: (playerId: string) => {
-    const url =
-      '/player' + (isNaN(+playerId) ? '/' : '/get?playerId=') + playerId
-    return axiosInstance.get(url)
+  getPlayer: (player: string) => {
+    return axiosInstance.get('/player/' + player)
+  },
+  findPlayer: (query: string) => {
+    return axiosInstance.get('/player/search?query=' + query)
   },
   getCurrentPlayer: () => {
     return axiosInstance.get('/player/')
@@ -31,10 +32,13 @@ const api = {
   getLeaderboard: (skip = 0, take = 10) => {
     return axiosInstance.get(`/leaderboard?take=${take}&skip=${skip}`)
   },
+  getLeaderboardLog: (player: string) => {
+    return axiosInstance.get('/leaderboard/log?username=' + player)
+  },
   getLastMatch: () => axiosInstance.get('/match/last'),
-  getMatches: (playerId: string, skip = 0, take = 10, opponentId = '') => {
+  getMatches: (player: string, skip = 0, take = 10, opponent = '') => {
     return axiosInstance.get(
-      `/match?playerId=${playerId}&skip=${skip}&take=${take}&opponentId=${opponentId}`,
+      `/match?player=${player}&skip=${skip}&take=${take}&opponent=${opponent}`,
     )
   },
   getSettings: () => axiosInstance.get('/player/settings'),

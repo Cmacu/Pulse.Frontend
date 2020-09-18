@@ -68,6 +68,7 @@ const onDisconnect = (message: string) => {
     color: 'negative',
     icon: 'error_outline',
   })
+  auth.refresh()
   disconnect()
 }
 

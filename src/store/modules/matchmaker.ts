@@ -11,6 +11,7 @@ import * as socket from 'src/utils/socket'
 import api from 'src/utils/api'
 import { timestampToUtc } from 'src/utils/format'
 import { playMatchedSound } from 'src/utils/audio'
+import { DeltaInterface, defaultDelta } from 'src/store/modules/player'
 
 export interface OpponentInterface {
   id: string
@@ -22,12 +23,15 @@ export interface OpponentInterface {
   score: string
   isWin: boolean
   position: number
+  ratingDelta: number
+  decayValue: number
   isExpired?: boolean
   isResigned?: boolean
 }
 
 export interface MatchmakerInterface extends MatchState {
   name: string
+  delta: DeltaInterface
   status: MATCH_STATES
   loading: boolean
   opponents: OpponentInterface[]
@@ -43,12 +47,15 @@ export const defaultOpponent: OpponentInterface = {
   level: '',
   score: '',
   isWin: false,
+  ratingDelta: 0,
+  decayValue: 0,
   position: 1,
 }
 
 const defaultState: MatchmakerInterface = Object.assign(
   {
     name: '',
+    delta: Object.assign({}, defaultDelta),
     status: MATCH_STATES.AVAILABLE,
     loading: false,
     opponents: [defaultOpponent, defaultOpponent],
@@ -95,6 +102,36 @@ const matchLimitReached = async (limit: number): Promise<boolean> => {
   return true
 }
 
+// const getDelta = (): DeltaInterface => {
+//   const delta: DeltaInterface = {
+//     rating: 0,
+//     decay: 0,
+//     sign: '',
+//     color: '',
+//   }
+
+//   if (store.state.player.division != '3') return delta
+
+//   const left = store.state.matchmaker.opponents[0]
+//   const right = store.state.matchmaker.opponents[0]
+//   const player = store.state.player.username
+
+//   if (right.username == player) {
+//     delta.rating = right.ratingDelta
+//     delta.decay = right.decayValue
+//   }
+//   if (left.username == player) {
+//     delta.rating = left.ratingDelta
+//     delta.decay = left.decayValue
+//   }
+//   if (delta.rating != 0) {
+//     delta.rating = Math.round(delta.rating)
+//     delta.sign = delta.rating > 0 ? '+' : '-'
+//     delta.color = delta.rating > 0 ? 'positive' : 'negative'
+//   }
+//   return delta
+// }
+
 const mutations = {
   START_LOADING(state: MatchmakerInterface) {
     state.loading = true
@@ -132,6 +169,9 @@ const mutations = {
   SET_MATCH_NAME(state: MatchmakerInterface, name = '') {
     state.name = name
   },
+  SET_DELTA(state: MatchmakerInterface, delta: DeltaInterface) {
+    state.delta = Object.assign({}, delta)
+  },
 } as const
 
 const matchmakerModule = defineModule({
@@ -157,6 +197,7 @@ const matchmakerModule = defineModule({
     },
     reset(context) {
       context.commit(mutations.SET_MATCH_NAME.name, '')
+      context.commit(mutations.SET_DELTA.name, defaultDelta)
       context.commit(mutations.SET_OPPONENT.name, {
         index: 0,
         opponent: Object.assign({}, store.state.player),
@@ -219,6 +260,11 @@ const matchmakerModule = defineModule({
           ],
         )
       })
+      const delta = store.getters.player.getDelta(
+        context.state.opponents[0],
+        context.state.opponents[1],
+      )
+      context.commit(mutations.SET_DELTA.name, delta)
       context.commit(mutations.SET_STATE.name, MATCH_STATES.AVAILABLE)
       store.dispatch.player.updatePlayer()
     },

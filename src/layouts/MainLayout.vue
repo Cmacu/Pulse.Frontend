@@ -48,7 +48,7 @@
             flat
             stack
             round
-            :color="$q.dark.isActive ? 'secondary' : 'accent'"
+            :color="$q.dark.isActive ? 'info' : 'accent'"
             class="menu-item"
           />
         </div>
@@ -148,7 +148,7 @@ export default defineComponent({
 })
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass">
 .q-page-container
   padding-left: 0px !important;
 .q-drawer

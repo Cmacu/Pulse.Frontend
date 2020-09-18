@@ -3,10 +3,16 @@
     :icon="buttons.profile.icon"
     :title="player.username"
     :loading="stats.loading"
-    subtitle="Recent Stats"
+    :subtitle="decayMessage"
   >
     <template slot="extra">
-      <base-btn flat round :icon="buttons.link.icon" to="/profile" />
+      <base-btn
+        type="a"
+        flat
+        round
+        icon="help_outline"
+        href="https://ttapulse.com/the-rating-system.html"
+      />
     </template>
     <q-card-section horizontal>
       <q-card-section class="col-5 col-sm-3 flex flex-center text-center">
@@ -23,19 +29,46 @@
           {{ winPercent }}% WIN RATE
         </div>
       </q-card-section>
-      <q-card-section vertical class="col q-pa-none">
+      <q-card-section
+        v-if="player.division == '3'"
+        vertical
+        class="col q-pa-none"
+      >
         <q-card-section>
           <ProfileTrends
-            name="Matches"
-            :total="totalMatches"
-            :data="stats.matchTrends"
+            area-name="Rating"
+            :area-total="currentRating"
+            :area-data="stats.ratingTrends"
+            line-name="With Decay"
+            :line-total="withDecay"
+            :line-data="stats.decayTrends"
+            period="Current"
           />
         </q-card-section>
         <q-card-section>
           <ProfileTrends
-            name="Wins"
-            :total="totalWins"
-            :data="stats.winTrends"
+            area-name="Matches"
+            :area-total="totalMatches"
+            :area-data="stats.matchTrends"
+            line-name="Wins"
+            :line-total="totalWins"
+            :line-data="stats.winTrends"
+          />
+        </q-card-section>
+      </q-card-section>
+      <q-card-section v-else vertical class="col q-pa-none">
+        <q-card-section>
+          <ProfileTrends
+            area-name="Matches"
+            :area-total="totalMatches"
+            :area-data="stats.matchTrends"
+          />
+        </q-card-section>
+        <q-card-section>
+          <ProfileTrends
+            area-name="Wins"
+            :area-total="totalWins"
+            :area-data="stats.winTrends"
           />
         </q-card-section>
       </q-card-section>
@@ -44,7 +77,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, onMounted } from '@vue/composition-api'
+import { defineComponent, computed } from '@vue/composition-api'
 import store from '../store'
 import { DivisionInterface } from 'src/store/modules/config'
 
@@ -54,16 +87,40 @@ export default defineComponent({
     ProfileTrends: () => import('components/ProfileTrends.vue'),
   },
   setup() {
-    onMounted(store.dispatch.stats.getHistory)
     const player = computed(() => store.state.player)
     const stats = computed(() => store.state.stats)
     const totalMatches = computed(() => store.getters.stats.getTotalMatches)
     const totalWins = computed(() => store.getters.stats.getTotalWins)
+    const currentRating = computed(() =>
+      Math.round(
+        store.state.player.conservativeRating - store.state.player.totalDecay,
+      ),
+    )
+    const totalDecay = computed(() => store.state.player.totalDecay)
+    const withDecay = computed(() => totalDecay.value + currentRating.value)
+    const regainDecay = computed(() => store.state.player.regainDecay)
+
     return {
       player,
       stats,
       totalMatches,
       totalWins,
+      currentRating,
+      totalDecay,
+      regainDecay,
+      withDecay,
+      decayMessage: computed(() => {
+        if (+player.value?.division < 3) return 'Personal Stats'
+        if (totalDecay.value == 0) return 'Recently active'
+        return `
+          <span class='text-negative'>
+            You lost <strong>${totalDecay.value}</strong> rating points due to inactivity.
+          </span>
+          <span class='text-positive'>
+            Find a match to regain <strong>${regainDecay.value}</strong> points on your next win.
+          </span>
+        `
+      }),
       winPercent: computed(() =>
         totalMatches.value > 0
           ? Math.round((totalWins.value / totalMatches.value) * 100)

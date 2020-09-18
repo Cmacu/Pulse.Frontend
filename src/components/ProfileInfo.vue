@@ -12,7 +12,7 @@
         style="padding-top: 10px; margin-right: -12px; z-index: 99;"
       />
       <base-avatar
-        v-bind="player"
+        v-bind="playerData"
         add-border
         hide-badge
         hide-rank
@@ -21,7 +21,7 @@
         class="avatar-info"
       />
       <div
-        v-if="player.country"
+        v-if="country"
         style="padding-top: 10px; margin-left: -11px; z-index: 100;"
       >
         <div
@@ -52,7 +52,7 @@
         class="text-subtitle2 text-primary q-mb-md"
         style="font-size: 3rem !important;"
       >
-        {{ player.username }}
+        {{ username }}
       </div>
     </section>
     <section>
@@ -66,11 +66,32 @@
           flat
           stack
         >
-          {{ formatNumber(+player[stat.info]) }}</base-btn
+          {{ playerData ? formatNumber(+playerData[stat.info]) : 0 }}</base-btn
         >
       </q-btn-group>
     </section>
-    <section v-if="badges.length" class="row justify-center q-gutter-md">
+    <section class="row justify-center">
+      <base-btn
+        v-if="playerData && playerData.division.toString() == '3'"
+        flat
+        round
+        dense
+        style="width: 120px; height: 120px;"
+      >
+        <div
+          class="cog-border-1 bg-info flex flex-center text-dark"
+          style="width: 70px; height: 70px;"
+        >
+          <div class="full-width">
+            <strong class="text-caps text-special-07" style="line-height: 0.8;">
+              {{ rank.name }}
+            </strong>
+            <div class="text-caps" style="line-height: 0.8;">
+              {{ rank.title }} {{ rank.rank }}
+            </div>
+          </div>
+        </div>
+      </base-btn>
       <base-btn
         v-for="badge of badges"
         :key="badge.name"
@@ -91,6 +112,7 @@ import { formatNumber } from 'src/utils/format'
 import { PlayerInterface } from 'src/store/modules/player'
 import store from 'src/store'
 import { DivisionInterface, BadgeDetails } from 'src/store/modules/config'
+import router from 'src/router'
 
 interface PlayerStats {
   games: number
@@ -103,18 +125,18 @@ interface PlayerStats {
 export default defineComponent({
   name: 'PlayerInfo',
   props: {
-    playerId: {
+    player: {
       type: String,
       required: true,
     },
   },
   setup(props) {
     const loading = ref(true)
-    const player = ref<PlayerInterface>()
+    const playerData = ref<PlayerInterface>()
     const rank = computed<DivisionInterface>(() =>
       store.getters.config.getDivision(
-        player.value?.division,
-        player.value?.level,
+        playerData.value?.division,
+        playerData.value?.level,
       ),
     )
     const animate = computed<boolean>(
@@ -123,29 +145,33 @@ export default defineComponent({
         store.state.matchmaker.showSearching,
     )
     onMounted(async () => {
-      const response = await api.getPlayer(props.playerId)
-      player.value = response.data
+      const response = await api.getPlayer(props.player)
+      playerData.value = response.data
+      if (!playerData.value?.id) router.push('/404')
       loading.value = false
     })
     return {
       loading,
       formatNumber,
-      player,
+      playerData,
       rank,
       animate,
       badges: computed<BadgeDetails[]>(() => {
         const badges: BadgeDetails[] = []
-        if (!player.value) return badges
-        for (const badge of player.value.badges) {
-          badges.push(store.getters.config.getBadgeDetails(badge.name))
+        if (!playerData.value) return badges
+        for (const badge of playerData.value.badges) {
+          const badgeDetails = store.getters.config.getBadgeDetails(badge.name)
+          if (badgeDetails) badges.push(badgeDetails)
         }
         return badges
       }),
       flagBackground: computed<string>(
         () =>
-          `background-image: url("/flags/${player.value?.country.toLowerCase()}.svg") !important`,
+          `background-image: url("/flags/${playerData.value?.country.toLowerCase()}.svg") !important`,
       ),
       stats: computed(() => store.state.config.stats),
+      country: computed(() => playerData.value?.country || ''),
+      username: computed(() => playerData.value?.username || ''),
       rankClass: computed(
         () =>
           `bg-${rank.value.color} ` + (animate.value ? 'rotate-minutes' : ''),

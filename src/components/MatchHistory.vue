@@ -13,11 +13,7 @@
     </template>
     <q-list class="stripped">
       <q-item v-for="match in matches" :key="match.name" clickable>
-        <MatchRow
-          :match="match"
-          :game-order="inGameOrder"
-          :playerId="playerId"
-        />
+        <MatchRow :match="match" :game-order="inGameOrder" :player="player" />
       </q-item>
       <q-item v-if="noResults && !loading">
         <q-item-section class="q-pa-md text-center">
@@ -56,11 +52,11 @@ export default defineComponent({
       type: String,
       default: '',
     },
-    playerId: {
+    player: {
       type: String,
       required: true,
     },
-    opponentId: {
+    opponent: {
       type: String,
       default: '',
     },
@@ -79,10 +75,10 @@ export default defineComponent({
       loading.value = true
       const skip = (page.value - 1) * pageSize.value
       const response = await api.getMatches(
-        props.playerId,
+        props.player,
         skip,
         pageSize.value,
-        props.opponentId,
+        props.opponent,
       )
       totalPages.value = Math.ceil(
         +response.data.total / (+pageSize.value || 1),

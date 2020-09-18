@@ -35,7 +35,7 @@
           class="text-center text-overline"
           style="margin: -10px 0px;"
         >
-          {{ match.name }}
+          <MatchDelta :match="match.name" :delta="match.delta" />
         </div>
       </q-card-section>
       <q-card-section class="col-5 flex flex-center">
@@ -52,7 +52,7 @@
           size="90px"
           @click="
             viewProfile(
-              match.opponents.length ? match.opponents[0].id.toString() : '',
+              match.opponents.length ? match.opponents[0].username : '',
             )
           "
         />
@@ -75,7 +75,7 @@
           size="90px"
           @click="
             viewProfile(
-              match.opponents.length ? match.opponents[1].id.toString() : '',
+              match.opponents.length > 1 ? match.opponents[1].username : '',
             )
           "
         />
@@ -124,6 +124,7 @@ export default defineComponent({
   name: 'MatchMaker',
   components: {
     MatchRandomLoader: () => import('components/MatchRandomLoader.vue'),
+    MatchDelta: () => import('components/MatchDelta.vue'),
   },
   setup() {
     const seconds = computed(() => store.state.timer.secondsLeft)
@@ -141,7 +142,7 @@ export default defineComponent({
       game: computed(() => store.state.config.game),
       modes: computed(() => store.state.config.matchModes),
       toggleMatchmaking: store.dispatch.matchmaker.toggle,
-      viewProfile: (playerId: string) => router.push(`/profile/${playerId}`),
+      viewProfile: (player: string) => router.push(`/profile/${player}`),
     }
   },
 })

@@ -1,25 +1,26 @@
 <template>
   <section
     class="full-width trend-stats row"
-    :class="`trend-${name.toLowerCase()}`"
+    :class="`trend-${areaName.toLowerCase()}`"
   >
-    <div class="col-4 col-sm-2 text-center flex items-end justify-end q-pb-sm">
+    <div
+      class="col-4 col-sm-2 text-center flex items-end justify-end q-pb-sm cursor-pointer"
+      @click="onClick"
+    >
       <div class="text-overline text-special-06 full-width">
         {{ name }}
       </div>
-      <div class="text-special-30 full-width">
+      <div class="text-special-20 full-width">
         {{ count }}
       </div>
       <div class="text-special-06 full-width">
         {{ date }}
       </div>
     </div>
-    <div class="col items-end" style="height: 85px;">
+    <div class="col items-end" style="height: 65px;">
       <trend-chart
-        v-if="data.length"
-        :datasets="[dataset]"
-        :min="0"
-        :max="10"
+        v-if="datasets.length"
+        :datasets="datasets"
         :interactive="true"
         padding="5 0 0"
         @mouse-move="onMouseMove"
@@ -45,15 +46,27 @@ export interface TrendDataset<T> {
 export default defineComponent({
   name: 'ProfileTrends',
   props: {
-    name: {
+    areaName: {
       type: String,
-      required: true,
+      default: '',
     },
-    data: {
+    lineName: {
+      type: String,
+      default: '',
+    },
+    areaData: {
       type: Array as PropType<TrendDataPoint[]>,
-      default: [],
+      default: () => [],
     },
-    total: {
+    lineData: {
+      type: Array as PropType<TrendDataPoint[]>,
+      default: () => [],
+    },
+    areaTotal: {
+      type: Number,
+      default: 400,
+    },
+    lineTotal: {
       type: Number,
       default: 400,
     },
@@ -61,19 +74,49 @@ export default defineComponent({
       type: String,
       default: 'this season',
     },
+    min: {
+      type: Number,
+      default: 0,
+    },
+    max: {
+      type: Number,
+      default: 10,
+    },
   },
   setup(props) {
-    const dataset = computed(() => ({
-      data: props.data,
-      className: 'trend-area',
-      smooth: false,
-      stroke: false,
-      fill: true,
-      opacity: 1,
-    }))
+    const datasets = computed(() => {
+      const data = []
+      if (props.areaData.length)
+        data.push({
+          data: props.areaData,
+          className: 'trend-area',
+          smooth: false,
+          stroke: false,
+          fill: true,
+          opacity: 0.5,
+        })
+      if (props.lineData.length)
+        data.push({
+          data: props.lineData,
+          className: 'trend-line',
+          smooth: false,
+          stroke: true,
+          fill: false,
+          opacity: 1,
+        })
+      return data
+    })
 
     const showTotal = ref('')
     const showDate = ref('')
+    const showArea = ref(true)
+    const name = computed(() =>
+      showArea.value ? props.areaName : props.lineName,
+    )
+    const total = computed(() =>
+      showArea.value ? props.areaTotal : props.lineTotal,
+    )
+    const index = computed(() => (showArea.value ? 0 : 1))
 
     const onMouseMove = (params: TrendDataset<TrendDataPoint>) => {
       if (!params || !params.data.length) {
@@ -81,19 +124,25 @@ export default defineComponent({
         showDate.value = ''
         return
       }
-      showTotal.value = params.data[0].value.toString()
-      showDate.value = params.data[0].label
+      showTotal.value = params.data[index.value].value.toString()
+      showDate.value = params.data[index.value].label
     }
 
+    const onClick = () =>
+      (showArea.value = props.lineName.length ? !showArea.value : true)
+
     return {
-      dataset,
+      datasets,
+      name,
+      total,
       count: computed(() =>
-        showTotal.value.length ? showTotal.value : props.total.toString(),
+        showTotal.value.length ? showTotal.value : total.value.toString(),
       ),
       date: computed(() =>
         showDate.value.length ? showDate.value : props.period.toString(),
       ),
       onMouseMove,
+      onClick,
     }
   },
 })
@@ -103,15 +152,22 @@ export default defineComponent({
 .trend-matches
   &.trend-stats
     border-bottom: 1px solid $accent
-  .text-special-30
+  .text-special-20
     color: $accent
   .trend-area .fill
     fill: $accent
 .trend-wins
   &.trend-stats
     border-bottom: 1px solid $positive
-  .text-special-30
+  .text-special-20
     color: $positive
   .trend-area .fill
     fill: $positive
+.trend-rating
+  &.trend-stats
+    border-bottom: 1px solid $info
+  .text-special-20
+    color: $info
+  .trend-area .fill
+    fill: $info
 </style>

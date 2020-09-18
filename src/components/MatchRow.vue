@@ -1,27 +1,29 @@
 <template>
   <base-item-columns>
     <template slot="default">
-      <strong> {{ match.name }} </strong>
+      <MatchDelta :match="match.name" :delta="delta" />
       <div class="full-width q-pt-sm">
         {{ formatDate(match.endDate) }}
       </div>
     </template>
     <template slot="left" class="row">
-      <div class="row" @click="$router.push('/profile/' + left.id)">
+      <div class="row" @click="$router.push('/profile/' + left.username)">
         <base-avatar hide-rank v-bind="left" />
         <div class="col q-px-md" :class="`text-${leftColor}`">
           <div>
             <strong> {{ left.username }} </strong>
           </div>
-          <q-chip :color="leftColor">
-            <q-icon v-if="leftIcon.length" :name="leftIcon" />
-            <span v-else>{{ left.score }}</span>
-          </q-chip>
+          <div>
+            <q-chip :color="leftColor">
+              <q-icon v-if="leftIcon.length" :name="leftIcon" />
+              <span v-else>{{ left.score }}</span>
+            </q-chip>
+          </div>
         </div>
       </div>
     </template>
     <template slot="right">
-      <div class="row" @click="$router.push('/profile/' + right.id)">
+      <div class="row" @click="$router.push('/profile/' + right.username)">
         <div class="col q-px-md" :class="`text-${rightColor}`">
           <div>
             <strong> {{ right.username }} </strong>
@@ -46,12 +48,15 @@ import store from '../store'
 
 export default defineComponent({
   name: 'MatchRow',
+  components: {
+    MatchDelta: () => import('components/MatchDelta.vue'),
+  },
   props: {
     match: {
       type: Object as PropType<MatchInterface>,
       required: true,
     },
-    playerId: {
+    player: {
       type: String,
       required: true,
     },
@@ -65,7 +70,7 @@ export default defineComponent({
       Object.assign(
         {},
         props.match.opponents.filter((o) =>
-          props.gameOrder ? o.position == 0 : o.id == props.playerId,
+          props.gameOrder ? o.position == 0 : o.username == props.player,
         )[0],
       ),
     )
@@ -73,7 +78,7 @@ export default defineComponent({
       Object.assign(
         {},
         props.match.opponents.filter((o) =>
-          props.gameOrder ? o.position != 0 : o.id != props.playerId,
+          props.gameOrder ? o.position != 0 : o.username != props.player,
         )[0],
       ),
     )
@@ -105,6 +110,7 @@ export default defineComponent({
       }
       return ''
     }
+
     return {
       left,
       leftColor: computed(() => getColor(left.value)),
@@ -112,6 +118,9 @@ export default defineComponent({
       right,
       rightColor: computed(() => getColor(right.value)),
       rightIcon: computed(() => getIcon(right.value)),
+      delta: computed(() =>
+        store.getters.player.getDelta(left.value, right.value),
+      ),
       formatDate: (date: string) => moment.utc(date).local().calendar(),
     }
   },

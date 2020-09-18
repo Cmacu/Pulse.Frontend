@@ -5,6 +5,23 @@ import { updateLogRocket } from 'src/boot/log-rocket'
 import store from '..'
 import { Notify } from 'quasar'
 import { stopConfetti, startConfetti } from 'src/utils/confetti'
+import { OpponentInterface } from 'src/store/modules/matchmaker'
+
+export interface DeltaInterface {
+  rating: number
+  decay: number
+  sign: string
+  color: string
+  side: string
+}
+
+export const defaultDelta = {
+  rating: 0,
+  decay: 0,
+  sign: '',
+  color: '',
+  side: '',
+}
 
 export interface PlayerInterface {
   id: string
@@ -21,8 +38,12 @@ export interface PlayerInterface {
   totalResigns: number
   totalTimeouts: number
   totalCulture: number
+  totalDecay: number
+  regainDecay: number
+  conservativeRating: number
   winPercent: number
   lastGame: string
+  leaderboardRating: number
   loading: boolean
 }
 
@@ -41,8 +62,12 @@ const defaultState: PlayerInterface = {
   totalResigns: 0,
   totalTimeouts: 0,
   totalCulture: 0,
+  totalDecay: 0,
+  regainDecay: 0,
+  conservativeRating: 0,
   winPercent: 0,
   lastGame: 'May 15',
+  leaderboardRating: 0,
   loading: false,
 }
 
@@ -63,8 +88,8 @@ const updateBadges = (badges: Badge[]) => {
     const badgeDetails = store.getters.config.getBadgeDetails(badge.name)
     startConfetti()
     Notify.create({
-      message: badgeDetails.notify,
-      icon: 'img:' + badgeDetails.image,
+      message: badgeDetails?.notify ?? 'Achievement Badge',
+      icon: 'img:' + badgeDetails?.image,
       color: 'positive',
       timeout: 0,
       html: true,
@@ -88,9 +113,26 @@ const updateRank = (
   newLevel: number,
 ) => {
   if (oldDivision == newDivision && oldLevel == newLevel) return
+
+  let isPromoted = true
+  if (oldDivision == newDivision) {
+    if (newDivision == 3) {
+      // MASTER
+      if (oldLevel < newLevel) {
+        isPromoted = false
+      }
+    } else {
+      // OTHER DIVISIONS
+      if (oldLevel > newLevel) {
+        isPromoted = false
+      }
+    }
+  }
+
   const rank = store.getters.config.getDivision(newDivision, newLevel)
   const newRank = rank.name + ' ' + rank.title + ' ' + rank.rank
-  if (oldDivision == newDivision && oldLevel > newLevel) {
+
+  if (!isPromoted) {
     const demote = store.state.config.notifications[NOTIFICATIONS.DEMOTED]
     Notify.create({
       message: demote.message + newRank,
@@ -128,14 +170,38 @@ const mutations = {
 const playerModule = defineModule({
   namespaced: true,
   state: (): PlayerInterface => Object.assign({}, defaultState),
-  getters: {},
+  getters: {
+    getDelta: (context) => (
+      op1: OpponentInterface,
+      op2: OpponentInterface,
+    ): DeltaInterface => {
+      const delta: DeltaInterface = Object.assign({}, defaultDelta)
+      if (context.division != '3') return delta
+
+      if (op1.username == context.username) {
+        delta.rating = op1.ratingDelta
+        delta.decay = op1.decayValue
+        delta.side = 'left'
+      }
+      if (op2.username == context.username) {
+        delta.rating = op2.ratingDelta
+        delta.decay = op2.decayValue
+        delta.side = 'right'
+      }
+      if (delta.rating != 0) {
+        delta.rating = Math.round(delta.rating)
+        delta.sign = delta.rating > 0 ? '+' : '-'
+        delta.color = delta.rating > 0 ? 'positive' : 'negative'
+      }
+      return delta
+    },
+  },
   mutations,
   actions: {
     async updatePlayer(context) {
       context.commit(mutations.START_LOADING.name)
       const response = await api.getCurrentPlayer()
       const player = response.data
-      store.dispatch.stats.getHistory()
       updateLogRocket(player.id, player.username)
       updateMatchState(player.status.toUpperCase())
       updateRank(
@@ -146,6 +212,7 @@ const playerModule = defineModule({
       )
       updateBadges(player.badges)
       context.commit(mutations.SET_PLAYER.name, player)
+      store.dispatch.stats.getHistory()
       context.commit(mutations.STOP_LOADING.name)
     },
     updateCountry(context, payload: string) {
