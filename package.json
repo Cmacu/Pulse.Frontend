@@ -8,7 +8,7 @@
   "author": "Stasi Vladimirov <cmacu.mail@gmail.com>",
   "private": true,
   "scripts": {
-    "dev": "API=https://localhost:50001 quasar dev",
+    "dev": "API=https://localhost:5001 quasar dev",
     "build-stage": "API=https://pulsegames-api-staging.azurewebsites.net/ quasar build",
     "build-prod": "API=https://pulsegames-api.azurewebsites.net/ quasar build",
     "release": "release-it",

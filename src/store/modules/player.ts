@@ -52,7 +52,6 @@ export interface Badge {
 }
 
 const updateBadges = (badges: Badge[]) => {
-  console.error(badges)
   for (const badge of badges) {
     if (
       store.state.player.badges.find(
@@ -75,7 +74,6 @@ const updateBadges = (badges: Badge[]) => {
 }
 
 const updateMatchState = (status: MATCH_STATES = defaultState.status) => {
-  console.info('Update Match State: ', status)
   if (status == MATCH_STATES.SEARCHING) {
     return store.dispatch.matchmaker.findMatch()
   }
