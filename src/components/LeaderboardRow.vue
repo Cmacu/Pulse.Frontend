@@ -49,7 +49,7 @@ import { DivisionInterface } from 'src/store/modules/config'
 import { store } from 'src/store'
 
 export default defineComponent({
-  name: 'RankingPlayer',
+  name: 'LeaderboardRow',
   props: {
     position: {
       type: Number,

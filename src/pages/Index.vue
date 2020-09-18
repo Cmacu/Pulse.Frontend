@@ -26,7 +26,7 @@ export default defineComponent({
   setup() {
     return {
       swipeRight: () => {
-        router.push('/ranking')
+        router.push('/leaderboard')
       },
       swipeLeft: () => {
         router.push('/profile')

@@ -1,11 +1,11 @@
 <template>
   <q-page class="flex flex-center" v-touch-swipe.left="swipeLeft">
     <div class="page-container row q-pa-sm q-gutter-sm">
-      <!-- Ranking -->
+      <!-- Leaderboard -->
       <base-card
-        :icon="ranking.icon"
-        :title="game + ' ' + ranking.label"
-        subtitle="Season I: The Age of Competition (July 18 - Sep 30 2020)"
+        :icon="leaderboard.icon"
+        :title="game + ' ' + leaderboard.label"
+        subtitle="Winter 20 (Oct 1 - Dec 31)"
         :loading="loading"
       >
         <template slot="extra">
@@ -19,8 +19,8 @@
           <q-spinner-dots size="10em" color="primary" />
         </div>
         <q-list v-else class="stripped">
-          <RankingPlayer
-            v-for="(player, pos) in leaderboard"
+          <LeaderboardRow
+            v-for="(player, pos) in players"
             :key="player.id"
             :position="startPosition + pos + 1"
             :player="player"
@@ -52,9 +52,9 @@ import router from 'src/router'
 import api from 'src/utils/api'
 
 export default defineComponent({
-  name: 'RankingPage',
+  name: 'LeaderboardPage',
   components: {
-    RankingPlayer: () => import('components/RankingPlayer.vue'),
+    LeaderboardRow: () => import('components/LeaderboardRow.vue'),
   },
   setup() {
     const page = computed(
@@ -65,7 +65,7 @@ export default defineComponent({
     )
     const totalPages = ref(3)
     const loading = ref(true)
-    const leaderboard = ref<Array<PlayerInterface>>([])
+    const players = ref<Array<PlayerInterface>>([])
 
     const getLeaderboardPage = async () => {
       loading.value = true
@@ -74,7 +74,7 @@ export default defineComponent({
       totalPages.value = Math.ceil(
         +response.data.total / (+pageSize.value ?? 1),
       )
-      leaderboard.value = response.data.results
+      players.value = response.data.results
       loading.value = false
     }
 
@@ -91,10 +91,10 @@ export default defineComponent({
       startPosition: computed(() => (page.value - 1) * pageSize.value),
       loading,
       game: computed(() => store.state.config.game),
-      ranking: computed(() => store.state.config.buttons.ranking),
+      leaderboard: computed(() => store.state.config.buttons.leaderboard),
       rankingHelp: computed(() => store.state.config.buttons.rankingHelp),
-      leaderboard,
-      noResults: computed(() => page.value == 1 && !leaderboard.value.length),
+      players,
+      noResults: computed(() => page.value == 1 && !players.value.length),
       onPageChange,
       swipeLeft: () => {
         router.push('/')

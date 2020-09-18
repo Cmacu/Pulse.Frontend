@@ -188,14 +188,14 @@ const defaultState: ConfigInterface = {
         Use this information to plan the best times to find your opponents.
       `,
     },
-    ranking: { icon: 'img:divisions/badge-3-3.png', label: 'Leaderboard' },
+    leaderboard: { icon: 'img:divisions/badge-3-3.png', label: 'Leaderboard' },
     rankingHelp: {
       icon: 'help_outline',
       tooltip: `
         <div class="text-h6 text-center text-accent">Pulse Leaderboard</div>
         The <strong class="text-primary">Pulse Leaderboard</strong> shows the top
         players in the league. Reach the Master Division to be ranked according to your rating.
-        <a href="https://pulsegames.io/faq.html#about-ranking" target="_blank" >Learn more</a>
+        <a href="https://pulsegames.io/faq.html#about-leaderboard" target="_blank" >Learn more</a>
       `,
     },
     history: {
@@ -266,8 +266,8 @@ const defaultState: ConfigInterface = {
   mainTabs: [
     {
       icon: 'star_outline',
-      label: 'Ranking',
-      to: '/ranking',
+      label: 'Leaderboard',
+      to: '/leaderboard',
     },
     { icon: 'o_gamepad', label: 'Match', to: '/' },
     {
