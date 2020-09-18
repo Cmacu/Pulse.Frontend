@@ -1,12 +1,26 @@
 <template>
   <div class="fixed-center text-center">
     <p>
-      <img src="~assets/sad.svg" style="width: 30vw; max-width: 150px;" />
+      <q-icon name="sentiment_dissatisfied" color="primary" size="50px" />
     </p>
-    <p class="text-faded">
-      Looks like this is not available, yet... <strong>(404)</strong>
+    <p style="font-size: 1.5rem;">
+      <strong>404</strong>
     </p>
-    <base-btn color="accent" style="width: 200px;" to="/" label="Go back" />
+    <p>Looks like this page is not available.</p>
+    <base-btn color="accent" style="width: 200px;" to="/" label="Home Page" />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
   </div>
 </template>
 

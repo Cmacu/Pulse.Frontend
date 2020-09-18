@@ -3,11 +3,13 @@
     <q-item>
       <q-item-section avatar>
         <q-avatar>
-          <q-icon size="lg" :name="icon" />
+          <q-icon size="27px" :name="icon" />
         </q-avatar>
       </q-item-section>
-
-      <q-item-section class="text-subtitle1">
+      <q-item-section
+        class="text-subtitle1"
+        :class="{ 'text-center': titleCenter }"
+      >
         <q-item-label class="text-primary">{{ title }}</q-item-label>
         <q-item-label caption>{{ subtitle }}</q-item-label>
       </q-item-section>
@@ -34,6 +36,10 @@ export default defineComponent({
     title: {
       type: String,
       required: true,
+    },
+    titleCenter: {
+      type: Boolean,
+      default: false,
     },
     subtitle: {
       type: String,

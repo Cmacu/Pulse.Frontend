@@ -3,7 +3,6 @@
     <div class="page-container row q-pa-sm q-gutter-sm">
       <!-- Info -->
       <ProfileInfo :playerId="playerId" />
-      <ProfileChord v-if="isCurrentPlayer" />
       <!-- VS History -->
       <MatchHistory
         v-if="!isCurrentPlayer"

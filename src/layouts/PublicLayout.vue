@@ -10,8 +10,7 @@
           <q-avatar class="q-mr-xs">
             <img :src="config.icon" />
           </q-avatar>
-          <span class="text-bold text-primary">{{ title }}</span>
-          <span>&nbsp;{{ config.game }}</span>
+          <span class="text-primary">{{ config.name }}</span>
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
@@ -24,27 +23,22 @@
       class="bg-default text-center text-white"
       style="border-top: 1px solid #111;"
     >
-      <div class="q-ma-md">{{ config.name }} @ 2020 - {{ config.game }}</div>
+      <div class="q-ma-md">{{ config.name }} @ 2020</div>
     </q-footer>
   </q-layout>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from '@vue/composition-api'
+import { defineComponent, computed } from '@vue/composition-api'
 import store from '../store/'
-import { Screen } from 'quasar'
 
 export default defineComponent({
-  name: 'MainLayout',
+  name: 'PublicLayout',
   setup() {
     const config = computed(() => store.state.config)
     return {
       config,
       location: window.location,
-      title: computed(() =>
-        Screen.gt.sm ? config.value.name : config.value.nameShort,
-      ),
-      current: ref('/'),
     }
   },
 })
