@@ -41,7 +41,7 @@ export interface MatchmakerInterface extends MatchState {
 export const defaultOpponent: OpponentInterface = {
   id: '',
   username: '???',
-  avatar: 'symbols/Unknown.png',
+  avatar: 'symbols/Default.png',
   country: '',
   division: '',
   level: '',
