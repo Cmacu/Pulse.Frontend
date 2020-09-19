@@ -19,11 +19,6 @@ const ERRORS = {
   invalidResponse: 'Invalid server response',
 }
 
-interface AuthAxiosResponse extends AxiosResponse {
-  success?: boolean
-  message?: boolean
-}
-
 interface AuthSession {
   accessToken?: string
   refreshToken?: string
@@ -164,20 +159,13 @@ class Auth {
     this.session = thisSession
   }
 
-  private handleResponse(response: AuthAxiosResponse): AuthResponse {
-    if (!response.success && response.message) {
-      return {
-        success: false,
-        message: response.message.toString(),
-      }
-    }
+  private handleResponse(response: AxiosResponse): AuthResponse {
     if (response.status !== 200) {
       return {
         success: false,
-        message: response.data ? response.data.error : response.statusText,
+        message: response?.data || response.statusText,
       }
     }
-    // TODO: SAVE TO LOCAL STORAGE AND REDIRECT
     this.setSession(response.data)
     return { success: true }
   }

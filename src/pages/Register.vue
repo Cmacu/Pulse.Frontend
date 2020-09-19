@@ -10,6 +10,8 @@
         v-model="username"
         placeholder="username"
         autocomplete="username"
+        :error="!!usernameError"
+        :error-message="usernameError"
         outlined
         required
       >
@@ -26,6 +28,8 @@
         v-model="accessCode"
         placeholder="****"
         autocomplete="password"
+        :error="!!codeError"
+        :error-message="codeError"
         autofocus
         outlined
         required
@@ -51,8 +55,8 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from '@vue/composition-api'
 import auth from 'src/utils/auth'
-import { Notify } from 'quasar'
 import router from 'src/router'
+import api from 'src/utils/api'
 
 export default defineComponent({
   name: 'RegisterPage',
@@ -69,33 +73,43 @@ export default defineComponent({
   setup(props) {
     const loading = ref(false)
     const username = ref('')
+    const usernameError = ref<string>('')
     const accessCode = ref('')
+    const codeError = ref<string>('')
     const pageLoading = ref(true)
 
     onMounted(() => {
       username.value = props.email.split('@')[0]
     })
     const submit = async () => {
+      usernameError.value = ''
+    codeError.value = ''
+
       loading.value = true
+      const checkResponse = await api.checkUsername(username.value)
+      console.error(checkResponse)
+      if (checkResponse.data) {
+        usernameError.value = 'Username is taken. Try a different one'
+        loading.value = false
+        return false
+      }
       const response = await auth.register(
         props.email,
         accessCode.value,
         username.value,
       )
       if (response.success) return router.push(auth.getRedirectUrl())
+      codeError.value = response.message ?? 'Invalid access code'
       loading.value = false
-      Notify.create({
-        message: response.message,
-        color: 'negative',
-        icon: 'o_warning',
-      })
     }
 
     return {
       pageLoading,
       loading,
       accessCode,
+      codeError,
       username,
+      usernameError,
       submit,
     }
   },

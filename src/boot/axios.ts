@@ -5,8 +5,9 @@ import auth from 'src/utils/auth'
 import store from 'src/store'
 
 export const getErrorMessage = (error: AxiosError) => {
-  console.error(error)
-  return error.response ? error.response.data.error : error.message
+  return error.response
+    ? `${error.response.status}(${error.response.statusText}): ${error.response?.data}`
+    : error.message
 }
 
 /** Default config for axios instance */
@@ -45,8 +46,8 @@ const responseInterceptor = (response: AxiosResponse): AxiosResponse => {
 }
 
 const handleLogout = async (message: string): Promise<void> => {
-  auth.logout(window.location.href)
   if (!router.currentRoute.fullPath.includes('/auth/')) {
+    auth.logout(window.location.href)
     await router.push(`/auth/login?message=${message}`)
   }
   return
@@ -55,19 +56,18 @@ const handleLogout = async (message: string): Promise<void> => {
 const handleError = (message: string): void => {
   Notify.create({
     html: true,
-    message: `Something unexpected happened: ${message}.<br/>
+    message: `Something unexpected happened ${message}.<br/>
     If the error persists please contact <a class="text-white underline" href="mailto:admin@pulsegames.io">admin@pulsegames.io</a>`,
   })
 }
 
 const refreshInterceptor = async (error: AxiosError) => {
   if (!error.response || error.response.status !== 401) {
-    handleError(error.message)
-    return error
+    handleError(getErrorMessage(error))
+    return error.response
   }
-  if (!error?.config?.url || error.config.url.includes('refresh')) {
-    await handleLogout(error.response.statusText)
-    return error
+  if (!error?.config?.url || error.config.url.includes('/auth/')) {
+    return error.response
   }
 
   const response = await auth.refresh()

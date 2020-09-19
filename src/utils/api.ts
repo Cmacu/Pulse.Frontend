@@ -20,6 +20,9 @@ const api = {
       `/matchmaker/aggregate?utcFrom=${utcFrom}&utcTo=${utcTo}`,
     )
   },
+  checkUsername: (username: string) => {
+    return axiosInstance.get('/auth/find/?username=' + username)
+  },
   getPlayer: (player: string) => {
     return axiosInstance.get('/player/' + player)
   },

@@ -35,3 +35,6 @@ yarn-error.log*
 # Deployment scripts
 deploy-prod.sh
 deploy-stage.sh
+
+# VSCode config
+.vscode
