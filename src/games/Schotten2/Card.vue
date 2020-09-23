@@ -1,6 +1,7 @@
 <template>
   <q-card
-    class="schotten-card q-px-xs ellipsis"
+    class="schotten-card ellipsis"
+    :class="{ 'card-ghost': selected }"
     v-bind="attributes"
     v-on="listeners"
     bordered
@@ -10,16 +11,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from '@vue/composition-api'
+import { defineComponent, computed } from '@vue/composition-api'
 
 export default defineComponent({
   name: 'Card',
+  props: {
+    selected: {
+      type: Boolean,
+      default: false,
+    },
+  },
   setup(props, { attrs, listeners }) {
-    const selectedClass = ref('')
     return {
-      attributes: computed(() => Object.assign({}, props, attrs)),
+      attributes: computed(() => Object.assign(props, attrs)),
       listeners: computed(() => Object.assign({}, listeners)),
-      selectedClass,
     }
   },
 })

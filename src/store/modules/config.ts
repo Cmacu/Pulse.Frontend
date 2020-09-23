@@ -150,7 +150,7 @@ const defaultState: ConfigInterface = {
     Digital: {
       icon: 'view_carousel',
       label: 'Base',
-      tooltip: `Only the base game without special cards and tactics.`,
+      tooltip: 'Only the base game without action cards and tactics.',
     },
     SuperBlitz: {
       icon: 'o_speed',

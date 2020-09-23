@@ -47,6 +47,12 @@ const suits: Suit[] = [
   },
   {
     name: '',
+    color: 'red',
+    icon: 'check',
+    image: '',
+  },
+  {
+    name: '',
     color: 'cyan',
     icon: 'bubble_chart',
     image: '',
