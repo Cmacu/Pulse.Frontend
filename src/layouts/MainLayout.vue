@@ -15,9 +15,7 @@
             <img :src="config.icon" />
           </q-avatar>
           <span>{{ title }}</span>
-          <span class="text-bold text-primary"
-            >&nbsp;{{ config.projectName }}</span
-          >
+          <span class="text-bold text-primary">&nbsp;{{ config.game }}</span>
         </q-toolbar-title>
       </q-toolbar>
       <base-btn

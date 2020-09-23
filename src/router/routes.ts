@@ -51,7 +51,7 @@ const routes: RouteConfig[] = [
 
   {
     path: '/games',
-    component: () => import('layouts/MatchLayout.vue'),
+    component: () => import('layouts/GameLayout.vue'),
     children: [
       {
         path: 'schotten2/:matchId',

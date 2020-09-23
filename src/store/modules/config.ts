@@ -131,7 +131,7 @@ const defaultState: ConfigInterface = {
   productName,
   game: 'Schotten Totten 2',
   icon: '/icon.png',
-  matchesPerDayLimit: 25,
+  matchesPerDayLimit: 50,
   leaderboardConfig: {
     pageSize: 10,
     currentPage: 1,

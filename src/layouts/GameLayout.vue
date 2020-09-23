@@ -4,14 +4,14 @@
   </div>
   <q-layout v-else view="hHr lpr lFr" class="match-layout">
     <q-header class="bg-default shadow-6">
-      <div class="q-pa-sm row">
+      <div class="page-container q-pa-sm row">
         <div class="col">
           <div class="row no-wrap">
             <q-avatar class="q-mr-xs" size="1.25rem">
               <img :src="config.icon" />
             </q-avatar>
             <div class="ellipsis">
-              <span>Pulse {{ matchId }}</span
+              <span>Pulse {{ matchName }}</span
               >&nbsp;
               <q-icon name="history" size="1rem" />
             </div>
@@ -23,9 +23,13 @@
           <q-icon name="more_time" size="1rem" />
         </div>
         <div class="col text-right">
-          <strong>Cmacu</strong>
-          <q-icon name="clear" size="1rem" />
-          <span>WHIZ</span>
+          <span :class="{ 'text-bold': isAttacker }">{{
+            attacker ? attacker.username : ''
+          }}</span>
+          <q-icon name="clear" color="primary" size="1rem" />
+          <span :class="{ 'text-bold': !isAttacker }">{{
+            defender ? defender.username : ''
+          }}</span>
         </div>
       </div>
     </q-header>
@@ -43,21 +47,51 @@
       </div>
     </q-drawer> -->
     <q-page-container>
-      <router-view :key="$route.fullPath" :matchId="matchId" />
+      <router-view :key="$route.fullPath" :players="[attacker, defender]" />
     </q-page-container>
   </q-layout>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from '@vue/composition-api'
+import {
+  defineComponent,
+  computed,
+  onMounted,
+  onUnmounted,
+  ref,
+} from '@vue/composition-api'
 import store from 'src/store'
+import api from 'src/utils/api'
+import { OpponentInterface } from 'src/store/modules/matchmaker'
 
 export default defineComponent({
-  name: 'MatchLayout',
+  name: 'GameLayout',
   setup() {
+    const loading = ref(true)
+    const attacker = ref<OpponentInterface>()
+    const defender = ref<OpponentInterface>()
+    const htmlElement = document.documentElement
+    onMounted(async () => {
+      htmlElement.className = 'resize-game'
+      const response = await api.getLastMatch()
+      const players = response.data.opponents.sort(
+        (x: OpponentInterface, y: OpponentInterface) => x.position - y.position,
+      )
+      attacker.value = players[0]
+      defender.value = players[1]
+      loading.value = false
+    })
+    onUnmounted(() => {
+      htmlElement.className = ''
+    })
     return {
       loading: computed(() => store.state.match.loading),
-      matchId: computed(() => store.state.match.name),
+      attacker,
+      isAttacker: computed(
+        () => store.state.player.username == attacker.value?.username,
+      ),
+      defender,
+      matchName: computed(() => store.state.match.name),
       config: computed(() => store.state.config),
     }
   },
@@ -65,7 +99,7 @@ export default defineComponent({
 </script>
 
 <style lang="sass">
-html
+html.resize-game
   font-size: 16px
   @media(min-height: 900px)
     font-size: 20px

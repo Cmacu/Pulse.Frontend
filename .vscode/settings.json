@@ -2,7 +2,7 @@
   "vetur.validation.template": false,
   "vetur.format.enable": false,
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "vue"],
-  "vetur.experimental.templateInterpolationService": false,
+  "vetur.experimental.templateInterpolationService": true,
   "vetur.validation.interpolation": true,
   "workbench.colorCustomizations": {
     "activityBar.activeBackground": "#bda17d",
