@@ -98,7 +98,11 @@ const updateBadges = (badges: Badge[]) => {
   }
 }
 
-const updateMatchState = (status: MATCH_STATES = defaultState.status) => {
+const updateMatchState = (
+  status: MATCH_STATES = defaultState.status,
+  matchId: string,
+) => {
+  if (matchId) return store.dispatch.matchmaker.startMatch(matchId)
   if (status == MATCH_STATES.SEARCHING) {
     return store.dispatch.matchmaker.findMatch()
   }
@@ -203,7 +207,7 @@ const playerModule = defineModule({
       const response = await api.getCurrentPlayer()
       const player = response.data
       updateLogRocket(player.id, player.username)
-      updateMatchState(player.status.toUpperCase())
+      updateMatchState(player.status.toUpperCase(), player.matchId)
       updateRank(
         context.state.division,
         context.state.level,

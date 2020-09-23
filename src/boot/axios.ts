@@ -5,8 +5,11 @@ import auth from 'src/utils/auth'
 import store from 'src/store'
 
 export const getErrorMessage = (error: AxiosError) => {
-  return error.response
-    ? `${error.response.status}(${error.response.statusText}): ${error.response?.data}`
+  console.error(error.response, typeof error.response?.data)
+  return typeof error.response?.data == 'string' && error.response.data
+    ? error.response?.data
+    : error.response
+    ? `${error.response.status} (${error.response.statusText}) `
     : error.message
 }
 

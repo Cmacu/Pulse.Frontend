@@ -11,7 +11,7 @@ import { Notify } from 'quasar'
 import { NOTIFICATIONS } from 'src/store/modules/config'
 
 const SOCKETS = {
-  url: process.env.API + '/match-hub',
+  url: process.env.API + '/matchmaker',
   sendRun: 'RunMatchmaker',
   scheduleMatchmakerRun: 'ScheduleMatchmakerRun',
   scheduleDisconnect: 'ScheduleDisconnect',
@@ -55,10 +55,10 @@ const onMatched = (message: string) => {
   store.dispatch.matchmaker.setMatched()
 }
 
-const onPlaying = (message: string) => {
-  console.info(MESSAGES.started, message)
+const onPlaying = (matchId: string) => {
+  console.info(MESSAGES.started, matchId)
   disconnect()
-  store.dispatch.matchmaker.startMatch()
+  store.dispatch.matchmaker.startMatch(matchId)
 }
 
 const onDisconnect = (message: string) => {

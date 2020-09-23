@@ -12,6 +12,7 @@ import api from 'src/utils/api'
 import { timestampToUtc } from 'src/utils/format'
 import { playMatchedSound } from 'src/utils/audio'
 import { DeltaInterface, defaultDelta } from 'src/store/modules/player'
+import router from 'src/router'
 
 export interface OpponentInterface {
   id: string
@@ -31,6 +32,7 @@ export interface OpponentInterface {
 
 export interface MatchmakerInterface extends MatchState {
   name: string
+  matchId: string
   delta: DeltaInterface
   status: MATCH_STATES
   loading: boolean
@@ -55,6 +57,7 @@ export const defaultOpponent: OpponentInterface = {
 const defaultState: MatchmakerInterface = Object.assign(
   {
     name: '',
+    matchId: '',
     delta: Object.assign({}, defaultDelta),
     status: MATCH_STATES.AVAILABLE,
     loading: false,
@@ -169,6 +172,9 @@ const mutations = {
   SET_MATCH_NAME(state: MatchmakerInterface, name = '') {
     state.name = name
   },
+  SET_MATCH_ID(state: MatchmakerInterface, matchId = '') {
+    state.matchId = matchId
+  },
   SET_DELTA(state: MatchmakerInterface, delta: DeltaInterface) {
     state.delta = Object.assign({}, delta)
   },
@@ -189,7 +195,7 @@ const matchmakerModule = defineModule({
           store.dispatch.matchmaker.cancelSearch()
           break
         case MATCH_STATES.PLAYING:
-          store.dispatch.matchmaker.finishMatch()
+          store.dispatch.matchmaker.openGame()
           break
         default:
           break
@@ -232,7 +238,8 @@ const matchmakerModule = defineModule({
       if (store.state.settings.enableSound) playMatchedSound()
       context.commit(mutations.SET_STATE.name, MATCH_STATES.MATCHED)
     },
-    async startMatch(context) {
+    async startMatch(context, matchId: string) {
+      context.commit(mutations.SET_MATCH_ID.name, matchId)
       store.dispatch.matchmaker.cancelSearch()
       if (await store.dispatch.matchmaker.isMatchInProgress()) {
         context.commit(mutations.SET_STATE.name, MATCH_STATES.PLAYING)
@@ -240,6 +247,14 @@ const matchmakerModule = defineModule({
         Notify.create(store.state.config.notifications[NOTIFICATIONS.ERROR])
         context.commit(mutations.SET_STATE.name, MATCH_STATES.AVAILABLE)
       }
+    },
+    async openGame(context) {
+      context.commit(mutations.START_LOADING.name)
+      if (await store.dispatch.matchmaker.isMatchInProgress()) {
+        return router.push(`/games/schotten2/${context.state.matchId}`)
+      }
+      store.dispatch.matchmaker.completeMatch()
+      context.commit(mutations.STOP_LOADING.name)
     },
     async finishMatch(context) {
       context.commit(mutations.START_LOADING.name)
@@ -250,6 +265,29 @@ const matchmakerModule = defineModule({
         context.commit(mutations.STOP_LOADING.name)
         return
       }
+      store.dispatch.matchmaker.completeMatch()
+    },
+    async isMatchInProgress(context) {
+      const response = await api.getLastMatch()
+      const match = response.data
+      if (!match || !match.opponents) {
+        store.dispatch.matchmaker.reset()
+        return false
+      }
+      context.commit(mutations.SET_MATCH_NAME.name, match.name)
+      context.commit(mutations.SET_MATCH_ID.name, match.id)
+      match.opponents
+        .sort(
+          (opp1: OpponentInterface, opp2: OpponentInterface) =>
+            opp1.position - opp2.position,
+        )
+        .forEach((opponent: OpponentInterface, index: number) => {
+          context.commit(mutations.SET_OPPONENT.name, { index, opponent })
+        })
+
+      return match.status == 0
+    },
+    completeMatch(context) {
       store.state.matchmaker.opponents.forEach((opponent) => {
         if (opponent.username != store.state.player.username) {
           return
@@ -267,25 +305,6 @@ const matchmakerModule = defineModule({
       context.commit(mutations.SET_DELTA.name, delta)
       context.commit(mutations.SET_STATE.name, MATCH_STATES.AVAILABLE)
       store.dispatch.player.updatePlayer()
-    },
-    async isMatchInProgress(context) {
-      const response = await api.getLastMatch()
-      const match = response.data
-      if (!match || !match.opponents) {
-        store.dispatch.matchmaker.reset()
-        return false
-      }
-      context.commit(mutations.SET_MATCH_NAME.name, match.name)
-      match.opponents
-        .sort(
-          (opp1: OpponentInterface, opp2: OpponentInterface) =>
-            opp1.position - opp2.position,
-        )
-        .forEach((opponent: OpponentInterface, index: number) => {
-          context.commit(mutations.SET_OPPONENT.name, { index, opponent })
-        })
-
-      return match.status == 0
     },
   },
 })

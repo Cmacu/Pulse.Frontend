@@ -1,15 +1,15 @@
 <template>
   <base-card
     :icon="matchmakerButton.icon"
-    :title="game"
-    :subtitle="matchmakerButton.label"
+    :title="matchmakerButton.label"
+    :subtitle="game"
     :loading="loading"
   >
     <template slot="extra">
       <div class="row items-center q-gutter-sm">
         <q-icon v-if="!$q.screen.lt.sm" name="o_alarm" size="25px" />
         <div>{{ matchmakerTimeout }} min</div>
-        <div style="width: 60px;">
+        <div style="width: 30px;">
           <q-slider
             :value="matchmakerTimeout"
             :min="10"
@@ -89,14 +89,14 @@
       <div v-else v-html="match.instructions" />
     </q-card-section>
 
-    <q-card-actions align="evenly" class="q-pb-md">
+    <q-card-actions align="evenly">
       <q-btn
         v-bind="match"
         size="lg"
-        class="q-mb-md full-width"
+        class="full-width"
         @click="toggleMatchmaking"
       />
-      <q-btn-group spread flat class="full-width">
+      <q-btn-group spread flat class="q-mt-md full-width">
         <base-btn
           v-for="mode of modes"
           :key="mode.label"

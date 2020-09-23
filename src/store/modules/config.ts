@@ -144,20 +144,19 @@ const defaultState: ConfigInterface = {
   matchModes: {
     RandomMix: {
       icon: 'o_casino',
-      label: 'Random Mix',
-      tooltip: 'A mix of leaders and wonders from the base game and expansion.',
+      label: 'Random',
+      tooltip: 'Random starting position for attacker/defender.',
     },
     Digital: {
-      icon: 'o_phone_iphone',
-      label: 'Digital',
-      tooltip: `The game has optimized rules for digital play. Colonization auctions are resolved
-      in a single round.`,
+      icon: 'view_carousel',
+      label: 'Base',
+      tooltip: `Only the base game without special cards and tactics.`,
     },
     SuperBlitz: {
       icon: 'o_speed',
-      label: 'Super Blitz',
+      label: 'Blitz',
       tooltip:
-        'You have 60 to 120 seconds for each turn, and 5 minutes of reserve for each age.',
+        'You have 30 seconds for each turn, and 3 minutes of reserve for the whole game.',
     },
   },
   buttons: {
@@ -342,11 +341,11 @@ const defaultState: ConfigInterface = {
     [MATCH_STATES.PLAYING]: {
       icon: 'check',
       color: 'accent',
-      label: 'Complete Match',
-      instructions: 'Game in progress. Click below to complete',
+      label: 'Open Game',
+      instructions: 'Game in progress. Click below to open',
       showSearching: false,
       disable: false,
-      notify: 'Open the official app. Your match is in progress. Good luck!',
+      notify: 'Game in progress. Good luck and have fun!!',
     },
   },
   divisions: ['Bronze', 'Silver', 'Gold', 'Master'],
