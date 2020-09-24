@@ -83,7 +83,9 @@
           <!-- Email notifications -->
           <q-item>
             <q-item-section>
-              <q-item-label class="text-accent">Email Notifications</q-item-label>
+              <q-item-label class="text-accent"
+                >Email Notifications</q-item-label
+              >
             </q-item-section>
             <q-item-section side>
               <q-toggle
@@ -141,7 +143,7 @@
           <!-- Gravatar -->
           <q-item>
             <q-item-section side>
-              <q-item-label class="text-accent">Gravatar</q-item-label>
+              <q-item-label class="text-accent">Update Gravatar</q-item-label>
             </q-item-section>
             <q-item-section>
               <a href="https://en.gravatar.com/support/" target="_blank">
@@ -187,9 +189,11 @@ export default defineComponent({
   name: 'PlayerSettings',
   setup() {
     onMounted(async () => {
-      enableEmailNotifications.value = (await api.getSettings()).data.emailNotifications
+      enableEmailNotifications.value = (
+        await api.getSettings()
+      ).data.emailNotifications
     })
-    
+
     const countryList: CountryCode[] = getData()
     const countryOptions = ref(countryList)
     const enableConfetti = ref(false)

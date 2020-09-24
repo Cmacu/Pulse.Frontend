@@ -47,7 +47,11 @@
       </div>
     </q-drawer> -->
     <q-page-container>
-      <router-view :key="$route.fullPath" :players="[attacker, defender]" />
+      <router-view
+        :key="$route.fullPath"
+        :players="[attacker, defender]"
+        :matchId="matchId"
+      />
     </q-page-container>
   </q-layout>
 </template>
@@ -66,14 +70,20 @@ import { OpponentInterface } from 'src/store/modules/matchmaker'
 
 export default defineComponent({
   name: 'GameLayout',
-  setup() {
+  props: {
+    matchId: {
+      type: String,
+      required: true,
+    },
+  },
+  setup(props) {
     const loading = ref(true)
     const attacker = ref<OpponentInterface>()
     const defender = ref<OpponentInterface>()
     const htmlElement = document.documentElement
     onMounted(async () => {
       htmlElement.className = 'resize-game'
-      const response = await api.getLastMatch()
+      const response = await api.getMatch(props.matchId)
       const players = response.data.opponents.sort(
         (x: OpponentInterface, y: OpponentInterface) => x.position - y.position,
       )

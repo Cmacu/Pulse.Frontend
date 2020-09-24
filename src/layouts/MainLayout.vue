@@ -14,8 +14,10 @@
           <q-avatar class="q-mr-xs">
             <img :src="config.icon" />
           </q-avatar>
-          <span>{{ title }}</span>
-          <span class="text-bold text-primary">&nbsp;{{ config.game }}</span>
+          <span>pulse</span>
+          <span class="text-primary">games</span>
+          <span>.io</span>
+          <!-- <span class="text-bold text-primary">&nbsp;{{ config.game }}</span> -->
         </q-toolbar-title>
       </q-toolbar>
       <base-btn
@@ -102,7 +104,6 @@
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted } from '@vue/composition-api'
 import store from '../store/'
-import { Screen } from 'quasar'
 
 export default defineComponent({
   name: 'MainLayout',
@@ -128,9 +129,6 @@ export default defineComponent({
       config,
       showMenu,
       location: window.location,
-      title: computed(() =>
-        Screen.gt.sm ? config.value.name : config.value.nameShort,
-      ),
       current: ref('/'),
       match: computed(() => store.state.matchmaker),
       ...store.dispatch.config,
