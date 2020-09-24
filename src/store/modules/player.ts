@@ -102,7 +102,8 @@ const updateMatchState = (
   status: MATCH_STATES = defaultState.status,
   matchId: string,
 ) => {
-  if (matchId) return store.dispatch.matchmaker.startMatch(matchId)
+  if (status == MATCH_STATES.PLAYING)
+    return store.dispatch.matchmaker.finishMatch(matchId)
   if (status == MATCH_STATES.SEARCHING) {
     return store.dispatch.matchmaker.findMatch()
   }

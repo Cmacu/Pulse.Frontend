@@ -241,7 +241,7 @@ const matchmakerModule = defineModule({
     async startMatch(context, matchId: string) {
       context.commit(mutations.SET_MATCH_ID.name, matchId)
       store.dispatch.matchmaker.cancelSearch()
-      if (await store.dispatch.matchmaker.isMatchInProgress()) {
+      if (await store.dispatch.matchmaker.isMatchInProgress(matchId)) {
         context.commit(mutations.SET_STATE.name, MATCH_STATES.PLAYING)
       } else {
         Notify.create(store.state.config.notifications[NOTIFICATIONS.ERROR])
@@ -250,15 +250,21 @@ const matchmakerModule = defineModule({
     },
     async openGame(context) {
       context.commit(mutations.START_LOADING.name)
-      if (await store.dispatch.matchmaker.isMatchInProgress()) {
+      if (
+        await store.dispatch.matchmaker.isMatchInProgress(context.state.matchId)
+      ) {
         return router.push(`/games/schotten2/${context.state.matchId}`)
       }
       store.dispatch.matchmaker.completeMatch()
       context.commit(mutations.STOP_LOADING.name)
     },
-    async finishMatch(context) {
+    async finishMatch(context, matchId: string) {
       context.commit(mutations.START_LOADING.name)
-      if (await store.dispatch.matchmaker.isMatchInProgress()) {
+      if (
+        await store.dispatch.matchmaker.isMatchInProgress(
+          matchId || context.state.matchId,
+        )
+      ) {
         Notify.create(
           store.state.config.notifications[NOTIFICATIONS.IN_PROGRESS],
         )
@@ -267,8 +273,8 @@ const matchmakerModule = defineModule({
       }
       store.dispatch.matchmaker.completeMatch()
     },
-    async isMatchInProgress(context) {
-      const response = await api.getLastMatch()
+    async isMatchInProgress(context, matchId: string) {
+      const response = await api.getMatch(matchId)
       const match = response.data
       if (!match || !match.opponents) {
         store.dispatch.matchmaker.reset()
@@ -303,8 +309,8 @@ const matchmakerModule = defineModule({
         context.state.opponents[1],
       )
       context.commit(mutations.SET_DELTA.name, delta)
+      context.commit(mutations.SET_MATCH_ID.name, '')
       context.commit(mutations.SET_STATE.name, MATCH_STATES.AVAILABLE)
-      store.dispatch.player.updatePlayer()
     },
   },
 })

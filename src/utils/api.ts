@@ -44,6 +44,7 @@ const api = {
       `/match?player=${player}&skip=${skip}&take=${take}&opponent=${opponent}`,
     )
   },
+  getMatch: (matchId: string) => axiosInstance.get('/match/' + matchId),
   getSettings: () => axiosInstance.get('/player/settings'),
   getResources: () => axiosInstance.get('/resource'),
 }
