@@ -51,11 +51,11 @@ const routes: RouteConfig[] = [
 
   {
     path: '/games',
+    props: (route) => Object.assign({}, route.query),
     component: () => import('layouts/GameLayout.vue'),
     children: [
       {
-        path: 'schotten2/:matchId',
-        props: true,
+        path: 'schotten2',
         component: () => import('src/games/Schotten2/Game.vue'),
       },
     ],

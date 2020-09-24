@@ -1,6 +1,6 @@
 <template>
   <q-card
-    class="schotten-card ellipsis"
+    class="schotten-card ellipsis q-pa-sm"
     :class="{ 'card-ghost': selected }"
     v-bind="attributes"
     v-on="listeners"
