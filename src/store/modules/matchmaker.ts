@@ -253,7 +253,7 @@ const matchmakerModule = defineModule({
       if (
         await store.dispatch.matchmaker.isMatchInProgress(context.state.matchId)
       ) {
-        return router.push(`/games/schotten2/${context.state.matchId}`)
+        return router.push(`/games/schotten2?matchId=${context.state.matchId}`)
       }
       store.dispatch.matchmaker.completeMatch()
       context.commit(mutations.STOP_LOADING.name)
