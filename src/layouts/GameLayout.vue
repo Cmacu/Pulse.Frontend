@@ -57,13 +57,7 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  computed,
-  onMounted,
-  onUnmounted,
-  ref,
-} from '@vue/composition-api'
+import { defineComponent, computed, onMounted, ref } from '@vue/composition-api'
 import store from 'src/store'
 import api from 'src/utils/api'
 import { OpponentInterface } from 'src/store/modules/matchmaker'
@@ -80,9 +74,7 @@ export default defineComponent({
     const loading = ref(true)
     const attacker = ref<OpponentInterface>()
     const defender = ref<OpponentInterface>()
-    const htmlElement = document.documentElement
     onMounted(async () => {
-      htmlElement.className = 'resize-game'
       const response = await api.getMatch(props.matchId)
       const players = response.data.opponents.sort(
         (x: OpponentInterface, y: OpponentInterface) => x.position - y.position,
@@ -90,9 +82,6 @@ export default defineComponent({
       attacker.value = players[0]
       defender.value = players[1]
       loading.value = false
-    })
-    onUnmounted(() => {
-      htmlElement.className = ''
     })
     return {
       loading: computed(() => store.state.match.loading),
@@ -107,17 +96,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="sass">
-html.resize-game
-  font-size: 16px
-  @media(min-height: 900px)
-    font-size: 20px
-  @media(min-height: 1100px)
-    font-size: 26px
-  @media(min-height: 1300px)
-    font-size: 32px
-
-.match-layout
-  font-size: 0.85rem
-</style>

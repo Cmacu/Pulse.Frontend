@@ -35,31 +35,31 @@ export interface Suit {
 const suits: Suit[] = [
   {
     name: '',
-    color: 'blue',
+    color: '#a7b56d',
     icon: 'anchor',
     image: '',
   },
   {
     name: '',
-    color: 'yellow',
+    color: '#99c3ff',
     icon: 'api',
     image: '',
   },
   {
     name: '',
-    color: 'red',
+    color: '#5c9974',
     icon: 'check',
     image: '',
   },
   {
     name: '',
-    color: 'cyan',
+    color: '#9b65a8',
     icon: 'bubble_chart',
     image: '',
   },
   {
     name: '',
-    color: 'light-green',
+    color: '#ad6868',
     icon: 'favorite',
     image: '',
   },
