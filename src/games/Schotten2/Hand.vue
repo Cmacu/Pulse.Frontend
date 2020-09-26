@@ -3,7 +3,6 @@
     orientation="horizontal"
     class="bg-transparent row justify-evenly"
     style="display: flex;"
-    :drag-begin-delay="1"
     @drop="atHandDrop"
     @drag-start="atDragCard"
     drag-class="card-ghost"
@@ -11,28 +10,19 @@
     :get-child-payload="getChildPayload"
   >
     <Draggable v-for="(cardIndex, orderIndex) in handOrder" :key="orderIndex">
-      <Card
+      <SiegeCard
         v-if="handCards[cardIndex]"
         v-bind="handCards[cardIndex]"
-        class="bg-default"
         :class="{ 'new-card': orderIndex < newCards }"
-        :selected="selectedCard == cardIndex"
-        @click="atCardClick(cardIndex)"
-      >
-        <div
-          class="row q-gutter items-center justify-between"
-          :class="`text-${suits[handCards[cardIndex].suit].color}`"
-        >
-          <div>{{ handCards[cardIndex].rank }}</div>
-          <q-icon :name="suits[handCards[cardIndex].suit].icon" />
-        </div>
-      </Card>
+        :selected="handOrderSelectedIndex == orderIndex"
+        @click="atCardClick(orderIndex)"
+      />
     </Draggable>
   </Container>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from '@vue/composition-api'
+import { defineComponent, computed, ref } from '@vue/composition-api'
 import { suits } from './design'
 import { game } from './game'
 import { Container, Draggable, DropResult } from 'vue-smooth-dnd'
@@ -42,22 +32,34 @@ export default defineComponent({
   components: {
     Container,
     Draggable,
-    Card: () => import('./Card.vue'),
+    SiegeCard: () => import('./SiegeCard.vue'),
   },
   setup() {
+    const hideImages = ref<boolean[]>([])
     return {
+      hideImages,
       suits,
       newCards: computed(() => game.state.api.newCards),
       handOrder: computed(() => game.state.handOrder),
-      handCards: computed(() => game.state.api.handCards),
-      isAttacker: computed(() => game.state.api.isAttacker),
+      handCards: computed(() => game.state.api.handCards || []),
       enablePreparation: computed(() => game.state.api.enablePreparation),
-      selectedCard: computed(() => game.state.selectedCard),
+      handOrderSelectedIndex: computed(() => game.state.handOrderSelectedIndex),
       atDragCard: game.actions.dragCard,
       atCardClick: game.actions.toggleCard,
-      getChildPayload: (orderIndex: number) => game.state.handOrder[orderIndex],
+      getChildPayload: (orderIndex: number) => orderIndex,
       atHandDrop: (dropResult: DropResult) => {
-        game.actions.shuffleHand(dropResult.removedIndex, dropResult.addedIndex)
+        if (dropResult == null) return
+        const { removedIndex, addedIndex } = dropResult
+        if (removedIndex == null || addedIndex == null) return
+        hideImages.value[removedIndex] = true
+        hideImages.value[addedIndex] = true
+        game.actions.shuffleHand(removedIndex, addedIndex)
+        // Vue.nextTick(() => {
+        //   hideImages.value = []
+        // })
+        setTimeout(() => {
+          hideImages.value = []
+        }, 1)
       },
     }
   },

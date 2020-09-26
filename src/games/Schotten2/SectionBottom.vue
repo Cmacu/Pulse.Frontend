@@ -3,25 +3,18 @@
     class="flex column items-center"
     :class="{ 'enable-retreat': enableRetreat }"
     @click="atRetreat(sectionIndex)"
-    style="margin-top: -15%;"
+    style="margin-top: -20%;"
   >
-    <Card
+    <SiegeCard
       v-for="(card, cardIndex) in cards"
       :key="cardIndex"
-      style="margin-bottom: -75%;"
-      class="bg-grey-9"
-    >
-      <div
-        class="row q-gutter items-center justify-between"
-        :class="`text-${suits[card.suit].color}`"
-      >
-        <div>{{ card.rank }}</div>
-        <q-icon :name="suits[card.suit].icon" />
-      </div>
-    </Card>
+      v-bind="card"
+      style="margin-bottom: -82%;"
+    />
     <Container
       v-if="enableDropZone"
       class="drop-zone-active"
+      style="display: flex;"
       behaviour="drop-zone"
       :should-accept-drop="() => true"
       @drop="(dropResult) => atWallDrop(sectionIndex, dropResult)"
@@ -51,11 +44,13 @@ export default defineComponent({
   },
   components: {
     Container,
-    Card: () => import('./Card.vue'),
+    SiegeCard: () => import('./SiegeCard.vue'),
   },
   setup(props) {
     const isCurrentPlayer = computed(() => game.state.api.isCurrentPlayer)
-    const selectedCard = computed(() => game.state.selectedCard)
+    const handOrderSelectedIndex = computed(
+      () => game.state.handOrderSelectedIndex,
+    )
     const cards = computed(() => {
       if (!props.section) return []
       const formation = game.state.api.isAttacker
@@ -75,7 +70,7 @@ export default defineComponent({
       enableRetreat: computed(() => game.state.enableRetreat),
       enableDropZone: computed(() => {
         if (!isCurrentPlayer.value) return false
-        if (selectedCard.value < 0) return false
+        if (handOrderSelectedIndex.value < 0) return false
         if (game.state.enableRetreat) return false
         if (game.state.enableOil) return false
         return props.section.spaces > cards.value.length
@@ -84,15 +79,15 @@ export default defineComponent({
       suits,
       cards,
       atDropZoneClick: (sectionIndex: number) => {
-        if (selectedCard.value < 0) return
+        if (handOrderSelectedIndex.value < 0) return
         return game.actions.addCardToWall(
           sectionIndex,
-          game.state.handOrder[selectedCard.value],
+          handOrderSelectedIndex.value,
         )
       },
       atWallDrop: (sectionIndex: number, dropResult: DropResult) => {
-        if (dropResult.addedIndex == null) return
-        if (typeof dropResult.payload != 'number') return
+        if (dropResult?.addedIndex == null) return
+        if (typeof dropResult?.payload != 'number') return
         return game.actions.addCardToWall(sectionIndex, dropResult.payload)
       },
       atRetreat: game.actions.retreat,

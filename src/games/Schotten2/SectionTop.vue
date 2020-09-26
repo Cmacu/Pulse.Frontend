@@ -1,24 +1,16 @@
 <template>
   <div
     class="flex column items-center"
-    style="margin-bottom: -25%;"
+    style="margin-bottom: -42%;"
     :class="{ 'enable-oil': enableOil }"
     @click="atUseOil(sectionIndex)"
   >
-    <Card
+    <SiegeCard
       v-for="(card, cardIndex) in cards"
       :key="cardIndex"
+      v-bind="card"
       style="margin-top: -80%;"
-      class="bg-brown-10 flex items-end"
-    >
-      <div
-        class="row full-width q-gutter items-center justify-between"
-        :class="`text-${suits[card.suit].color}`"
-      >
-        <div>{{ card.rank }}</div>
-        <q-icon :name="suits[card.suit].icon" />
-      </div>
-    </Card>
+    />
   </div>
 </template>
 
@@ -40,7 +32,7 @@ export default defineComponent({
     },
   },
   components: {
-    Card: () => import('./Card.vue'),
+    SiegeCard: () => import('./SiegeCard.vue'),
   },
   setup(props) {
     const cards = computed(() => {

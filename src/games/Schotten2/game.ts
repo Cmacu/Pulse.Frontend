@@ -57,8 +57,8 @@ const defaultState = {
   cardPlayed: false,
   enableOil: false,
   enableRetreat: false,
-  selectedCard: -1,
   handOrder,
+  handOrderSelectedIndex: -1,
   api: {
     isAttacker: true,
     enablePreparation: true,
@@ -74,12 +74,22 @@ const defaultState = {
   },
 }
 
-const state = reactive(Object.assign(defaultState, localState))
+const state = reactive(
+  Object.assign(defaultState, localState, { api: { isCurrentPlayer: false } }),
+)
 const matchId = ref('')
 
 const setState = (gameState: Schotten2State) => {
   if (isGameOver(gameState)) return true
   state.cardPlayed = false
+  // console.error(gameState.isCurrentPlayer, state.api.isCurrentPlayer)
+  if (gameState.isCurrentPlayer && !state.api.isCurrentPlayer)
+    Notify.create({
+      icon: 'check',
+      color: gameState.isAttacker ? 'accent' : 'primary',
+      message: 'Its your turn',
+      timeout: 3000,
+    })
   state.api = Object.assign({}, state.api, gameState)
   // state.isAttacker = gameState.isAttacker
   // state.enablePreparation = gameState.enablePreparation
@@ -132,11 +142,11 @@ const disablePrepOptions = () => {
   state.enableRetreat = false
 }
 
-const placeCard = (sectionIndex: number, handIndex: number) => {
+const placeCard = (sectionIndex: number, cardIndex: number) => {
   state.cardPlayed = true
   state.api.isCurrentPlayer = false
-  const card = state.api.handCards[handIndex]
-  state.api.handCards.splice(handIndex, 1)
+  const card = state.api.handCards[cardIndex]
+  state.api.handCards.splice(cardIndex, 1)
   const section = state.api.sections[sectionIndex]
   const formation = state.api.isAttacker ? section.attack : section.defense
   formation.push(card)
@@ -150,27 +160,36 @@ const actions = {
     // const gameState = await getState()
     // setState(gameState)
   },
-  toggleCard: (index: number) => {
+  toggleCard: (orderIndex: number) => {
+    console.error(
+      orderIndex,
+      handOrder[orderIndex],
+      state.handOrderSelectedIndex,
+    )
     disablePrepOptions()
     state.api.newCards = 0
-    state.selectedCard = index == state.selectedCard ? -1 : index
+    state.handOrderSelectedIndex =
+      state.handOrderSelectedIndex == orderIndex ? -1 : orderIndex
   },
   dragCard: (dragResult: { isSource: boolean; payload: number }) => {
     disablePrepOptions()
     state.api.newCards = 0
-    if (!dragResult.isSource) return
-    state.selectedCard = dragResult.payload
+    state.handOrderSelectedIndex = dragResult.payload
   },
   shuffleHand: (removedIndex: number, addedIndex: number) => {
     const index = state.handOrder[removedIndex]
-    state.handOrder.splice(removedIndex, 1)
-    state.handOrder.splice(addedIndex, 0, index)
+    const result = [...state.handOrder]
+    result.splice(removedIndex, 1)
+    result.splice(addedIndex, 0, index)
+    state.handOrder = result
+    state.handOrderSelectedIndex = addedIndex
   },
   addCardToWall: (sectionIndex: number, handIndex: number) => {
     state.loading = true
     disablePrepOptions()
-    placeCard(sectionIndex, handIndex)
-    return socket.playCard(sectionIndex, handIndex)
+    const cardIndex = state.handOrder[handIndex]
+    placeCard(sectionIndex, cardIndex)
+    return socket.playCard(sectionIndex, cardIndex)
   },
   toggleRetreat: () => {
     state.enableRetreat = !state.enableRetreat

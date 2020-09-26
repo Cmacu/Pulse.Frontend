@@ -1,37 +1,10 @@
 <template>
-  <section class="row q-px-sm">
-    <div>
-      <!-- <div class="text-center">Card Decks</div> -->
-      <div class="row q-gutter-xs items-center">
-        <Card class="bg-lime-10"
-          >{{ discardCards.length }}<br />Discard<br />Cards</Card
-        >
-        <Card class="bg-lime-10"
-          >{{ siegeCardsCount }}<br />Siege<br />Cards</Card
-        >
-        <!-- <Card class="bg-lime-10"
-            >10<br />Tactic<br />Cards</Card
-          > -->
-      </div>
-    </div>
-    <q-space />
-    <div>
-      <!-- <div class="text-center">Help</div> -->
-      <Card class="bg-light-blue-10 flex flex-center"> ??<br />Form.. </Card>
-    </div>
-    <q-space />
-    <div>
-      <!-- <div class="text-center">WHIZ's Cards</div> -->
-      <div class="row q-gutter-xs">
-        <Card class="bg-brown-10">{{ oilCount }}<br />Oil<br />Cards</Card>
-        <Card class="bg-brown-10"
-          >{{ opponentCardsCount }}<br />Opponent<br />Cards</Card
-        >
-        <!-- <Card class="bg-brown-10"
-            >1<br />Tactic<br />Cards</Card
-          > -->
-      </div>
-    </div>
+  <section class="row justify-between q-pa-sm" :class="{ reverse: isAttacker }">
+    <InfoCard name="siege" :counter="siegeCardsCount" />
+    <InfoCard name="help" :counter="0" />
+    <InfoCard name="discard" :counter="discardCount" />
+    <InfoCard name="oil" :counter="oilCount" />
+    <InfoCard name="opponent" :counter="opponentCardsCount" />
   </section>
 </template>
 
@@ -42,14 +15,25 @@ import { game } from './game'
 export default defineComponent({
   name: 'Info',
   components: {
-    Card: () => import('./Card.vue'),
+    InfoCard: () => import('./InfoCard.vue'),
   },
   setup() {
+    const discardCards = computed(() => game.state.api.discardCards || [])
+    const discardCount = computed(
+      () => game?.state?.api?.discardCards?.length || 0,
+    )
     return {
-      siegeCardsCount: computed(() => game.state.api.siegeCardsCount),
-      discardCards: computed(() => game.state.api.discardCards),
-      opponentCardsCount: computed(() => game.state.api.opponentCardsCount),
-      oilCount: computed(() => game.state.api.oilCount),
+      discardCards,
+      discardCount,
+      isAttacker: computed(() => game.state.api.isAttacker),
+      lastDiscardCard: computed(() =>
+        discardCount.value ? discardCards.value[discardCount.value - 1] : null,
+      ),
+      siegeCardsCount: computed(() => game.state.api.siegeCardsCount || 0),
+      opponentCardsCount: computed(
+        () => game.state.api.opponentCardsCount || 0,
+      ),
+      oilCount: computed(() => game.state.api.oilCount || 0),
     }
   },
 })

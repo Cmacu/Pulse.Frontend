@@ -1,39 +1,48 @@
 <template>
-  <Card
-    class="bg-light-blue-10"
-    :class="{ 'active-section': sectionIndex == activeSectionIndex }"
-  >
-    <div>
-      {{ section.name }}
+  <section class="schotten2-section">
+    <div class="column justify-end full-height">
+      <q-img :src="image" width="100%" contain />
     </div>
-    <div>
-      {{ section.isDamaged }}
-    </div>
-  </Card>
+  </section>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, PropType } from '@vue/composition-api'
-import { game, Schotten2Section } from './game'
+import { defineComponent, computed } from '@vue/composition-api'
 
 export default defineComponent({
   name: 'Section',
   props: {
-    section: {
-      type: Object as PropType<Schotten2Section>,
+    name: {
+      type: String,
       required: true,
     },
-    sectionIndex: {
+    spaces: {
       type: Number,
       required: true,
     },
+    isDamaged: {
+      type: Boolean,
+      default: false,
+    },
+    isActive: {
+      type: Boolean,
+      default: false,
+    },
+    isAttacker: {
+      type: Boolean,
+      default: false,
+    },
   },
-  components: {
-    Card: () => import('./Card.vue'),
-  },
-  setup() {
+  setup(props) {
+    const side = computed(() => (props.isAttacker ? 'attack' : 'defense'))
+    const condition = computed(() => (props.isDamaged ? 'damaged' : 'good'))
     return {
-      activeSectionIndex: computed(() => game.state.api.activeSectionIndex),
+      image: computed(
+        () =>
+          `/st2/sections/${side.value}/${
+            condition.value
+          }/${props.name.toLowerCase()}.png`,
+      ),
     }
   },
 })
