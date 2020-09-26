@@ -8,9 +8,19 @@
   >
     <div class="column full-height">
       <div class="row justify-around q-mt-xs">
-        <div :style="{ color, 'font-size': '1rem' }">{{ rank }}</div>
-        <div style="width: 1rem;">
-          <q-img v-if="!hideImage" :src="symbol" />
+        <div
+          :style="{
+            color,
+            'line-height': '1.1rem',
+            'font-size': '1rem',
+            'width': '1rem',
+            'height': '1rem',
+          }"
+        >
+          {{ rank }}
+        </div>
+        <div style="width: 1rem; height: 1rem;">
+          <q-img v-if="!hideImage" :src="symbol" contain />
         </div>
       </div>
       <div style="flex: 1;">
@@ -55,7 +65,7 @@ export default defineComponent({
   },
   setup(props, { attrs, listeners }) {
     return {
-      color: computed(() => suits[props.suit].color),
+      color: computed(() => suits[props.suit]?.color),
       symbol: computed(() => `/st2/symbols/${props.suit}.png`),
       attributes: computed(() => Object.assign(props, attrs)),
       listeners: computed(() => Object.assign({}, listeners)),

@@ -39,6 +39,7 @@
           <Section
             :name="section.name"
             :spaces="section.spaces"
+            :types="section.types"
             :is-damaged="section.isDamaged"
             :is-active="sectionIndex == activeSectionIndex"
             :is-attacker="isAttacker"
@@ -158,12 +159,20 @@ html.schotten2-game
 .schotten2-game .schotten2-defender
   background-image: url("/st2/info/defense/background.jpg")
 
-.schotten2-wall
+.schotten2-wall,
+.schotten2-discards
+  width: 100%;
   table-layout: fixed
   border-collapse: collapse
   border-spacing: 0
-  margin-bottom: 16vw
 
+.schotten2-discards td
+  padding: 5px
+  font-size: 1.1rem
+  line-height: 1.1rem
+
+.schotten2-wall
+  margin-bottom: 16vw
 @media(min-width: 800px)
   .schotten2-wall
     margin-bottom: 120px

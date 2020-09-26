@@ -7,7 +7,7 @@
   >
     <q-img :src="image" contain />
     <q-badge
-      v-if="counter"
+      v-if="counter >= 0"
       floating
       :color="color"
       style="font-size: 0.7rem; margin-top: -4px; padding: 2px;"
@@ -33,7 +33,7 @@ export default defineComponent({
     },
     counter: {
       type: Number,
-      required: true,
+      default: -1,
     },
   },
   setup(props, { attrs, listeners }) {

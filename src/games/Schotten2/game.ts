@@ -16,6 +16,7 @@ export interface Schotten2Card {
 export interface Schotten2Section {
   name: string
   spaces: number
+  types: number[]
   isDamaged: boolean
   attack: Schotten2Card[]
   defense: Schotten2Card[]
@@ -41,6 +42,7 @@ for (let s = 0; s < SECTION_COUNT; s++) {
   sections.push({
     name: '',
     spaces: 0,
+    types: [],
     isDamaged: false,
     attack: [],
     defense: [],
@@ -161,11 +163,6 @@ const actions = {
     // setState(gameState)
   },
   toggleCard: (orderIndex: number) => {
-    console.error(
-      orderIndex,
-      handOrder[orderIndex],
-      state.handOrderSelectedIndex,
-    )
     disablePrepOptions()
     state.api.newCards = 0
     state.handOrderSelectedIndex =
