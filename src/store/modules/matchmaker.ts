@@ -265,10 +265,7 @@ const matchmakerModule = defineModule({
           matchId || context.state.matchId,
         )
       ) {
-        Notify.create(
-          store.state.config.notifications[NOTIFICATIONS.IN_PROGRESS],
-        )
-        context.commit(mutations.SET_STATE.name, MATCH_STATES.MATCHED)
+        context.commit(mutations.SET_STATE.name, MATCH_STATES.PLAYING)
         context.commit(mutations.STOP_LOADING.name)
         return
       }

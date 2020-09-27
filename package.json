@@ -9,8 +9,8 @@
   "private": true,
   "scripts": {
     "dev": "API=https://localhost:5001 quasar dev",
-    "build-stage": "API=https://pulsegames-api-staging.azurewebsites.net/ quasar build",
-    "build-prod": "API=https://pulsegames-api.azurewebsites.net/ quasar build",
+    "build-stage": "API=https://pulsegames.azurewebsites.net/ quasar build",
+    "build-prod": "API=https://pulsegames.azurewebsites.net/ quasar build",
     "release": "release-it",
     "deploy-prod": "bash deploy-prod.sh",
     "deploy-stage": "bash deploy-stage.sh",
