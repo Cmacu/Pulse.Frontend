@@ -145,7 +145,7 @@ html.schotten2-game
     font-size: 32px
 
 .match-layout
-  font-size: 0.85rem
+  // font-size: 0.85rem
 
 .schotten2-game .q-page
   background-size: cover

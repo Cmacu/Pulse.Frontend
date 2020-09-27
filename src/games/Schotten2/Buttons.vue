@@ -1,17 +1,10 @@
 <template>
   <!-- Buttons -->
   <q-btn-group spread>
-    <q-btn
-      :disable="disableUndo"
-      size="0.9rem"
-      :color="color"
-      label="Undo"
-      dense
-    />
+    <q-btn :disable="disableUndo" :color="color" label="Undo" dense />
     <q-btn
       v-if="isAttacker"
       :disable="disableSpecial"
-      size="0.9rem"
       label="Retreat"
       :class="{ 'active-special': enableRetreat }"
       :color="color"
@@ -21,7 +14,6 @@
     <q-btn
       v-if="!isAttacker"
       :disable="disableSpecial"
-      size="0.9rem"
       label="Use Oil"
       :class="{ 'active-special': enableOil }"
       :color="color"
@@ -30,7 +22,6 @@
     />
     <q-btn-dropdown
       :disable-main-btn="disableDone"
-      size="0.9rem"
       auto-close
       :color="color"
       label="Done"
