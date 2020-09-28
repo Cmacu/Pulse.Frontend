@@ -26,7 +26,7 @@
             :spaces="section.spaces"
             :types="section.types"
             :is-damaged="section.isDamaged"
-            :is-active="sectionIndex == activeSectionIndex"
+            :is-active="sectionIndex == lastSection"
             :is-attacker="isAttacker"
           />
         </td>
@@ -90,8 +90,9 @@ export default defineComponent({
       htmlElement.className = 'schotten2-game'
       await game.actions.loadState(props.matchId)
     })
-    onUnmounted(() => {
+    onUnmounted(async () => {
       htmlElement.className = ''
+      await game.actions.disconnect()
     })
 
     const isAttacker = computed(() => game.state.api.isAttacker)
@@ -101,7 +102,7 @@ export default defineComponent({
         isAttacker.value ? 'schotten2-attacker' : 'schotten2-defender',
       ),
       sections: computed(() => game.state.api.sections),
-      activeSectionIndex: computed(() => game.state.api.activeSectionIndex),
+      lastSection: computed(() => game.state.api.lastSection),
     }
   },
 })

@@ -26,7 +26,6 @@ export interface Schotten2State {
   isAttacker: boolean
   isCurrentPlayer: boolean
   enablePreparation: boolean
-  activeSectionIndex: number
   opponentCardsCount: number
   siegeCardsCount: number
   oilCount: number
@@ -34,6 +33,8 @@ export interface Schotten2State {
   newCards: number
   discardCards: Schotten2Card[]
   sections: Schotten2Section[]
+  lastEvent: string
+  lastSection: number
 }
 
 const sections: Schotten2Section[] = []
@@ -64,7 +65,6 @@ const defaultState = {
     isAttacker: true,
     enablePreparation: true,
     isCurrentPlayer: false,
-    activeSectionIndex: -1,
     opponentCardsCount: 0,
     siegeCardsCount: 0,
     oilCount: 0,
@@ -72,6 +72,8 @@ const defaultState = {
     newCards: 0,
     discardCards,
     sections,
+    lastEvent: '',
+    lastSection: -1,
   },
 }
 
@@ -99,7 +101,7 @@ const setState = (gameState: Schotten2State) => {
   state.api = Object.assign({}, state.api, gameState)
   // state.isAttacker = gameState.isAttacker
   // state.enablePreparation = gameState.enablePreparation
-  // state.activeSectionIndex = gameState.activeSectionIndex
+  // state.lastSection = gameState.lastSection
   // state.oilCount = gameState.oilCount
   // state.siegeCardsCount = gameState.siegeCardsCount
   // state.discardCards = gameState.discardCards
@@ -215,6 +217,10 @@ const actions = {
     return socket.useOil(sectionIndex)
   },
   resign: () => socket.resign(),
+  disconnect: () => {
+    LocalStorage.remove(LOCAL_KEY)
+    return socket.disconnect()
+  },
 }
 
 export const game = { state, actions }

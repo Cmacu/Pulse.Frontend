@@ -1,5 +1,5 @@
 <template>
-  <section class="schotten2-section">
+  <section class="schotten2-section relative-position">
     <div class="column justify-end full-height" @click="showDialog = true">
       <q-img
         :src="image"
@@ -7,6 +7,13 @@
         contain
         :class="{ 'active-section': isActive }"
       />
+      <div
+        v-if="isActive && lastEvent"
+        class="absolute-bottom text-center"
+        style="margin-bottom: 5px;"
+      >
+        <q-icon :name="lastEvent.icon" :color="lastEvent.color" size="1.3rem" />
+      </div>
     </div>
 
     <q-dialog v-model="showDialog" auto-close>
@@ -65,7 +72,8 @@
 
 <script lang="ts">
 import { defineComponent, computed, ref, PropType } from '@vue/composition-api'
-import { formations } from './design'
+import { formations, events } from './design'
+import { game } from './game'
 
 export default defineComponent({
   name: 'Section',
@@ -104,6 +112,12 @@ export default defineComponent({
       showName: computed(() =>
         props.name.replace('Left', '').replace('Right ', ''),
       ),
+      lastEvent: computed(() => {
+        const lastEvent = game.state.api.lastEvent
+        if (Object.prototype.hasOwnProperty.call(events, lastEvent)) {
+          return events[lastEvent]
+        }
+      }),
       formations,
       showDialog,
       image: computed(

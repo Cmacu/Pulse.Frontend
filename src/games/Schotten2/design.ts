@@ -139,4 +139,22 @@ const formations: Formation[] = [
   },
 ]
 
-export { suits, formations }
+interface Schotten2Event {
+  name?: string
+  icon: string
+  color: string
+  description?: string
+}
+
+const events: { [key: string]: Schotten2Event } = {
+  Eliminate: { icon: 'sports_hockey', color: 'negative' },
+  PlayCard: { icon: 'view_agenda', color: 'primary' },
+  Damaged: { icon: 'power_settings_new', color: 'primary' },
+  Start: { icon: 'check', color: 'positive' },
+  Retreat: { icon: 'directions_run', color: 'accent' },
+  UseOil: { icon: 'local_fire_department', color: 'primary' },
+  Expired: { icon: 'timer_off', color: 'negative' },
+  Resigned: { icon: 'flag', color: 'negative' },
+}
+
+export { events, suits, formations }
