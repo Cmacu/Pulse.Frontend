@@ -63,7 +63,7 @@
           @click="showHelp = true"
         />
         <q-dialog v-model="showHelp" auto-close>
-          <Rules />
+          <Rules :side="side" />
         </q-dialog>
       </div>
 
@@ -224,6 +224,7 @@ export default defineComponent({
       discardCount,
       isAttacker,
       isCurrentPlayer,
+      side: computed(() => (isAttacker.value ? 'attack' : 'defense')),
       prepare: computed(() => {
         if (!isCurrentPlayer || !game.state.api.enablePreparation) return ''
         return isAttacker.value ? 'or Retreat' : 'or Use Oil'

@@ -1,6 +1,6 @@
 <template>
   <q-card class="page-container q-pa-md" style="font-size: 0.8rem;">
-    <q-card-section title class="row items-center">
+    <q-card-section title class="row items-center q-pb-md">
       <div class="text-special-13 text-center">SCHOTTEN TOTTEN 2 RULES</div>
       <q-space />
       <q-btn icon="close" flat round dense v-close-popup />
@@ -23,8 +23,8 @@
       <p>
         The Attacker wins immediately if:
       </p>
-      <div class="row">
-        <div class="col-8">
+      <div class="row items-center q-pb-md">
+        <div class="col-10">
           <p>
             - They control 1 damaged Wall Tile
           </p>
@@ -32,8 +32,8 @@
             - They damage 4 Wall Tiles
           </p>
         </div>
-        <div class="col-4">
-          image "Controlled damaged tile"
+        <div class="col-2 text-center">
+          <q-img :src="`/st2/sections/${side}/damaged/door.png`" contain />
         </div>
       </div>
       <p>
@@ -47,28 +47,28 @@
       <p class="text-bold text-special-11">
         Game Elements:
       </p>
-      <div class="row">
-        <div class="col-8">
+      <div class="row items-center q-pb-md">
+        <div class="col-10">
           - 60 Siege Cards:
         </div>
-        <div class="col-4">
-          image "Siege Card Back"
+        <div class="col-2 text-center">
+          <q-img :src="`/st2/info/${side}/siege.png`" contain />
         </div>
       </div>
-      <div class="row">
-        <div class="col-8">
+      <div class="row items-center q-pb-md">
+        <div class="col-10">
           - 7 Wall tiles
         </div>
-        <div class="col-4">
-          image "Wall tile"
+        <div class="col-2 text-center">
+          <q-img :src="`/st2/sections/${side}/good/door.png`" contain />
         </div>
       </div>
-      <div class="row">
-        <div class="col-8">
+      <div class="row items-center q-pb-md">
+        <div class="col-10">
           - 3 Oil Cauldrons
         </div>
-        <div class="col-4">
-          image "Oil icon"
+        <div class="col-2 text-center">
+          <q-icon name="opacity" size="12vw" />
         </div>
       </div>
     </q-card-section>
@@ -97,14 +97,14 @@
       <p class="text-bold text-primary">
         Play 1 Card:
       </p>
-      <div class="row">
-        <div class="col-8">
+      <div class="row items-center q-pb-md">
+        <div class="col-10">
           You must choose a Card from your hand and place it in front of any
           Wall Tile provided the number of cards does not exceed the number of
           available spaces displayed on the selected Wall Tile.
         </div>
-        <div class="col-4">
-          image "blank formation limit icon"
+        <div class="col-2 text-center">
+          <q-img :src="`/st2/info/${side}/play.png`" contain />
         </div>
       </div>
 
@@ -154,7 +154,7 @@
             <p>{{ formation.description }}</p>
           </q-item-section>
           <q-item-section>
-            <div class="row">
+            <div class="row items-center q-pb-md">
               <div
                 class="col"
                 v-for="(card, index) in formation.example"
@@ -172,44 +172,52 @@
         evaluated for declaring control.
       </p>
 
-      <div class="row">
-        <div class="col-8">
+      <div class="row items-center q-pb-md">
+        <div class="col-10">
           Any formation is considered
         </div>
-        <div class="col-4">
-          image "blank formation limit icons"
+        <div class="col-2 text-center">
+          <q-img :src="`/st2/sections/${side}/good/tower.png`" contain />
         </div>
       </div>
-      <div class="row">
-        <div class="col-8">
-          Only highest (+) or lowest (-) Sum formations are considered
+      <div class="row items-center q-pb-md">
+        <div class="col-10">
+          Only highest (+) Sum formations are considered
         </div>
-        <div class="col-4">
-          image "+ & - formation limit icons"
+        <div class="col-2 text-center">
+          <q-img :src="`/st2/sections/${side}/good/leftpit.png`" contain />
         </div>
       </div>
-      <div class="row">
-        <div class="col-8">
+      <div class="row items-center q-pb-md">
+        <div class="col-10">
+          Only lowest (-) Sum formations are considered
+        </div>
+        <div class="col-2 text-center">
+          <q-img :src="`/st2/sections/${side}/good/rightpit.png`" contain />
+        </div>
+      </div>
+      <div class="row items-center q-pb-md">
+        <div class="col-10">
           Same Strength and Sum formations are considered
         </div>
-        <div class="col-4">
-          image "= formation limit icon"
+        <div class="col-2 text-center">
+          <q-img :src="`/st2/sections/${side}/good/tower.png`" contain />
         </div>
       </div>
-      <div class="row">
-        <div class="col-8">
+      <!-- <div class="row items-center q-pb-md">
+        <div class="col-10">
           Color and Sum formations are considered
         </div>
-        <div class="col-4">
-          image "color formation limit icon"
+        <div class="col-2 text-center">
+          <q-img :src="`/st2/sections/${side}/good/tower.png`" contain />
         </div>
-      </div>
-      <div class="row">
-        <div class="col-8">
+      </div> -->
+      <div class="row items-center q-pb-md">
+        <div class="col-10">
           Run and Sum formations are considered
         </div>
-        <div class="col-4">
-          image "run and sum limit icon"
+        <div class="col-2 text-center">
+          <q-img :src="`/st2/sections/${side}/damaged/leftpit.png`" contain />
         </div>
       </div>
       <p>
@@ -229,7 +237,12 @@ export default defineComponent({
   components: {
     SiegeCard: () => import('./SiegeCard.vue'),
   },
-  props: {},
+  props: {
+    side: {
+      type: String,
+      required: true,
+    },
+  },
   setup() {
     return {
       formations,

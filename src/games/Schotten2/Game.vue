@@ -44,7 +44,7 @@
       </tr>
     </table>
 
-    <section class="absolute-bottom page-container q-pb-md">
+    <section class="absolute-bottom page-container q-pb-lg">
       <!-- Player's Hand -->
       <Hand class="schotten2-hand" />
       <!-- Action Buttons -->
@@ -110,6 +110,7 @@ export default defineComponent({
 <style lang="sass">
 html.schotten2-game,
 html.schotten2-game body,
+  overflow: hidden
   font-size: 16px
   @media(min-height: 900px)
     font-size: 20px
