@@ -11,6 +11,54 @@
           <base-btn v-bind="settingsHelp" flat round />
         </template>
         <q-list padding>
+          <q-item-label header>Account</q-item-label>
+          <!-- Gravatar -->
+          <q-item>
+            <q-item-section>
+              <q-item-label class="text-accent">
+                <a href="https://en.gravatar.com/support/" target="_blank">
+                  <span>Update Avatar (gravatar.com) </span>
+                  <q-icon name="help_outline" size="24px" />
+                </a>
+              </q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-toggle
+                color="accent"
+                :value="settings.enableGravatar"
+                :val="true"
+                @input="updateGravatar"
+              />
+            </q-item-section>
+          </q-item>
+          <!-- Country Flag -->
+          <q-item>
+            <q-item-section>
+              <q-item-label class="text-accent">Country</q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-select
+                :value="country"
+                @input="updateCountryFlag"
+                :options="countryOptions"
+                option-value="code"
+                option-label="name"
+                behavior="dialog"
+                color="accent"
+                use-chips
+                borderless
+                style="width: 100%; min-width: 50px;"
+              >
+                <template v-slot:no-option>
+                  <q-item>
+                    <q-item-section class="text-grey">
+                      No results
+                    </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+            </q-item-section>
+          </q-item>
           <q-item-label header>Interface</q-item-label>
           <!-- Dark Mode -->
           <q-item tag="label" v-ripple>
@@ -108,54 +156,6 @@
                 :value="settings.enableSound"
                 :val="true"
                 @input="updateSound"
-              />
-            </q-item-section>
-          </q-item>
-          <q-item-label header>Account</q-item-label>
-          <!-- Country Flag -->
-          <q-item>
-            <q-item-section>
-              <q-item-label class="text-accent">Country</q-item-label>
-            </q-item-section>
-            <q-item-section side>
-              <q-select
-                :value="country"
-                @input="updateCountryFlag"
-                :options="countryOptions"
-                option-value="code"
-                option-label="name"
-                behavior="dialog"
-                color="accent"
-                use-chips
-                borderless
-                style="width: 100%; min-width: 50px;"
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey">
-                      No results
-                    </q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
-            </q-item-section>
-          </q-item>
-          <!-- Gravatar -->
-          <q-item>
-            <q-item-section side>
-              <q-item-label class="text-accent">Update Gravatar</q-item-label>
-            </q-item-section>
-            <q-item-section>
-              <a href="https://en.gravatar.com/support/" target="_blank">
-                <q-icon name="help_outline" size="24px" />
-              </a>
-            </q-item-section>
-            <q-item-section side>
-              <q-toggle
-                color="accent"
-                :value="settings.enableGravatar"
-                :val="true"
-                @input="updateGravatar"
               />
             </q-item-section>
           </q-item>

@@ -5,19 +5,17 @@
   <q-layout v-else view="hHh lpR fFf">
     <q-header class="bg-default text-center row" elevated>
       <base-btn flat :icon="config.buttons.menu.icon" @click="toggleMenu" />
-      <q-toolbar
-        class="col"
-        style="cursor: pointer;"
-        @click="location.href = '/'"
-      >
+      <q-toolbar class="col" style="cursor: pointer;">
         <q-toolbar-title class="top-title">
-          <q-avatar class="q-mr-xs">
+          <q-avatar class="q-mr-xs" @click="location.href = '/'">
             <img :src="config.icon" />
           </q-avatar>
-          <span>pulse</span>
-          <span class="text-primary">games</span>
-          <span>.io</span>
-          <!-- <span class="text-bold text-primary">&nbsp;{{ config.game }}</span> -->
+          <a href="http://pulsegames.io" target="_blank" class="text-white">
+            <span>pulse</span>
+            <span class="text-primary">games</span>
+            <span>.io</span>
+            <!-- <span class="text-bold text-primary">&nbsp;{{ config.game }}</span> -->
+          </a>
         </q-toolbar-title>
       </q-toolbar>
       <base-btn
