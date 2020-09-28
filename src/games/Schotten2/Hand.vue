@@ -29,19 +29,19 @@
       color="accent"
       :class="{ 'enable-special': enableRetreat }"
     >
-      <div style="font-size: 2.2vw; line-height: 2.2vw;">Retreat</div>
-      <q-icon name="run_circle" size="8vw" />
+      <div style="font-size: 0.6rem; line-height: 1.1rem;">Retreat</div>
+      <q-icon name="directions_run" size="2rem" />
     </q-btn>
     <q-btn
       class="schotten2-card"
       v-if="!isAttacker"
-      :disable="disableSpecial"
+      :disable="disableSpecial || !oilCount"
       @click="atOilClick"
       color="primary"
       :class="{ 'enable-special': enableOil }"
     >
-      <div style="font-size: 2.2vw; line-height: 2.2vw;">Oil</div>
-      <q-icon name="opacity" size="8vw" />
+      <div style="font-size: 0.65rem; line-height: 1.1rem;">Oil</div>
+      <q-icon name="local_fire_department" size="2rem" />
       <q-badge color="dark" floating>{{ oilCount }}</q-badge>
     </q-btn>
   </div>

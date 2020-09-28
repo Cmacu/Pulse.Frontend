@@ -1,70 +1,83 @@
 <template>
   <section class="absolute-top page-container text-dark q-pt-md q-px-sm">
     <div class="row justify-between no-wrap">
-      <div class="row q-gutter-sm">
-        <InfoCard
-          name="discard"
-          :counter="discardCount"
-          @click="showDiscard = true"
-        />
-        <q-dialog v-model="showDiscard" auto-close>
-          <q-card class="page-container q-pa-md">
-            <q-card-section title class="row items-center">
-              <div class="text-special-13 text-center">DISCARD CARDS</div>
-              <q-space />
-              <q-btn icon="close" flat round dense v-close-popup />
-            </q-card-section>
-            <q-separator class="q-mb-md" inset />
-            <table class="schotten2-discards">
-              <tr v-for="rank in ranks" :key="rank">
-                <td v-for="(suit, suitIndex) in suits" :key="suitIndex">
-                  <div
-                    class="row justify-center items-end"
-                    :class="getDiscardClass(suitIndex, rank)"
-                  >
+      <div class="column">
+        <div class="row q-gutter-sm">
+          <InfoCard
+            name="discard"
+            :counter="discardCount"
+            @click="showDiscard = true"
+          />
+          <q-dialog v-model="showDiscard" auto-close>
+            <q-card class="page-container q-pa-md">
+              <q-card-section title class="row items-center">
+                <div class="text-special-13 text-center">DISCARD CARDS</div>
+                <q-space />
+                <q-btn icon="close" flat round dense v-close-popup />
+              </q-card-section>
+              <q-separator class="q-mb-md" inset />
+              <table class="schotten2-discards">
+                <tr v-for="rank in ranks" :key="rank">
+                  <td v-for="(suit, suitIndex) in suits" :key="suitIndex">
                     <div
-                      class="col text-right"
-                      :style="{
-                        color: suit.color,
-                      }"
+                      class="row justify-center items-end"
+                      :class="getDiscardClass(suitIndex, rank)"
                     >
-                      {{ rank }}
+                      <div
+                        class="col text-right"
+                        :style="{
+                          color: suit.color,
+                        }"
+                      >
+                        {{ rank }}
+                      </div>
+                      <div
+                        class="col text-left"
+                        :style="{ 'padding-bottom': '2px' }"
+                      >
+                        <q-img
+                          :src="`/st2/symbols/${suitIndex}.png`"
+                          height="1rem"
+                          contain
+                        />
+                      </div>
                     </div>
-                    <div
-                      class="col text-left"
-                      :style="{ 'padding-bottom': '2px' }"
-                    >
-                      <q-img
-                        :src="`/st2/symbols/${suitIndex}.png`"
-                        height="1rem"
-                        contain
-                      />
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </table>
-            <div>
-              <q-separator class="q-my-md" inset />
-              <div class="row justify-between">
-                <div class="text-bold">Legend:</div>
-                <div class="q-px-sm">In Deck</div>
-                <div class="q-px-sm faded">Discard</div>
-                <div class="q-px-sm faded bg-black">Played</div>
-                <div class="q-px-sm faded add-border">In Hand</div>
+                  </td>
+                </tr>
+              </table>
+              <div>
+                <q-separator class="q-my-md" inset />
+                <div class="row justify-between">
+                  <div class="text-bold">Legend:</div>
+                  <div class="q-px-sm">Unknown</div>
+                  <div class="q-px-sm faded">Discard</div>
+                  <div class="q-px-sm faded bg-black">In Play</div>
+                  <div class="q-px-sm faded add-border">In Hand</div>
+                </div>
               </div>
-            </div>
-          </q-card>
-        </q-dialog>
+            </q-card>
+          </q-dialog>
 
-        <InfoCard
-          name="siege"
-          :counter="siegeCardsCount"
-          @click="showHelp = true"
-        />
-        <q-dialog v-model="showHelp" auto-close>
-          <Rules :side="side" />
-        </q-dialog>
+          <InfoCard
+            name="siege"
+            :counter="siegeCardsCount"
+            @click="showHelp = true"
+          />
+          <q-dialog v-model="showHelp" auto-close>
+            <Rules :side="side" />
+          </q-dialog>
+        </div>
+        <div class="row q-mt-sm">
+          <q-icon
+            v-for="n in 3"
+            :key="n"
+            name="local_fire_department"
+            :color="isAttacker ? 'accent' : 'primary'"
+            class="q-pr-sm"
+            :class="{ faded: n > oilCount }"
+            size="1.3rem"
+          />
+        </div>
       </div>
 
       <div
@@ -176,7 +189,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref } from '@vue/composition-api'
+import { defineComponent, computed, ref, PropType } from '@vue/composition-api'
+import { OpponentInterface } from 'src/store/modules/matchmaker'
 import { suits } from './design'
 import { game } from './game'
 
