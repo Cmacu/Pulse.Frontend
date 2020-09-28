@@ -79,12 +79,14 @@ export default defineComponent({
     const pageLoading = ref(true)
 
     onMounted(() => {
-      username.value = props.email.split('@')[0]
+      username.value = props.email.substring(
+        0,
+        props.email.search(/[^A-Za-z0-9]/),
+      )
     })
     const submit = async () => {
       usernameError.value = ''
-    codeError.value = ''
-
+      codeError.value = ''
       loading.value = true
       const checkResponse = await api.checkUsername(username.value)
       console.error(checkResponse)

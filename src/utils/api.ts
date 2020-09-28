@@ -21,7 +21,7 @@ const api = {
     )
   },
   checkUsername: (username: string) => {
-    return axiosInstance.get('/auth/find/?username=' + username)
+    return axiosInstance.get('/auth/validate/?username=' + username)
   },
   getPlayer: (player: string) => {
     return axiosInstance.get('/player/' + player)
