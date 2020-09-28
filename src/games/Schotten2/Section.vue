@@ -11,8 +11,13 @@
 
     <q-dialog v-model="showDialog" auto-close>
       <q-card class="page-container q-pa-sm" style="font-size: 0.75rem;">
-        <q-card-section title>
-          <div class="text-special-13 text-center">{{ name }}</div>
+        <q-card-section title class="row items-center">
+          <div class="text-special-13 text-center">
+            <span>{{ name }}</span>
+            <strong v-if="isDamaged">(Damaged)</strong>
+          </div>
+          <q-space />
+          <q-btn icon="close" flat round dense v-close-popup />
         </q-card-section>
         <q-separator class="q-mb-md" inset />
         <q-card-section class="row items-end">
@@ -34,16 +39,16 @@
         </q-card-section>
         <q-card-section>
           <q-list>
-            <q-item v-for="type in types" :key="type" class="q-pa-md">
+            <q-item v-for="type in types" :key="type" class="row q-pa-none">
               <q-item-section>
                 <strong>{{ formations[type].name }}</strong>
                 <p>{{ formations[type].description }}</p>
               </q-item-section>
               <q-item-section>
-                <div class="row">
+                <div class="row justify-end">
                   <div
                     class="col"
-                    v-for="(card, index) in formations[type].example"
+                    v-for="(card, index) in getFormationCards(type)"
                     :key="index"
                   >
                     <SiegeCard v-bind="card" />
@@ -95,8 +100,10 @@ export default defineComponent({
     const showDialog = ref(false)
     const side = computed(() => (props.isAttacker ? 'attack' : 'defense'))
     const condition = computed(() => (props.isDamaged ? 'damaged' : 'good'))
-    console.error(props.types)
     return {
+      showName: computed(() =>
+        props.name.replace('Left', '').replace('Right ', ''),
+      ),
       formations,
       showDialog,
       image: computed(
@@ -105,6 +112,8 @@ export default defineComponent({
             condition.value
           }/${props.name.toLowerCase()}.png`,
       ),
+      getFormationCards: (type: number) =>
+        formations[type].example.slice(0, props.spaces),
     }
   },
 })

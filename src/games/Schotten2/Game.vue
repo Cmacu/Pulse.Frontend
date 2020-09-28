@@ -1,21 +1,6 @@
 <template>
   <q-page class="flex flex-center full-height" :class="pageClass">
-    <!-- Information -->
-    <section class="absolute-top page-container">
-      <div class="row justify-between q-px-sm text-dark">
-        <div class="text-right">
-          Schotten Totten 2 by
-          <a
-            href="https://www.knizia.de/"
-            class="text-secondary"
-            target="_blank"
-            >Reiner Knizia</a
-          >
-        </div>
-        <div class="text-left">{{ player }} turn</div>
-      </div>
-      <Info />
-    </section>
+    <Info :players="players" />
 
     <table class="schotten2-wall page-container">
       <!-- Opponent Cards -->
@@ -59,11 +44,11 @@
       </tr>
     </table>
 
-    <section class="absolute-bottom page-container">
+    <section class="absolute-bottom page-container q-pb-md">
       <!-- Player's Hand -->
       <Hand class="schotten2-hand" />
       <!-- Action Buttons -->
-      <Buttons class="q-mt-md" />
+      <!-- <Buttons class="q-mt-md" /> -->
     </section>
   </q-page>
 </template>
@@ -76,7 +61,6 @@ import {
   computed,
   onUnmounted,
 } from '@vue/composition-api'
-import { suits } from './design'
 import { game } from './game'
 import { OpponentInterface } from 'src/store/modules/matchmaker'
 
@@ -110,23 +94,12 @@ export default defineComponent({
       htmlElement.className = ''
     })
 
-    const isCurrentPlayer = computed(() => game.state.api.isCurrentPlayer)
     const isAttacker = computed(() => game.state.api.isAttacker)
-    const opponentName = computed(() => {
-      const name = game.state.api.isAttacker
-        ? props.players[1]?.username
-        : props.players[0]?.username
-      return name || 'Opponent'
-    })
     return {
       isAttacker,
       pageClass: computed(() =>
         isAttacker.value ? 'schotten2-attacker' : 'schotten2-defender',
       ),
-      player: computed(() =>
-        isCurrentPlayer.value ? 'Your' : `${opponentName.value}'s`,
-      ),
-      suits,
       sections: computed(() => game.state.api.sections),
       activeSectionIndex: computed(() => game.state.api.activeSectionIndex),
     }
@@ -135,7 +108,8 @@ export default defineComponent({
 </script>
 
 <style lang="sass">
-html.schotten2-game
+html.schotten2-game,
+html.schotten2-game body,
   font-size: 16px
   @media(min-height: 900px)
     font-size: 20px
@@ -148,16 +122,17 @@ html.schotten2-game
   // font-size: 0.85rem
 
 .schotten2-game .q-page
+  background-color: #eff5dd
   background-size: cover
   background-position: center
   background-repeat: no-repeat
   height: calc(100vh - 5rem)
 
 .schotten2-game .schotten2-attacker
-  background-image: url("/st2/info/attack/background.jpg")
+  background-image: url("/st2/info/attack/background.png")
 
 .schotten2-game .schotten2-defender
-  background-image: url("/st2/info/defense/background.jpg")
+  background-image: url("/st2/info/defense/background.png")
 
 .schotten2-wall,
 .schotten2-discards
@@ -171,15 +146,9 @@ html.schotten2-game
   font-size: 1.1rem
   line-height: 1.1rem
 
-.schotten2-wall
-  margin-bottom: 16vw
-@media(min-width: 800px)
-  .schotten2-wall
-    margin-bottom: 120px
-
 .schotten2-wall tr:first-child td,
 .schotten2-wall tr:last-child td
-  height: 9rem
+  height: 11rem
 
 .schotten2-attacker .section-top .schotten2-card,
 .schotten2-defender .section-bottom .schotten2-card,
@@ -202,6 +171,7 @@ html.schotten2-game
 
 .drop-zone
   display: none
+  opacity: 0.8
   max-width: 110px
   width: 13.8vw
   max-height: 145px
@@ -226,8 +196,11 @@ html.schotten2-game
   -ms-filter: drop-shadow(0 0 0.2rem $positive)
   -o-filter: drop-shadow(0 0 0.2rem $positive)
 
+.enable-special,
 .enable-retreat,
 .enable-oil .schotten2-card:last-child
+  transition: transform 0.18s ease;
+  transform: rotateZ(5deg)
   -webkit-filter: drop-shadow(0 0 0.2rem $negative)
   -moz-filter: drop-shadow(0 0 0.2rem $negative)
   -ms-filter: drop-shadow(0 0 0.2rem $negative)

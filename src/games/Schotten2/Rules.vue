@@ -1,17 +1,18 @@
 <template>
   <q-card class="page-container q-pa-md" style="font-size: 0.8rem;">
-    <q-card-section title>
-      <!-- <q-img src="/icon.png" height="30" /> -->
+    <q-card-section title class="row items-center">
       <div class="text-special-13 text-center">SCHOTTEN TOTTEN 2 RULES</div>
+      <q-space />
+      <q-btn icon="close" flat round dense v-close-popup />
+    </q-card-section>
+    <q-separator class="q-mb-md" inset />
+    <q-card-section>
       <div class="text-center">
         Designed by
         <a href="https://www.knizia.de/" class="text-secondary" target="_blank"
           >Reiner Knizia</a
         >
       </div>
-    </q-card-section>
-    <q-separator class="q-mb-md" inset />
-    <q-card-section>
       <p class="text-bold text-special-11">Goal</p>
       <p>
         You are the leader of a powerful faction, sending troops (Cards) to
