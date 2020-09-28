@@ -13,6 +13,7 @@ const HUB = {
   sendRetreat: 'Retreat',
   sendUseOil: 'UseOil',
   sendPlayCard: 'PlayCard',
+  sendResign: 'Resign',
   receiveUpdateState: 'UpdateState',
   receiveDisconnect: 'Disconnect',
   receiveError: 'Error',
@@ -113,4 +114,6 @@ const useOil = (sectionIndex: number) => {
   return connection?.send(HUB.sendUseOil, sectionIndex)
 }
 
-export const socket = { connect, retreat, useOil, playCard, disconnect }
+const resign = () => connection?.send(HUB.sendResign)
+
+export const socket = { connect, retreat, useOil, playCard, resign, disconnect }

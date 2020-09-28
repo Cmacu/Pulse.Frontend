@@ -53,7 +53,6 @@ const handCards: Schotten2Card[] = []
 const handOrder: number[] = [0, 1, 2, 3, 4, 5]
 const discardCards: Schotten2Card[] = []
 
-const localState = LocalStorage.getItem(LOCAL_KEY)
 const defaultState = {
   loading: true,
   cardPlayed: false,
@@ -76,9 +75,14 @@ const defaultState = {
   },
 }
 
-const state = reactive(
-  Object.assign(defaultState, localState, { api: { isCurrentPlayer: false } }),
-)
+const getDefaultState = () =>
+  reactive(
+    Object.assign(defaultState, LocalStorage.getItem(LOCAL_KEY), {
+      api: { isCurrentPlayer: false },
+    }),
+  )
+
+let state = getDefaultState()
 const matchId = ref('')
 
 const setState = (gameState: Schotten2State) => {
@@ -157,6 +161,10 @@ const placeCard = (sectionIndex: number, cardIndex: number) => {
 const actions = {
   loadState: async (match: string) => {
     state.loading = true
+    if (matchId.value != match) {
+      LocalStorage.remove(LOCAL_KEY)
+      state = getDefaultState()
+    }
     matchId.value = match
     await socket.connect(match, setState)
     // const gameState = await getState()
@@ -189,6 +197,7 @@ const actions = {
     return socket.playCard(sectionIndex, cardIndex)
   },
   toggleRetreat: () => {
+    state.handOrderSelectedIndex = -1
     state.enableRetreat = !state.enableRetreat
   },
   retreat: (sectionIndex: number) => {
@@ -205,6 +214,7 @@ const actions = {
     state.api.sections[sectionIndex].attack.splice(0, 1)
     return socket.useOil(sectionIndex)
   },
+  resign: () => socket.resign(),
 }
 
 export const game = { state, actions }
