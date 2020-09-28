@@ -55,7 +55,7 @@ class Confetti {
   constructor() {
     this.style = COLORS[~~random(0, COLORS.length)]
     this.rgb = `rgba(${this.style[0]},${this.style[1]},${this.style[2]}`
-    this.r = ~~random(2, 6)
+    this.r = ~~random(2, 5)
     this.r2 = 2 * this.r
     this.replace()
   }
@@ -67,8 +67,8 @@ class Confetti {
     this.y = random(-20, h - this.r2)
     this.xMax = w - this.r
     this.yMax = h - this.r
-    this.vx = random(0, 2) + 8 * mousePosition - 5
-    this.vy = 0.7 * this.r + random(-1, 1)
+    this.vx = random(0, 2) + 4 * mousePosition - 4
+    this.vy = 0.5 * this.r + random(-1, 1)
   }
 
   public draw() {
