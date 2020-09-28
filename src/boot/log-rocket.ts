@@ -1,6 +1,6 @@
 import LogRocket from 'logrocket'
 if (process.env.NODE_ENV !== 'development') {
-  LogRocket.init('hpfqwl/pulse-games')
+  LogRocket.init('nedwwk/pulsegames')
 }
 
 export const updateLogRocket = (playerId: string, name: string) => {
