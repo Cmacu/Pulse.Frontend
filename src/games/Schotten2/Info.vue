@@ -252,13 +252,7 @@ export default defineComponent({
           ? 'text-bold text-accent'
           : 'text-bold text-primary'
       }),
-      lastDiscardCard: computed(() =>
-        discardCount.value ? discardCards.value[discardCount.value - 1] : null,
-      ),
       siegeCardsCount: computed(() => game.state.api.siegeCardsCount || 0),
-      opponentCardsCount: computed(
-        () => game.state.api.opponentCardsCount || 0,
-      ),
       oilCount: computed(() => game.state.api.oilCount || 0),
       getDiscardClass: (suit: number, rank: number) => {
         if (

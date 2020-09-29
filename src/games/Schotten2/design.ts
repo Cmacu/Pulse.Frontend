@@ -88,9 +88,9 @@ const formations: Formation[] = [
     name: 'Low Sum',
     description: 'Any cards. Lower sum wins',
     example: [
-      { suit: 0, rank: 1 },
-      { suit: 1, rank: 2 },
-      { suit: 2, rank: 3 },
+      { suit: 0, rank: 0 },
+      { suit: 2, rank: 2 },
+      { suit: 1, rank: 0 },
       { suit: 1, rank: 1 },
     ],
   },

@@ -43,10 +43,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, onMounted, ref } from '@vue/composition-api'
+import { defineComponent, computed } from '@vue/composition-api'
 import store from 'src/store'
-import api from 'src/utils/api'
-import { OpponentInterface } from 'src/store/modules/matchmaker'
 
 export default defineComponent({
   name: 'GameLayout',
@@ -57,21 +55,9 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const loading = ref(true)
-    const attacker = ref<OpponentInterface>()
-    const defender = ref<OpponentInterface>()
-    onMounted(async () => {
-      const response = await api.getMatch(props.matchId)
-      const players = response.data.opponents.sort(
-        (x: OpponentInterface, y: OpponentInterface) => x.position - y.position,
-      )
-      attacker.value = players[0]
-      defender.value = players[1]
-      loading.value = false
-    })
     return {
-      attacker,
-      defender,
+      attacker: props.matchId == 0 ? 'General' : 'Attacker',
+      defender: props.matchId == 0 ? 'General' : 'Defender',
       config: computed(() => store.state.config),
     }
   },
