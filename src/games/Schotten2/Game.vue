@@ -89,6 +89,7 @@ export default defineComponent({
   setup(props) {
     const htmlElement = document.documentElement
     onMounted(async () => {
+      window.scrollTo(0, 1)
       htmlElement.className = 'schotten2-game'
       await game.actions.loadState(props.matchId)
     })
