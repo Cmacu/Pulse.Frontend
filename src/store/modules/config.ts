@@ -331,7 +331,7 @@ const defaultState: ConfigInterface = {
       disable: false,
     },
     [MATCH_STATES.MATCHED]: {
-      icon: 'o_link',
+      icon: 'check',
       color: 'primary',
       label: 'MatchFound',
       instructions: 'Match found. Creating game',
@@ -340,7 +340,7 @@ const defaultState: ConfigInterface = {
       // notify: 'Get Ready! We found an opponent for you. Game is starting soon',
     },
     [MATCH_STATES.PLAYING]: {
-      icon: 'check',
+      icon: 'o_link',
       color: 'accent',
       label: 'Open Game',
       instructions: 'Game in progress. Click below to open',

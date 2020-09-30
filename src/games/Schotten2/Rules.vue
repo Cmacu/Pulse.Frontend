@@ -68,7 +68,7 @@
           - 3 Oil Cauldrons
         </div>
         <div class="col-2 text-center">
-          <q-icon name="local_fire_department" size="12vw" />
+          <q-icon name="local_fire_department" size="xl" />
         </div>
       </div>
     </q-card-section>
