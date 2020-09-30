@@ -1,5 +1,6 @@
 import { reactive, ref } from '@vue/composition-api'
 import { LocalStorage, Notify } from 'quasar'
+import { demo } from 'src/games/Schotten2/demo'
 import { socket } from 'src/games/Schotten2/socket'
 import router from 'src/router'
 import store from 'src/store'
@@ -9,9 +10,21 @@ import { startConfetti, stopConfetti } from 'src/utils/confetti'
 const SECTION_COUNT = 7
 const LOCAL_KEY = 'pulse-schotten2'
 
+export type UpdateStateFunction = (gameState: Schotten2State) => void
+
+export interface Schotten2Api {
+  connect: (matchId: string, updateState: UpdateStateFunction) => Promise<void>
+  playCard: (sectionIndex: number, handIndex: number) => void
+  useOil: (sectionIndex: number) => void
+  retreat: (sectionIndex: number) => void
+  resign: () => Promise<void> | undefined
+  disconnect: () => void | Promise<void>
+}
+
 export interface Schotten2Card {
   rank: number
   suit: number
+  disabled?: boolean
 }
 export interface Schotten2Section {
   name: string
@@ -61,6 +74,7 @@ const defaultState = {
   enableRetreat: false,
   handOrder,
   handOrderSelectedIndex: -1,
+  demoIndex: 0,
   api: {
     isAttacker: true,
     enablePreparation: true,
@@ -85,13 +99,17 @@ const getDefaultState = () =>
   )
 
 let state = getDefaultState()
+let engine: Schotten2Api
 const matchId = ref('')
 
 const setState = (gameState: Schotten2State) => {
-  if (isGameOver(gameState)) return true
   state.cardPlayed = false
   // console.error(gameState.isCurrentPlayer, state.api.isCurrentPlayer)
-  if (gameState.isCurrentPlayer && !state.api.isCurrentPlayer)
+  if (
+    isGameOver(gameState) &&
+    gameState.isCurrentPlayer &&
+    !state.api.isCurrentPlayer
+  )
     Notify.create({
       icon: 'check',
       color: gameState.isAttacker ? 'accent' : 'primary',
@@ -119,8 +137,6 @@ const setState = (gameState: Schotten2State) => {
   // }
   // state.opponentCardsCount = gameState.opponentCardsCount
   // state.isCurrentPlayer = gameState.isCurrentPlayer
-
-  LocalStorage.set(LOCAL_KEY, state)
   state.loading = false
 }
 
@@ -142,6 +158,7 @@ const isGameOver = (gameState: Schotten2State): boolean => {
       },
     }),
   )
+  gameState.isCurrentPlayer = false
   return true
 }
 
@@ -167,8 +184,10 @@ const actions = {
       LocalStorage.remove(LOCAL_KEY)
       state = getDefaultState()
     }
+    engine = socket
+    if (match.includes('demo')) engine = demo
     matchId.value = match
-    await socket.connect(match, setState)
+    await engine.connect(match, setState)
     // const gameState = await getState()
     // setState(gameState)
   },
@@ -196,7 +215,7 @@ const actions = {
     disablePrepOptions()
     const cardIndex = state.handOrder[handIndex]
     placeCard(sectionIndex, cardIndex)
-    return socket.playCard(sectionIndex, cardIndex)
+    return engine.playCard(sectionIndex, cardIndex)
   },
   toggleRetreat: () => {
     state.handOrderSelectedIndex = -1
@@ -205,7 +224,7 @@ const actions = {
   retreat: (sectionIndex: number) => {
     if (!state.enableRetreat) return
     state.api.sections[sectionIndex].attack = []
-    return socket.retreat(sectionIndex)
+    return engine.retreat(sectionIndex)
   },
   toggleOil: () => {
     state.enableOil = !state.enableOil
@@ -214,12 +233,12 @@ const actions = {
     if (!state.enableOil) return
     state.enableOil = false
     state.api.sections[sectionIndex].attack.splice(0, 1)
-    return socket.useOil(sectionIndex)
+    return engine.useOil(sectionIndex)
   },
-  resign: () => socket.resign(),
+  resign: () => engine.resign(),
   disconnect: () => {
     LocalStorage.remove(LOCAL_KEY)
-    return socket.disconnect()
+    return engine.disconnect()
   },
 }
 

@@ -86,13 +86,9 @@
       >
         <div>
           <router-link to="/settings" class="text-dark">
-            <span :class="{ 'text-bold': isAttacker }">{{
-              players[0] ? players[0].username : ''
-            }}</span>
+            <span :class="{ 'text-bold': isAttacker }">{{ attacker }}</span>
             <q-icon name="clear" color="primary" size="1rem" />
-            <span :class="{ 'text-bold': !isAttacker }">{{
-              players[1] ? players[1].username : ''
-            }}</span>
+            <span :class="{ 'text-bold': !isAttacker }">{{ defender }}</span>
             <q-icon name="settings" class="q-pl-sm" size="1.3rem" />
           </router-link>
         </div>
@@ -111,20 +107,39 @@
           </a>
         </div>
 
-        <div :class="activePlayerClass" @click="showOptions = true">
+        <div
+          id="more_options"
+          :class="activePlayerClass"
+          @click="showOptions = true"
+        >
           <span>{{ player }} turn</span>
           <span v-if="isCurrentPlayer">: Play a card {{ prepare }}</span>
           <q-icon name="arrow_drop_down_circle" class="q-pl-sm" size="1.3rem" />
         </div>
         <q-dialog v-model="showOptions" auto-close>
-          <q-card>
+          <q-card style="min-width: 300px;">
             <q-card-section class="row items-center">
-              <div>Options</div>
+              <div>More Options</div>
               <q-space />
               <q-btn icon="close" flat round dense v-close-popup />
             </q-card-section>
             <q-separator inset />
             <q-list>
+              <q-item
+                clickable
+                v-ripple
+                v-close-popup
+                class="q-pa-md"
+                @click="showHelp = true"
+              >
+                <q-item-section side>
+                  <q-icon name="menu_book" color="positive" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label class="text-positive">Rules</q-item-label>
+                </q-item-section>
+              </q-item>
+
               <q-item
                 clickable
                 v-ripple
@@ -189,8 +204,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, PropType } from '@vue/composition-api'
-import { OpponentInterface } from 'src/store/modules/matchmaker'
+import { defineComponent, computed, ref } from '@vue/composition-api'
 import { suits } from './design'
 import { game } from './game'
 
@@ -201,9 +215,13 @@ export default defineComponent({
     Rules: () => import('./Rules.vue'),
   },
   props: {
-    players: {
-      type: Array as PropType<OpponentInterface[]>,
-      default: () => [],
+    attacker: {
+      type: String,
+      required: true,
+    },
+    defender: {
+      type: String,
+      required: true,
     },
   },
   setup(props) {
@@ -221,9 +239,7 @@ export default defineComponent({
     const isCurrentPlayer = computed(() => game.state.api.isCurrentPlayer)
     const isAttacker = computed(() => game.state.api.isAttacker)
     const opponentName = computed(() => {
-      const name = game.state.api.isAttacker
-        ? props.players[1]?.username
-        : props.players[0]?.username
+      const name = game.state.api.isAttacker ? props.defender : props.attacker
       return name || 'Opponent'
     })
 

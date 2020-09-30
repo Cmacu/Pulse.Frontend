@@ -5,7 +5,7 @@ import {
   LogLevel,
 } from '@aspnet/signalr'
 import { Notify } from 'quasar'
-import { Schotten2State } from 'src/games/Schotten2/game'
+import { Schotten2Api } from 'src/games/Schotten2/game'
 import auth from 'src/utils/auth'
 
 const HUB = {
@@ -73,47 +73,34 @@ const disconnect = () => {
   return connection.stop()
 }
 
-type UpdateStateFunction = (gameState: Schotten2State) => void
-
-const connect = async (matchId: string, onUpdateState: UpdateStateFunction) => {
-  if (connection) {
-    return
-  }
-  _manuallyClosed = false
-  console.info('Start socket')
-  connection = new HubConnectionBuilder()
-    .withUrl(`${HUB.url}?matchId=${matchId}`, {
-      accessTokenFactory: getAccessToken,
-      skipNegotiation: true,
-      transport: HttpTransportType.WebSockets,
-    })
-    .configureLogging(LogLevel.Information)
-    .build()
-  connection.serverTimeoutInMilliseconds = _defaultTimeout
-  // Handle messages
-  connection.on(HUB.receiveUpdateState, onUpdateState)
-  // Handle disconnects
-  connection.on(HUB.receiveDisconnect, onDisconnect)
-  connection.on(HUB.receiveError, onDisconnect)
-  await start()
-  connection.onclose(onClose)
+export const socket: Schotten2Api = {
+  connect: async (matchId, onUpdateState) => {
+    if (connection) {
+      return
+    }
+    _manuallyClosed = false
+    console.info('Start socket')
+    connection = new HubConnectionBuilder()
+      .withUrl(`${HUB.url}?matchId=${matchId}`, {
+        accessTokenFactory: getAccessToken,
+        skipNegotiation: true,
+        transport: HttpTransportType.WebSockets,
+      })
+      .configureLogging(LogLevel.Information)
+      .build()
+    connection.serverTimeoutInMilliseconds = _defaultTimeout
+    // Handle messages
+    connection.on(HUB.receiveUpdateState, onUpdateState)
+    // Handle disconnects
+    connection.on(HUB.receiveDisconnect, onDisconnect)
+    connection.on(HUB.receiveError, onDisconnect)
+    await start()
+    connection.onclose(onClose)
+  },
+  retreat: (sectionIndex) => connection?.send(HUB.sendRetreat, sectionIndex),
+  useOil: (sectionIndex) => connection?.send(HUB.sendUseOil, sectionIndex),
+  playCard: (sectionIndex: number, handIndex: number) =>
+    connection?.send(HUB.sendPlayCard, sectionIndex, handIndex),
+  resign: () => connection?.send(HUB.sendResign),
+  disconnect,
 }
-
-const playCard = (sectionIndex: number, handIndex: number) => {
-  // console.error(`Sending: Section ${sectionIndex}, Card ${handIndex}`)
-  return connection?.send(HUB.sendPlayCard, sectionIndex, handIndex)
-}
-
-const retreat = (sectionIndex: number) => {
-  // console.error(`Sending: Section ${sectionIndex}, Card ${handIndex}`)
-  return connection?.send(HUB.sendRetreat, sectionIndex)
-}
-
-const useOil = (sectionIndex: number) => {
-  // console.error(`Sending: Section ${sectionIndex}, Card ${handIndex}`)
-  return connection?.send(HUB.sendUseOil, sectionIndex)
-}
-
-const resign = () => connection?.send(HUB.sendResign)
-
-export const socket = { connect, retreat, useOil, playCard, resign, disconnect }

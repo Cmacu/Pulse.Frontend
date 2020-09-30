@@ -80,7 +80,10 @@ export default defineComponent({
       handOrderSelectedIndex: computed(() => game.state.handOrderSelectedIndex),
       atDragCard: game.actions.dragCard,
       atCardClick: game.actions.toggleCard,
-      getChildPayload: (orderIndex: number) => orderIndex,
+      getChildPayload: (orderIndex: number) => {
+        if (game.state.api.handCards[orderIndex].disabled) return undefined
+        return orderIndex
+      },
       atHandDrop: (dropResult: DropResult) => {
         if (dropResult == null) return
         const { removedIndex, addedIndex } = dropResult
