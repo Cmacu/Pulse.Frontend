@@ -35,7 +35,7 @@ const MESSAGES = {
 
 const _retryCount = 6
 const _retryTimeout = 10 * 1000 // 10 seconds
-const _defaultTimeout = 10 * 60 * 1000 // 10 minutes
+const _defaultTimeout = 24 * 60 * 60 * 1000 // 24 hours
 
 let connection: HubConnection | undefined = undefined
 let _runTimeout: undefined | NodeJS.Timeout = undefined

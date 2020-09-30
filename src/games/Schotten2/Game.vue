@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center full-height" :class="pageClass">
-    <Info :players="players" />
+    <Info :attacker="attacker" :defender="defender" />
 
     <table class="schotten2-wall page-container">
       <!-- Opponent Cards -->
@@ -57,12 +57,10 @@
 import {
   defineComponent,
   onMounted,
-  PropType,
   computed,
   onUnmounted,
 } from '@vue/composition-api'
 import { game } from './game'
-import { OpponentInterface } from 'src/store/modules/matchmaker'
 
 export default defineComponent({
   name: 'Schotten2Game',
@@ -79,9 +77,13 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    players: {
-      type: Array as PropType<OpponentInterface[]>,
-      default: () => [],
+    attacker: {
+      type: String,
+      required: true,
+    },
+    defender: {
+      type: String,
+      required: true,
     },
   },
   setup(props) {

@@ -1,23 +1,32 @@
 <template>
   <q-layout view="hHr lpr lFr" class="match-layout">
-    <q-header class="bg-default shadow-6">
-      <div class="page-container q-pa-sm row">
-        <div class="col-3 text-left">
-          <q-icon name="menu" size="1.3rem" />
+    <q-header class="bg-default" style="font-size: 21px;" elevated>
+      <q-toolbar class="page-container row">
+        <div class="col-1 col-sm-3">
+          <base-btn
+            flat
+            :icon="config.buttons.menu.icon"
+            dense
+            padding="none"
+          />
         </div>
-        <a href="/" target="_blank" class="col text-center text-white">
-          <q-avatar class="q-mr-xs" size="1.33rem">
+        <div class="col row text-white justify-center items-center">
+          <q-avatar class="q-mr-xs" @click="location.href = '/'">
             <img :src="config.icon" />
           </q-avatar>
-          <span>pulse</span>
-          <span class="text-primary">games</span>
-          <span>.io</span>
-        </a>
-        <div class="col-3 text-right">
-          &nbsp;<span>1:10</span>&nbsp;
-          <q-icon name="timer" size="1.3rem" />
+          <a href="http://pulsegames.io" target="_blank" class="text-white">
+            <span>pulse</span>
+            <span class="text-primary">games</span>
+            <span>.io</span>
+            <!-- <span class="text-bold text-primary">&nbsp;{{ config.game }}</span> -->
+          </a>
         </div>
-      </div>
+        <div class="col-auto col-sm-3 text-right">
+          <base-btn flat icon-right="timer" dense padding="none">
+            <span class="text-primary">1:11</span>
+          </base-btn>
+        </div>
+      </q-toolbar>
     </q-header>
     <!-- <q-drawer
       v-model="showDrawer"
@@ -32,13 +41,16 @@
         <SchottenActions style="margin-top: 50px; margin-bottom: 10px;" />
       </div>
     </q-drawer> -->
-    <q-page-container>
-      <router-view
-        :key="$route.fullPath"
-        :players="[attacker, defender]"
-        :matchId="matchId"
-      />
-    </q-page-container>
+    <q-pull-to-refresh @refresh="refresh">
+      <q-page-container>
+        <router-view
+          :key="$route.fullPath"
+          :matchId="matchId"
+          :attacker="attacker"
+          :defender="defender"
+        />
+      </q-page-container>
+    </q-pull-to-refresh>
   </q-layout>
 </template>
 
@@ -55,23 +67,34 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    defend: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props) {
-    const loading = ref(true)
-    const attacker = ref<OpponentInterface>()
-    const defender = ref<OpponentInterface>()
+    const attacker = ref('Attacker')
+    const defender = ref('Defender')
     onMounted(async () => {
+      if (props.matchId == 'demoAttack') {
+        return (attacker.value = 'General')
+      }
+      if (props.matchId == 'demoDefense') {
+        return (defender.value = 'General')
+      }
+
       const response = await api.getMatch(props.matchId)
       const players = response.data.opponents.sort(
         (x: OpponentInterface, y: OpponentInterface) => x.position - y.position,
       )
-      attacker.value = players[0]
-      defender.value = players[1]
-      loading.value = false
+      attacker.value = players[0].username
+      defender.value = players[1].username
     })
     return {
+      location,
       attacker,
       defender,
+      refresh: () => location.reload(),
       config: computed(() => store.state.config),
     }
   },

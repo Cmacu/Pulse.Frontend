@@ -67,7 +67,7 @@ module.exports = configure(function (ctx) {
 
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ts
     supportTS: {
-      tsCheckerConfig: { eslint: true },
+      tsCheckerConfig: { eslint: process.env.NODE_ENV === 'production' },
     },
 
     // https://quasar.dev/quasar-cli/cli-documentation/prefetch-feature
@@ -87,7 +87,7 @@ module.exports = configure(function (ctx) {
       gzip: true,
       analyze: ctx.dev ? true : false,
       sassLoaderOptions: {
-        sourceMap: false,
+        sourceMap: process.env.NODE_ENV === 'production',
       },
 
       // Options below are automatically set depending on the env, set them if you want to override

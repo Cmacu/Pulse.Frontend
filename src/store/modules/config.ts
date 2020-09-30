@@ -274,6 +274,7 @@ const defaultState: ConfigInterface = {
   ],
   avatars: {
     Cmacu: 'symbols/Cmacu.png',
+    Will: 'symbols/Will.png',
     WHIZ: 'symbols/WHIZ.png',
     pajada: 'symbols/pajada.jpeg',
     Vlaada: 'symbols/Vlaada.png',

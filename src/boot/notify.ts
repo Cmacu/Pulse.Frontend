@@ -7,5 +7,5 @@ Notify.setDefaults({
   textColor: 'white',
   progress: true,
   timeout: 15 * 1000,
-  actions: [{ icon: 'close', color: 'white' }],
+  closeBtn: 'OK',
 })

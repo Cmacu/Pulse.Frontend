@@ -3,10 +3,18 @@
     <q-spinner-dots size="10em" color="primary" />
   </div>
   <q-layout v-else view="hHh lpR fFf">
-    <q-header class="bg-default text-center row" elevated>
-      <base-btn flat :icon="config.buttons.menu.icon" @click="toggleMenu" />
-      <q-toolbar class="col" style="cursor: pointer;">
-        <q-toolbar-title class="top-title">
+    <q-header class="bg-default" style="font-size: 21px;" elevated>
+      <q-toolbar class="page-container row">
+        <div class="col-1 col-sm-3">
+          <base-btn
+            flat
+            :icon="config.buttons.menu.icon"
+            @click="toggleMenu"
+            dense
+            padding="none"
+          />
+        </div>
+        <div class="col row text-white justify-center items-center">
           <q-avatar class="q-mr-xs" @click="location.href = '/'">
             <img :src="config.icon" />
           </q-avatar>
@@ -16,13 +24,17 @@
             <span>.io</span>
             <!-- <span class="text-bold text-primary">&nbsp;{{ config.game }}</span> -->
           </a>
-        </q-toolbar-title>
+        </div>
+        <div class="col-auto col-sm-3 text-right">
+          <base-btn
+            flat
+            :icon="config.buttons.settings.icon"
+            :to="config.buttons.settings.to"
+            dense
+            padding="none"
+          />
+        </div>
       </q-toolbar>
-      <base-btn
-        flat
-        :icon="config.buttons.settings.icon"
-        :to="config.buttons.settings.to"
-      />
     </q-header>
 
     <q-drawer v-model="showMenu" :width="100">
