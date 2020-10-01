@@ -5,6 +5,7 @@
     v-touch-swipe.left="swipeLeft"
   >
     <div class="page-container row q-pa-sm q-gutter-sm">
+      <GameOptions />
       <ProfileStats />
       <MatchMaker />
       <MatchMakerLog />
@@ -19,6 +20,7 @@ import router from '../router'
 export default defineComponent({
   name: 'IndexPage',
   components: {
+    GameOptions: () => import('components/GameOptions.vue'),
     ProfileStats: () => import('components/ProfileStats.vue'),
     MatchMaker: () => import('components/MatchMaker.vue'),
     MatchMakerLog: () => import('components/MatchMakerLog.vue'),

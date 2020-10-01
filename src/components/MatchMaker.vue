@@ -1,8 +1,8 @@
 <template>
   <base-card
     :icon="matchmakerButton.icon"
-    :title="matchmakerButton.label"
-    :subtitle="game"
+    :title="title"
+    :subtitle="matchmakerButton.label"
     :loading="loading"
   >
     <template slot="extra">
@@ -140,6 +140,7 @@ export default defineComponent({
       matchmakerButton: computed(() => store.state.config.buttons.matchmaker),
       matchmakerHelp: computed(() => store.state.config.buttons.matchmakerHelp),
       game: computed(() => store.state.config.game),
+      title: computed(() => store.state.config.nameShort),
       modes: computed(() => store.state.config.matchModes),
       toggleMatchmaking: store.dispatch.matchmaker.toggle,
       viewProfile: (player: string) => router.push(`/profile/${player}`),
