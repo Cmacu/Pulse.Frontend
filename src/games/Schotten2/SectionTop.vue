@@ -49,7 +49,9 @@ export default defineComponent({
       enableOil: computed(() => {
         if (!game.state.api.isCurrentPlayer) return false
         if (!game.state.enableOil) return false
-        return cards.value.length > 0
+        if (cards.value.length == 0) return false
+        if (cards.value[0].disabled) return false
+        return true
       }),
       atUseOil: game.actions.useOil,
     }
