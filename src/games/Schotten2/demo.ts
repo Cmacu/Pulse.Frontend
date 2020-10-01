@@ -53,6 +53,7 @@ attack.push(() => {
   game.state.api.isCurrentPlayer = false
   game.state.api.enablePreparation = false
   game.state.api.siegeCardsCount = 48
+  game.state.api.oilCount = 3
   game.state.api.handCards = [
     { suit: 4, rank: 8, disabled: true }, // Red 8
     { suit: 1, rank: 10, disabled: true }, // Blue 10

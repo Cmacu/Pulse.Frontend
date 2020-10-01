@@ -1,7 +1,15 @@
 <template>
   <section class="absolute-top page-container text-dark q-pt-md q-px-sm">
-    <div class="row justify-between no-wrap">
-      <div class="column">
+    <div
+      class="row items-center"
+      style="font-size: 0.6rem; margin-top: -10px;"
+    >
+      <div class="col text-right">{{ attacker }}</div>
+      <q-icon class="col-auto" name="clear" color="primary" size="1rem" />
+      <div class="col">{{ defender }}</div>
+    </div>
+    <div class="row no-wrap">
+      <div class="col column">
         <div class="row q-gutter-sm">
           <InfoCard
             name="discard"
@@ -15,52 +23,103 @@
             @click="showRules = true"
           />
         </div>
-        <div class="row q-mt-sm">
+      </div>
+
+      <div class="col-3" @click="showRules = true">
+        <q-img src="/symbols/SchottenTotten2InGame.png" contain />
+      </div>
+
+      <div
+        class="col column text-right justify-between"
+        style="font-size: 0.6rem; line-height: 1;"
+      >
+        <div>
+          <q-btn-dropdown align="right" :color="color" size="0.5rem">
+            <template v-slot:label>
+              <div class="column items-end text-right">
+                <div>
+                  {{ player }} turn
+                </div>
+                <div v-if="isCurrentPlayer"> Play a card {{ prepare }}</div>
+              </div>
+            </template />
+            <q-list style="font-size: 16px">
+              <q-item
+                clickable
+                v-ripple
+                v-close-popup
+                class="q-pa-md"
+                @click="showRules = true"
+              >
+                <q-item-section side>
+                  <q-icon name="menu_book" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label >Rules</q-item-label>
+                </q-item-section>
+              </q-item>
+
+              <q-item
+                clickable
+                v-ripple
+                v-close-popup
+                class="q-pa-md"
+                @click="showSettings = true"
+              >
+                <q-item-section side>
+                  <q-icon name="settings" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label >Settings</q-item-label>
+                </q-item-section>
+              </q-item>
+
+              <q-item
+                clickable
+                v-ripple
+                v-close-popup
+                class="q-pa-md"
+                @click="showResign = true"
+              >
+                <q-item-section side>
+                  <q-icon name="clear" color="negative" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label class="text-negative">Resign</q-item-label>
+                </q-item-section>
+              </q-item>
+
+              <q-item
+                clickable
+                v-ripple
+                disable
+                v-close-popup
+                class="q-pa-md text-warning"
+              >
+                <q-item-section side>
+                  <q-icon name="warning" color="warning" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label class="text-warning">Report</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-btn-dropdown>
+        </div>
+        <!-- <q-btn id="more_options" multi-line >
+          <span>{{ player }} turn</span>
+          <span v-if="isCurrentPlayer">: Play a card {{ prepare }}</span>
+          <!-- <q-icon name="arrow_drop_down_circle" size="1.3rem" /> -->
+        </q-btn -->
+        <div class="row q-mt-sm justify-end">
           <q-icon
             v-for="n in 3"
             :key="n"
             name="local_fire_department"
             :color="isAttacker ? 'accent' : 'primary'"
-            class="q-pr-sm"
             :class="{ faded: n > oilCount }"
-            size="1.3rem"
+            size="2.2rem"
           />
-        </div>
-      </div>
-
-      <div
-        class="text-right"
-        style="font-size: 0.7rem; line-height: 1.5rem; margin-top: -10px;"
-      >
-        <div class="text-dark" @click="showSettings = true">
-          <span :class="{ 'text-bold': isAttacker }">{{ attacker }}</span>
-          <q-icon name="clear" color="primary" size="1rem" />
-          <span :class="{ 'text-bold': !isAttacker }">{{ defender }}</span>
-          <q-icon name="settings" class="q-pl-sm" size="1.3rem" />
-        </div>
-
-        <div>
-          <a
-            href="https://www.knizia.de/"
-            class="text-dark"
-            target="_blank"
-            no-caps
-          >
-            <span>Schotten Totten 2</span>
-            <span> by </span>
-            <span>Reiner Knizia</span>
-            <q-icon name="open_in_new" class="q-pl-sm" size="1.3rem" />
-          </a>
-        </div>
-
-        <div
-          id="more_options"
-          :class="activePlayerClass"
-          @click="showOptions = true"
-        >
-          <span>{{ player }} turn</span>
-          <span v-if="isCurrentPlayer">: Play a card {{ prepare }}</span>
-          <q-icon name="arrow_drop_down_circle" class="q-pl-sm" size="1.3rem" />
         </div>
       </div>
       <!-- RULES DIALOG -->
@@ -147,64 +206,6 @@
         </q-card>
       </q-dialog>
 
-      <!-- OPTIONS DIALOG -->
-      <q-dialog v-model="showOptions" auto-close>
-        <q-card style="min-width: 300px;">
-          <q-card-section class="row items-center">
-            <div>More Options</div>
-            <q-space />
-            <q-btn icon="close" flat round dense v-close-popup />
-          </q-card-section>
-          <q-separator inset />
-          <q-list>
-            <q-item
-              clickable
-              v-ripple
-              v-close-popup
-              class="q-pa-md"
-              @click="showRules = true"
-            >
-              <q-item-section side>
-                <q-icon name="menu_book" color="positive" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label class="text-positive">Rules</q-item-label>
-              </q-item-section>
-            </q-item>
-
-            <q-item
-              clickable
-              v-ripple
-              v-close-popup
-              class="q-pa-md"
-              @click="showResign = true"
-            >
-              <q-item-section side>
-                <q-icon name="clear" color="negative" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label class="text-negative">Resign</q-item-label>
-              </q-item-section>
-            </q-item>
-
-            <q-item
-              clickable
-              v-ripple
-              disable
-              v-close-popup
-              class="q-pa-md text-warning"
-            >
-              <q-item-section side>
-                <q-icon name="warning" color="warning" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label class="text-warning">Report</q-item-label>
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-card>
-      </q-dialog>
-
       <!-- SETTINGS DIALOG -->
       <q-dialog v-model="showSettings" auto-close>
         <q-card class="page-container">
@@ -259,7 +260,6 @@ export default defineComponent({
     const showDiscard = ref(false)
     const showRules = ref(false)
     const showSettings = ref(false)
-    const showOptions = ref(false)
     const showResign = ref(false)
     const discardCards = computed(() => game.state.api.discardCards || [])
     const discardCount = computed(
@@ -281,7 +281,6 @@ export default defineComponent({
       suits,
       showDiscard,
       showRules,
-      showOptions,
       showSettings,
       showResign,
       discardCards,
@@ -296,11 +295,11 @@ export default defineComponent({
       player: computed(() =>
         isCurrentPlayer.value ? 'Your' : `${opponentName.value}'s`,
       ),
-      activePlayerClass: computed(() => {
-        if (!isCurrentPlayer.value) return ''
+      color: computed(() => {
+        if (!isCurrentPlayer.value) return 'dark'
         return isAttacker.value
-          ? 'text-bold text-accent'
-          : 'text-bold text-primary'
+          ? 'accent'
+          : 'primary'
       }),
       siegeCardsCount: computed(() => game.state.api.siegeCardsCount || 0),
       oilCount: computed(() => game.state.api.oilCount || 0),
