@@ -15,8 +15,8 @@
       </div>
       <p class="text-bold text-special-11">Goal</p>
       <p>
-        You are the leader of a powerful faction, sending troops (Cards) to
-        either defend or attack the castle wall.
+        You are the leader of a powerful faction, sending troops
+        (<strong>Cards</strong>) to either defend or attack the castle wall
       </p>
 
       <p class="text-bold text-special-11">Victory:</p>
@@ -25,21 +25,17 @@
       </p>
       <div class="row items-center q-pb-md">
         <div class="col-10">
-          <p>
-            - They control 1 damaged Wall Tile
-          </p>
-          <p>
-            - They damage 4 Wall Tiles
-          </p>
+          <p>- They control 1 damaged <strong>Wall Section</strong></p>
+          <p>- They damage 4 <strong>Wall Sections</strong></p>
         </div>
         <div class="col-2 text-center">
           <q-img :src="`/st2/sections/${side}/damaged/door.png`" contain />
         </div>
       </div>
       <p>
-        - Once the last card in the Siege Card deck is drawn, the Attacker gets
-        one more turn. The Defender wins if the Attacker has not met a victory
-        condition.
+        Alternatively, when the Attacker is unable to draw a card, they have one
+        additional turn to complete one of their win conditions. The Defender
+        wins if the Attacker has not met a victory condition.
       </p>
     </q-card-section>
     <q-separator class="q-mb-md" inset />
@@ -48,25 +44,19 @@
         Game Elements:
       </p>
       <div class="row items-center q-pb-md">
-        <div class="col-10">
-          - 60 Siege Cards:
-        </div>
+        <div class="col-10">- 60 <strong>Siege Cards</strong>:</div>
         <div class="col-2 text-center">
           <q-img :src="`/st2/info/${side}/siege.png`" contain />
         </div>
       </div>
       <div class="row items-center q-pb-md">
-        <div class="col-10">
-          - 7 Wall tiles
-        </div>
+        <div class="col-10">- 7 <strong>Wall Sections</strong></div>
         <div class="col-2 text-center">
           <q-img :src="`/st2/sections/${side}/good/door.png`" contain />
         </div>
       </div>
       <div class="row items-center q-pb-md">
-        <div class="col-10">
-          - 3 Oil Cauldrons
-        </div>
+        <div class="col-10">- 3 <strong>Oil Tokens</strong></div>
         <div class="col-2 text-center">
           <q-icon name="local_fire_department" size="xl" />
         </div>
@@ -78,73 +68,80 @@
         On your Turn:
       </p>
       <p>
-        You begin the game with a hand of 6 Siege Cards. Turns consist of three
-        phases to be taken in order:
+        You begin the game with a hand of 6 <strong>Siege Cards</strong>. Turns
+        consist of three phases to be taken in order:
       </p>
       <p class="text-bold text-primary">
         Take a preparation action (optional):
       </p>
       <p>
-        - The Attacker may retreat by discarding all cards from their side of
-        any number of Wall Tiles
+        - The Attacker may <i>retreat</i> by discarding all cards from their
+        side of any number of <strong>Wall Sections</strong>
       </p>
       <p>
-        - The Defender may throw an Oil Cauldron to remove the Attacker’s Card
-        closest to the Wall Tile of your choice. Limit, once per turn, and three
-        per game.
+        - The Defender may throw an <strong>Oil Token</strong> to remove the
+        Attacker’s <strong>Card</strong>
+        closest to the Wall Section of your choice. Limit, once per turn, and
+        three per game.
       </p>
 
-      <p class="text-bold text-primary">
-        Play 1 Card:
-      </p>
+      <p class="text-bold text-primary">Play 1 <strong>Card</strong>:</p>
       <div class="row items-center q-pb-md">
         <div class="col-10">
-          You must choose a Card from your hand and place it in front of any
-          Wall Tile provided the number of cards does not exceed the number of
-          available spaces displayed on the selected Wall Tile.
+          You must choose a <strong>Card</strong> from your hand and place it in
+          front of any <strong>Wall Section</strong> provided the number of
+          cards does not exceed the number of available spaces displayed on the
+          selected <strong>Wall Section</strong>.
         </div>
         <div class="col-2 text-center">
           <q-img :src="`/st2/info/${side}/play.png`" contain />
         </div>
       </div>
 
-      <p class="text-bold text-primary">
-        Draw 1 Card:
-      </p>
+      <p class="text-bold text-primary">Draw 1 <strong>Card</strong>:</p>
       <p>
-        You must draw 1 Card from the Siege Card deck to restore a hand size of
-        7.
+        You must draw 1 <strong>Card</strong> from the
+        <strong>Siege Card</strong> deck to restore a hand size of 6.
       </p>
 
-      <p class="text-bold text-primary">
+      <p class="text-center text-primary">
         Declaring Control
       </p>
       <p>
-        At any time, the Attacker can declare control of any Wall Tile(s) where
-        the formation is complete meaning there are as many Cards on the
-        Attackers side as available spaces displayed on the selected Wall Tile.
+        Any time a card is played, the control is evaluated automatically for
+        any <strong>Wall Section(s)</strong> where the formation is complete
+        meaning there are as many <strong>Cards</strong> on the Attackers side
+        as available spaces displayed on the selected
+        <strong>Wall Section</strong>.
       </p>
 
       <p>
-        To declare control, the Attacker must prove that the Defender cannot
-        complete a stronger formation on the designated Wall Tile (see
-        Evaluating Formations below).
+        Control is awarded if, for the rest of the game, it would not be
+        possible for the Defender to complete a stronger formation on the
+        designated <strong>Wall Section</strong> by playing a card (see
+        Evaluating Formations below). Note: the use of oil is not considered in
+        this evaluation. The potential for the 0 and 11 strength
+        <strong>Cards</strong> are also not considered.
       </p>
 
       <p>
-        If the attacker is successful, the Wall Tile is flipped to reveal it’s
-        damaged side. All Cards on both sides of the Wall Tile are then
-        discarded and new Cards may be played.
+        If the attacker is successful, the <strong>Wall Section</strong> is
+        flipped to reveal it’s damaged side. All <strong>Cards</strong> on both
+        sides of the <strong>Wall Section</strong> are then discarded and new
+        <strong>Cards</strong> may be played. Reminder: the game ends in an
+        Attacker victory at this time if the damaged
+        <strong>Wall Section</strong> was previously damaged or if it is the
+        fourth <strong>Wall Section</strong> to have been damaged.
       </p>
     </q-card-section>
     <q-separator class="q-mb-md" inset />
     <q-card-section>
-      <p class="text-bold text-special-11">
+      <p class="text-center text-special-11">
         Evaluating Formations:
       </p>
       <p>
         Listed below are the five types of formations which may be played on
-        Wall Tiles in order from strongest to weakest.
+        <strong>Wall Section</strong> in order from strongest to weakest.
       </p>
 
       <q-list>
@@ -168,8 +165,8 @@
       </q-list>
 
       <p>
-        However, only the formation type that is shown on the Wall Tile may be
-        evaluated for declaring control.
+        However, only the formation type that is shown on the
+        <strong>Wall Section</strong> may be evaluated for declaring control.
       </p>
 
       <div class="row items-center q-pb-md">
@@ -201,7 +198,7 @@
           Same Strength and Sum formations are considered
         </div>
         <div class="col-2 text-center">
-          <q-img :src="`/st2/sections/${side}/good/tower.png`" contain />
+          <q-img :src="`/st2/sections/${side}/damaged/tower.png`" contain />
         </div>
       </div>
       <!-- <div class="row items-center q-pb-md">
@@ -222,8 +219,23 @@
       </div>
       <p>
         Finally, if two formations of the same type are evaluated, the highest
-        Sum breaks the tie.
+        Sum breaks the tie. If there is still a tie, then the first to have
+        completed their formation is awarded control.
       </p>
+      <br />
+      <br />
+      <br />
+      <p>
+        Schotten Totten 2 Rules Version 0.0.1 @
+        <a href="https://pulsegames.io">pulsegames.io</a>
+      </p>
+      <p>
+        © Dr. Reiner Knizia, 2020. All rights reserved.
+        <a href="http://www.knizia.de">www.knizia.de</a>
+      </p>
+      <br />
+      <br />
+      <br />
     </q-card-section>
   </q-card>
 </template>
@@ -245,7 +257,7 @@ export default defineComponent({
   },
   setup() {
     return {
-      formations,
+      formations: formations.filter((x) => x.name != 'Low Sum').reverse(),
     }
   },
 })
