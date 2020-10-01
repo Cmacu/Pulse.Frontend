@@ -44,7 +44,7 @@
       </tr>
     </table>
 
-    <section class="absolute-bottom page-container q-pb-lg">
+    <section class="absolute-bottom page-container q-pb-sm">
       <!-- Player's Hand -->
       <Hand class="schotten2-hand" />
       <!-- Action Buttons -->

@@ -1,9 +1,6 @@
 <template>
   <section class="absolute-top page-container text-dark q-pt-md q-px-sm">
-    <div
-      class="row items-center"
-      style="font-size: 0.6rem; margin-top: -10px;"
-    >
+    <div class="row items-center" style="font-size: 0.6rem; margin-top: -10px;">
       <div class="col text-right">{{ attacker }}</div>
       <q-icon class="col-auto" name="clear" color="primary" size="1rem" />
       <div class="col">{{ defender }}</div>
@@ -37,13 +34,11 @@
           <q-btn-dropdown align="right" :color="color" size="0.5rem">
             <template v-slot:label>
               <div class="column items-end text-right">
-                <div>
-                  {{ player }} turn
-                </div>
-                <div v-if="isCurrentPlayer"> Play a card {{ prepare }}</div>
+                <div>{{ player }} turn</div>
+                <div v-if="isCurrentPlayer">Play a card {{ prepare }}</div>
               </div>
-            </template />
-            <q-list style="font-size: 16px">
+            </template>
+            <q-list style="font-size: 16px;">
               <q-item
                 clickable
                 v-ripple
@@ -55,7 +50,7 @@
                   <q-icon name="menu_book" />
                 </q-item-section>
                 <q-item-section>
-                  <q-item-label >Rules</q-item-label>
+                  <q-item-label>Rules</q-item-label>
                 </q-item-section>
               </q-item>
 
@@ -70,7 +65,7 @@
                   <q-icon name="settings" />
                 </q-item-section>
                 <q-item-section>
-                  <q-item-label >Settings</q-item-label>
+                  <q-item-label>Settings</q-item-label>
                 </q-item-section>
               </q-item>
 
@@ -106,11 +101,6 @@
             </q-list>
           </q-btn-dropdown>
         </div>
-        <!-- <q-btn id="more_options" multi-line >
-          <span>{{ player }} turn</span>
-          <span v-if="isCurrentPlayer">: Play a card {{ prepare }}</span>
-          <!-- <q-icon name="arrow_drop_down_circle" size="1.3rem" /> -->
-        </q-btn -->
         <div class="row q-mt-sm justify-end">
           <q-icon
             v-for="n in 3"
@@ -297,9 +287,7 @@ export default defineComponent({
       ),
       color: computed(() => {
         if (!isCurrentPlayer.value) return 'dark'
-        return isAttacker.value
-          ? 'accent'
-          : 'primary'
+        return isAttacker.value ? 'accent' : 'primary'
       }),
       siegeCardsCount: computed(() => game.state.api.siegeCardsCount || 0),
       oilCount: computed(() => game.state.api.oilCount || 0),
