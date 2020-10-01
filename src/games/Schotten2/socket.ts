@@ -15,6 +15,7 @@ const HUB = {
   sendPlayCard: 'PlayCard',
   sendResign: 'Resign',
   receiveUpdateState: 'UpdateState',
+  receivePlayCard: 'PlayCard',
   receiveDisconnect: 'Disconnect',
   receiveError: 'Error',
 }
@@ -74,7 +75,7 @@ const disconnect = () => {
 }
 
 export const socket: Schotten2Api = {
-  connect: async (matchId, onUpdateState) => {
+  connect: async (matchId, onUpdateState, playCardFunction) => {
     if (connection) {
       return
     }
@@ -91,6 +92,7 @@ export const socket: Schotten2Api = {
     connection.serverTimeoutInMilliseconds = _defaultTimeout
     // Handle messages
     connection.on(HUB.receiveUpdateState, onUpdateState)
+    connection.on(HUB.receivePlayCard, playCardFunction)
     // Handle disconnects
     connection.on(HUB.receiveDisconnect, onDisconnect)
     connection.on(HUB.receiveError, onDisconnect)

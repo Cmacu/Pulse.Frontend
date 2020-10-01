@@ -10,10 +10,20 @@ import { startConfetti, stopConfetti } from 'src/utils/confetti'
 const SECTION_COUNT = 7
 const LOCAL_KEY = 'pulse-schotten2'
 
+interface SectionCard {
+  sectionIndex: number
+  card: Schotten2Card
+}
+
 export type UpdateStateFunction = (gameState: Schotten2State) => void
+export type PlayCardFunction = (sectionCard: SectionCard) => void
 
 export interface Schotten2Api {
-  connect: (matchId: string, updateState: UpdateStateFunction) => Promise<void>
+  connect: (
+    matchId: string,
+    updateState: UpdateStateFunction,
+    playCardFunction: PlayCardFunction,
+  ) => Promise<void>
   playCard: (sectionIndex: number, handIndex: number) => void
   useOil: (sectionIndex: number) => void
   retreat: (sectionIndex: number) => void
@@ -167,6 +177,12 @@ const disablePrepOptions = () => {
   state.enableRetreat = false
 }
 
+const playCardFunction: PlayCardFunction = (sectionCard) => {
+  const section = state.api.sections[sectionCard.sectionIndex]
+  const formation = state.api.isAttacker ? section.defense : section.attack
+  formation.push(sectionCard.card)
+}
+
 const placeCard = (sectionIndex: number, cardIndex: number) => {
   state.cardPlayed = true
   state.api.isCurrentPlayer = false
@@ -187,7 +203,7 @@ const actions = {
     engine = socket
     if (match.includes('demo')) engine = demo
     matchId.value = match
-    await engine.connect(match, setState)
+    await engine.connect(match, setState, playCardFunction)
     // const gameState = await getState()
     // setState(gameState)
   },

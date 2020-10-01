@@ -31,11 +31,13 @@
         style="font-size: 0.6rem; line-height: 1;"
       >
         <div>
-          <q-btn-dropdown align="right" :color="color" size="0.5rem">
+          <q-btn-dropdown align="right" :color="color" size="0.5rem" no-caps>
             <template v-slot:label>
               <div class="column items-end text-right">
                 <div>{{ player }} turn</div>
-                <div v-if="isCurrentPlayer">Play a card {{ prepare }}</div>
+                <div v-if="isCurrentPlayer" class="text-bold">
+                  Play a card {{ prepare }}
+                </div>
               </div>
             </template>
             <q-list style="font-size: 16px;">
