@@ -129,7 +129,7 @@ const defaultState: ConfigInterface = {
   name,
   nameShort: 'Pulse',
   productName,
-  game: 'Schotten Totten 2',
+  game: 'Schotten Totten 2 by Reiner Knizia',
   icon: '/icon.png',
   matchesPerDayLimit: 50,
   leaderboardConfig: {
