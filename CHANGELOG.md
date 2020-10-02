@@ -1,5 +1,7 @@
-## What's new in 0.0.1 (Sep 4 2020)
+### Changelog
 
-### Features:
+All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
-- initial alpha release
+#### 0.1.0
+
+> 2 October 2020
