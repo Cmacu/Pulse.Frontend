@@ -67,8 +67,8 @@ class Confetti {
     this.y = random(-20, h - this.r2)
     this.xMax = w - this.r
     this.yMax = h - this.r
-    this.vx = random(0, 2) + 4 * mousePosition - 4
-    this.vy = 0.5 * this.r + random(-1, 1)
+    this.vx = 2 * mousePosition - 2 + random(0, 2)
+    this.vy = 0.2 * this.r + random(-1, 1)
   }
 
   public draw() {

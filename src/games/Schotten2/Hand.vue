@@ -81,7 +81,7 @@ export default defineComponent({
       atDragCard: game.actions.dragCard,
       atCardClick: game.actions.toggleCard,
       getChildPayload: (orderIndex: number) => {
-        if (game.state.api.handCards[orderIndex].disabled) return undefined
+        if (game.state.api.handCards[orderIndex].protected) return undefined
         return orderIndex
       },
       atHandDrop: (dropResult: DropResult) => {

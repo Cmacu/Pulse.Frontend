@@ -68,12 +68,12 @@ demoDefense.push(() => {
     { suit: 3, rank: 3 }, // [Purple 3] - Discard (Attacker)
   ]
   game.state.api.handCards = [
-    { suit: 3, rank: 8, disabled: true }, // [Green 8]
-    { suit: 2, rank: 11, disabled: true }, // [Green 11]
-    { suit: 0, rank: 2, disabled: true }, // [Yellow 2]
-    { suit: 1, rank: 6, disabled: true }, // [Blue 6]
-    { suit: 4, rank: 4, disabled: true }, // [Red 4]
-    { suit: 3, rank: 7, disabled: true }, // [Purple 7]
+    { suit: 3, rank: 8, protected: true }, // [Green 8]
+    { suit: 2, rank: 11, protected: true }, // [Green 11]
+    { suit: 0, rank: 2, protected: true }, // [Yellow 2]
+    { suit: 1, rank: 6, protected: true }, // [Blue 6]
+    { suit: 4, rank: 4, protected: true }, // [Red 4]
+    { suit: 3, rank: 7, protected: true }, // [Purple 7]
   ]
   game.state.api = Object.assign({}, game.state.api, {
     sections: [
@@ -185,7 +185,7 @@ demoDefense.push(() => {
     Object.assign({}, defenderMessage, {
       message: `
       General, You can see our nemesis is back and has been throwing
-      his poultry forces at us in an attempt to retake the castle.
+      his paltry forces at us in an attempt to retake the castle.
     `,
     }),
   )
@@ -338,7 +338,7 @@ demoDefense.push(() => {
   game.state.api.sections.forEach((section, index) => {
     if (index == 5) return
     if (!section.attack.length) return
-    section.attack[0].disabled = true
+    section.attack[0].protected = true
   })
 })
 
@@ -348,7 +348,7 @@ demoDefense.push(() => {
   game.state.enableOil = false
   game.state.api.sections.forEach((section) => {
     if (!section.attack.length) return
-    section.attack[0].disabled = false
+    section.attack[0].protected = false
   })
   playDemo()
 })
@@ -385,7 +385,7 @@ demoDefense.push(() => {
 })
 
 demoDefense.push(() => {
-  game.state.api.handCards[1].disabled = false
+  game.state.api.handCards[1].protected = false
   game.state.handOrderSelectedIndex = game.state.handOrder.indexOf(1)
   game.state.api.sections[3].spaces = 4
 })
@@ -403,12 +403,12 @@ demoDefense.push(() => {
     )
     game.state.api = Object.assign({}, game.state.api, {
       handCards: [
-        { suit: 3, rank: 8, disabled: true }, // [Purple 8]
-        { suit: 2, rank: 8, disabled: true }, // [Green 8]
-        { suit: 0, rank: 2, disabled: true }, // [Yellow 2]
-        { suit: 1, rank: 6, disabled: true }, // [Blue 6]
-        { suit: 4, rank: 4, disabled: true }, // [Red 4]
-        { suit: 3, rank: 7, disabled: true }, // [Purple 7]
+        { suit: 3, rank: 8, protected: true }, // [Purple 8]
+        { suit: 2, rank: 8, protected: true }, // [Green 8]
+        { suit: 0, rank: 2, protected: true }, // [Yellow 2]
+        { suit: 1, rank: 6, protected: true }, // [Blue 6]
+        { suit: 4, rank: 4, protected: true }, // [Red 4]
+        { suit: 3, rank: 7, protected: true }, // [Purple 7]
       ],
     })
     game.state.api.siegeCardsCount--

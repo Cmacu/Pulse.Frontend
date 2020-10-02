@@ -296,7 +296,9 @@ export default defineComponent({
       getDiscardClass: (suit: number, rank: number) => {
         if (
           game.state.api.handCards &&
-          game.state.api.handCards.find((x) => x.suit == suit && x.rank == rank)
+          game.state.api.handCards.find(
+            (x) => x && x.suit == suit && x.rank == rank,
+          )
         )
           return 'faded add-border'
         if (

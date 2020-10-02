@@ -16,14 +16,9 @@ interface SectionCard {
 }
 
 export type UpdateStateFunction = (gameState: Schotten2State) => void
-export type PlayCardFunction = (sectionCard: SectionCard) => void
 
 export interface Schotten2Api {
-  connect: (
-    matchId: string,
-    updateState: UpdateStateFunction,
-    playCardFunction: PlayCardFunction,
-  ) => Promise<void>
+  connect: (matchId: string, updateState: UpdateStateFunction) => Promise<void>
   playCard: (sectionIndex: number, handIndex: number) => void
   useOil: (sectionIndex: number) => void
   retreat: (sectionIndex: number) => void
@@ -34,7 +29,7 @@ export interface Schotten2Api {
 export interface Schotten2Card {
   rank: number
   suit: number
-  disabled?: boolean
+  protected?: boolean
 }
 export interface Schotten2Section {
   name: string
@@ -127,38 +122,21 @@ const setState = (gameState: Schotten2State) => {
       timeout: 3000,
     })
   state.api = Object.assign({}, state.api, gameState)
-  // state.isAttacker = gameState.isAttacker
-  // state.enablePreparation = gameState.enablePreparation
-  // state.lastSection = gameState.lastSection
-  // state.oilCount = gameState.oilCount
-  // state.siegeCardsCount = gameState.siegeCardsCount
-  // state.discardCards = gameState.discardCards
-  // state.handCards = gameState.handCards
-  // state.newCards = gameState.newCards
-
-  // for (let i = 0; i < gameState.sections.length; i++) {
-  //   const gameSection = gameState.sections[i]
-  //   const stateSection = state.sections[i]
-  //   stateSection.name = gameSection.name
-  //   stateSection.spaces = gameSection.spaces
-  //   stateSection.isDamaged = gameSection.isDamaged
-  //   stateSection.attack = gameSection.attack
-  //   stateSection.defense = gameSection.defense
-  // }
-  // state.opponentCardsCount = gameState.opponentCardsCount
-  // state.isCurrentPlayer = gameState.isCurrentPlayer
+  LocalStorage.set(LOCAL_KEY, state)
   state.loading = false
 }
 
 const isGameOver = (gameState: Schotten2State): boolean => {
-  const balance = gameState.handCards.length - gameState.opponentCardsCount
-  if (balance == 0) {
+  if (gameState.lastEvent != 'Destroyed' && gameState.lastEvent != 'Defended')
     return false
-  }
-  if (balance > 0) {
-    startConfetti()
-  }
-  const notify = balance > 0 ? NOTIFICATIONS.WIN : NOTIFICATIONS.LOSS
+
+  let isWin = false
+  if (gameState.isAttacker && gameState.lastEvent == 'Destroyed') isWin = true
+  else if (!gameState.isAttacker && gameState.lastEvent == 'Defended')
+    isWin = true
+
+  if (isWin) startConfetti()
+  const notify = isWin ? NOTIFICATIONS.WIN : NOTIFICATIONS.LOSS
   Notify.create(
     Object.assign(store.state.config.notifications[notify], {
       timeout: 0,
@@ -168,19 +146,12 @@ const isGameOver = (gameState: Schotten2State): boolean => {
       },
     }),
   )
-  gameState.isCurrentPlayer = false
   return true
 }
 
 const disablePrepOptions = () => {
   state.enableOil = false
   state.enableRetreat = false
-}
-
-const playCardFunction: PlayCardFunction = (sectionCard) => {
-  const section = state.api.sections[sectionCard.sectionIndex]
-  const formation = state.api.isAttacker ? section.defense : section.attack
-  formation.push(sectionCard.card)
 }
 
 const placeCard = (sectionIndex: number, cardIndex: number) => {
@@ -203,7 +174,7 @@ const actions = {
     engine = socket
     if (match.includes('demo')) engine = demo
     matchId.value = match
-    await engine.connect(match, setState, playCardFunction)
+    await engine.connect(match, setState)
     // const gameState = await getState()
     // setState(gameState)
   },

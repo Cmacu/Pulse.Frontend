@@ -41,12 +41,12 @@ demoAttack.push(() => {
   game.state.api.siegeCardsCount = 48
   game.state.api.oilCount = 3
   game.state.api.handCards = [
-    { suit: 4, rank: 8, disabled: true }, // Red 8
-    { suit: 1, rank: 10, disabled: true }, // Blue 10
-    { suit: 4, rank: 0, disabled: true }, // Red 0
-    { suit: 2, rank: 9, disabled: true }, // Green 9
-    { suit: 0, rank: 2, disabled: true }, // Yellow 2
-    { suit: 3, rank: 3, disabled: true }, // Purple 3
+    { suit: 4, rank: 8, protected: true }, // Red 8
+    { suit: 1, rank: 10, protected: true }, // Blue 10
+    { suit: 4, rank: 0, protected: true }, // Red 0
+    { suit: 2, rank: 9, protected: true }, // Green 9
+    { suit: 0, rank: 2, protected: true }, // Yellow 2
+    { suit: 3, rank: 3, protected: true }, // Purple 3
   ]
   game.state.api.sections = [
     {
@@ -149,7 +149,7 @@ demoAttack.push(() => {
 
 // ENABLE BLUE 10
 demoAttack.push(() => {
-  game.state.api.handCards[1].disabled = false
+  game.state.api.handCards[1].protected = false
   game.state.api.isCurrentPlayer = true
   game.state.handOrderSelectedIndex = game.state.handOrder.indexOf(1)
   game.state.api.sections[3].spaces = 2
@@ -173,12 +173,12 @@ demoAttack.push(() => {
   game.state.api.siegeCardsCount--
   game.state.api = Object.assign({}, game.state.api, {
     handCards: [
-      { suit: 4, rank: 8, disabled: true }, // Red 8
-      { suit: 1, rank: 11, disabled: true }, // New Card: Blue 11
-      { suit: 4, rank: 0, disabled: true }, // Red 0
-      { suit: 2, rank: 9, disabled: true }, // Green 9
-      { suit: 0, rank: 2, disabled: true }, // Yellow 2
-      { suit: 3, rank: 3, disabled: true }, // Purple 3
+      { suit: 4, rank: 8, protected: true }, // Red 8
+      { suit: 1, rank: 11, protected: true }, // New Card: Blue 11
+      { suit: 4, rank: 0, protected: true }, // Red 0
+      { suit: 2, rank: 9, protected: true }, // Green 9
+      { suit: 0, rank: 2, protected: true }, // Yellow 2
+      { suit: 3, rank: 3, protected: true }, // Purple 3
     ],
   })
   playDemo()
@@ -301,7 +301,7 @@ demoAttack.push(() => {
 
 // ENABLE BLUE 11
 demoAttack.push(() => {
-  game.state.api.handCards[1].disabled = false
+  game.state.api.handCards[1].protected = false
   game.state.handOrderSelectedIndex = game.state.handOrder.indexOf(1)
   game.state.api.isCurrentPlayer = true
 })
@@ -311,12 +311,12 @@ demoAttack.push(() => {
   game.state.api.siegeCardsCount--
   game.state.api = Object.assign({}, game.state.api, {
     handCards: [
-      { suit: 4, rank: 8, disabled: true }, // Red 8
-      { suit: 2, rank: 1, disabled: true }, // New Card: Green 1
-      { suit: 4, rank: 0, disabled: true }, // Red 0
-      { suit: 2, rank: 9, disabled: true }, // Green 9
-      { suit: 0, rank: 2, disabled: true }, // Yellow 2
-      { suit: 3, rank: 3, disabled: true }, // Purple 3
+      { suit: 4, rank: 8, protected: true }, // Red 8
+      { suit: 2, rank: 1, protected: true }, // New Card: Green 1
+      { suit: 4, rank: 0, protected: true }, // Red 0
+      { suit: 2, rank: 9, protected: true }, // Green 9
+      { suit: 0, rank: 2, protected: true }, // Yellow 2
+      { suit: 3, rank: 3, protected: true }, // Purple 3
     ],
   })
   setTimeout(() => {
@@ -464,7 +464,7 @@ demoAttack.push(() => {
 })
 
 demoAttack.push(() => {
-  game.state.api.handCards[3].disabled = false
+  game.state.api.handCards[3].protected = false
   game.state.api.sections[0].spaces = 1
   game.state.api.isCurrentPlayer = true
   game.state.handOrderSelectedIndex = game.state.handOrder.indexOf(3)
@@ -474,12 +474,12 @@ demoAttack.push(() => {
   game.state.api.isCurrentPlayer = false
   game.state.api = Object.assign({}, game.state.api, {
     handCards: [
-      { suit: 4, rank: 8, disabled: true }, // Red 8
-      { suit: 2, rank: 1, disabled: true }, // Green 1
-      { suit: 4, rank: 0, disabled: true }, // Red 0
-      { suit: 1, rank: 1, disabled: true }, // Blue 1
-      { suit: 0, rank: 2, disabled: true }, // Yellow 2
-      { suit: 3, rank: 3, disabled: true }, // Purple 3
+      { suit: 4, rank: 8, protected: true }, // Red 8
+      { suit: 2, rank: 1, protected: true }, // Green 1
+      { suit: 4, rank: 0, protected: true }, // Red 0
+      { suit: 1, rank: 1, protected: true }, // Blue 1
+      { suit: 0, rank: 2, protected: true }, // Yellow 2
+      { suit: 3, rank: 3, protected: true }, // Purple 3
     ],
   })
   game.state.api.siegeCardsCount--
@@ -572,7 +572,7 @@ demoAttack.push(() => {
   game.state.enableRetreat = false
   game.state.api.sections[0].spaces = 0
   game.state.api.sections[3].spaces = 4
-  game.state.api.handCards[3].disabled = false
+  game.state.api.handCards[3].protected = false
   game.state.handOrderSelectedIndex = game.state.handOrder.indexOf(3)
 })
 
@@ -580,12 +580,12 @@ demoAttack.push(() => {
   game.state.api.isCurrentPlayer = false
   game.state.api = Object.assign({}, game.state.api, {
     handCards: [
-      { suit: 4, rank: 8, disabled: true }, // Red 8
-      { suit: 2, rank: 1, disabled: true }, // Green 1
-      { suit: 4, rank: 0, disabled: true }, // Red 0
-      { suit: 4, rank: 7, disabled: true }, // Red 7
-      { suit: 0, rank: 2, disabled: true }, // Yellow 2
-      { suit: 3, rank: 3, disabled: true }, // Purple 3
+      { suit: 4, rank: 8, protected: true }, // Red 8
+      { suit: 2, rank: 1, protected: true }, // Green 1
+      { suit: 4, rank: 0, protected: true }, // Red 0
+      { suit: 4, rank: 7, protected: true }, // Red 7
+      { suit: 0, rank: 2, protected: true }, // Yellow 2
+      { suit: 3, rank: 3, protected: true }, // Purple 3
     ],
   })
   game.state.api.siegeCardsCount--
@@ -594,7 +594,7 @@ demoAttack.push(() => {
     game.state.api.siegeCardsCount--
     setTimeout(() => {
       game.state.api.isCurrentPlayer = true
-      game.state.api.handCards[4].disabled = false // Yellow 2
+      game.state.api.handCards[4].protected = false // Yellow 2
       game.state.handOrderSelectedIndex = game.state.handOrder.indexOf(4)
     }, eventDelay)
   }, eventDelay)
@@ -604,12 +604,12 @@ demoAttack.push(() => {
   game.state.api.isCurrentPlayer = false
   game.state.api = Object.assign({}, game.state.api, {
     handCards: [
-      { suit: 4, rank: 8, disabled: true }, // Red 8
-      { suit: 2, rank: 1, disabled: true }, // Green 1
-      { suit: 4, rank: 0, disabled: true }, // Red 0
-      { suit: 4, rank: 7, disabled: true }, // Red 7
-      { suit: 1, rank: 9, disabled: true }, // Blue 9
-      { suit: 3, rank: 3, disabled: true }, // Purple 3
+      { suit: 4, rank: 8, protected: true }, // Red 8
+      { suit: 2, rank: 1, protected: true }, // Green 1
+      { suit: 4, rank: 0, protected: true }, // Red 0
+      { suit: 4, rank: 7, protected: true }, // Red 7
+      { suit: 1, rank: 9, protected: true }, // Blue 9
+      { suit: 3, rank: 3, protected: true }, // Purple 3
     ],
   })
   game.state.api.siegeCardsCount--
@@ -618,7 +618,7 @@ demoAttack.push(() => {
     game.state.api.siegeCardsCount--
     setTimeout(() => {
       game.state.api.isCurrentPlayer = true
-      game.state.api.handCards[5].disabled = false // Purple 3
+      game.state.api.handCards[5].protected = false // Purple 3
       game.state.handOrderSelectedIndex = game.state.handOrder.indexOf(5)
     }, eventDelay)
   }, eventDelay)
@@ -628,12 +628,12 @@ demoAttack.push(() => {
   game.state.api.isCurrentPlayer = false
   game.state.api = Object.assign({}, game.state.api, {
     handCards: [
-      { suit: 4, rank: 8, disabled: true }, // Red 8
-      { suit: 2, rank: 1, disabled: true }, // Green 1
-      { suit: 4, rank: 0, disabled: true }, // Red 0
-      { suit: 4, rank: 7, disabled: true }, // Red 7
-      { suit: 1, rank: 9, disabled: true }, // Blue 9
-      { suit: 0, rank: 11, disabled: true }, // Yellow 11
+      { suit: 4, rank: 8, protected: true }, // Red 8
+      { suit: 2, rank: 1, protected: true }, // Green 1
+      { suit: 4, rank: 0, protected: true }, // Red 0
+      { suit: 4, rank: 7, protected: true }, // Red 7
+      { suit: 1, rank: 9, protected: true }, // Blue 9
+      { suit: 0, rank: 11, protected: true }, // Yellow 11
     ],
   })
   game.state.api.siegeCardsCount--
@@ -642,7 +642,7 @@ demoAttack.push(() => {
     game.state.api.siegeCardsCount--
     setTimeout(() => {
       game.state.api.isCurrentPlayer = true
-      game.state.api.handCards[2].disabled = false // Red 0
+      game.state.api.handCards[2].protected = false // Red 0
       game.state.handOrderSelectedIndex = game.state.handOrder.indexOf(2)
     }, eventDelay)
   }, eventDelay)
@@ -652,18 +652,18 @@ demoAttack.push(() => {
   game.state.api.isCurrentPlayer = false
   game.state.api = Object.assign({}, game.state.api, {
     handCards: [
-      { suit: 4, rank: 8, disabled: true }, // Red 8
-      { suit: 2, rank: 1, disabled: true }, // Green 1
-      { suit: 0, rank: 2, disabled: true }, // Yellow 2
-      { suit: 4, rank: 7, disabled: true }, // Red 7
-      { suit: 1, rank: 9, disabled: true }, // Blue 9
-      { suit: 0, rank: 11, disabled: true }, // Yellow 11
+      { suit: 4, rank: 8, protected: true }, // Red 8
+      { suit: 2, rank: 1, protected: true }, // Green 1
+      { suit: 0, rank: 2, protected: true }, // Yellow 2
+      { suit: 4, rank: 7, protected: true }, // Red 7
+      { suit: 1, rank: 9, protected: true }, // Blue 9
+      { suit: 0, rank: 11, protected: true }, // Yellow 11
     ],
   })
   game.state.api.siegeCardsCount--
   setTimeout(() => {
     const gate = game.state.api.sections[3]
-    gate.name = 'GameOver'
+    gate.name = 'destroyed'
     gate.attack = []
     gate.defense = []
     game.state.api = Object.assign({}, game.state.api, {

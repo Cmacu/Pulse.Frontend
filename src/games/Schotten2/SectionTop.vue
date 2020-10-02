@@ -41,7 +41,7 @@ export default defineComponent({
         ? props.section.defense
         : props.section.attack
       if (!formation) return []
-      return formation.reverse()
+      return [...formation.reverse()]
     })
     return {
       suits,
@@ -50,7 +50,7 @@ export default defineComponent({
         if (!game.state.api.isCurrentPlayer) return false
         if (!game.state.enableOil) return false
         if (cards.value.length == 0) return false
-        if (cards.value[0].disabled) return false
+        if (cards.value[0].protected) return false
         return true
       }),
       atUseOil: game.actions.useOil,
