@@ -25,8 +25,8 @@
       </p>
       <div class="row items-center q-pb-md">
         <div class="col-10">
-          <p>- They control 1 damaged <strong>Wall Section</strong></p>
-          <p>- They damage 4 <strong>Wall Sections</strong></p>
+          <p>- They control 1 <i>damaged</i> <strong>Wall Section</strong></p>
+          <p>- They <i>damage</i> 4 <strong>Wall Sections</strong></p>
         </div>
         <div class="col-2 text-center">
           <q-img :src="`/st2/sections/${side}/damaged/door.png`" contain />
@@ -34,8 +34,10 @@
       </div>
       <p>
         Alternatively, when the Attacker is unable to draw a card, they have one
-        additional turn to complete one of their win conditions. The Defender
-        wins if the Attacker has not met a victory condition.
+        additional turn to complete one of their win conditions.
+        <i
+          >The Defender wins if the Attacker has not met a victory condition.</i
+        >
       </p>
     </q-card-section>
     <q-separator class="q-mb-md" inset />
@@ -56,7 +58,7 @@
         </div>
       </div>
       <div class="row items-center q-pb-md">
-        <div class="col-10">- 3 <strong>Oil Tokens</strong></div>
+        <div class="col-10">- 3 <strong>Oil Cauldrons</strong></div>
         <div class="col-2 text-center">
           <q-icon name="local_fire_department" size="xl" />
         </div>
@@ -79,7 +81,7 @@
         side of any number of <strong>Wall Sections</strong>
       </p>
       <p>
-        - The Defender may throw an <strong>Oil Token</strong> to remove the
+        - The Defender may throw an <strong>Oil Cauldron</strong> to remove the
         Attacker’s <strong>Card</strong>
         closest to the Wall Section of your choice. Limit, once per turn, and
         three per game.
@@ -91,7 +93,11 @@
           You must choose a <strong>Card</strong> from your hand and place it in
           front of any <strong>Wall Section</strong> provided the number of
           cards does not exceed the number of available spaces displayed on the
-          selected <strong>Wall Section</strong>.
+          selected <strong>Wall Section</strong>. Note: If a 0
+          <strong>Card</strong> is played opposite an 11
+          <strong>Card</strong> of the same color then both cards are removed.
+          The same is true if the 0 <strong>Card</strong> was played before the
+          11 <strong>Card</strong>.
         </div>
         <div class="col-2 text-center">
           <q-img :src="`/st2/info/${side}/play.png`" contain />
@@ -201,14 +207,14 @@
           <q-img :src="`/st2/sections/${side}/damaged/tower.png`" contain />
         </div>
       </div>
-      <!-- <div class="row items-center q-pb-md">
+      <div class="row items-center q-pb-md">
         <div class="col-10">
           Color and Sum formations are considered
         </div>
         <div class="col-2 text-center">
-          <q-img :src="`/st2/sections/${side}/good/tower.png`" contain />
+          <q-img :src="`/st2/sections/${side}/damaged/wall.png`" contain />
         </div>
-      </div> -->
+      </div>
       <div class="row items-center q-pb-md">
         <div class="col-10">
           Run and Sum formations are considered
