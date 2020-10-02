@@ -9,6 +9,7 @@ import { formatDate, timestampToUtc } from 'src/utils/format'
 // TODO: leaders and wonders data will be calculated here
 
 export interface MatchInterface {
+  id: string
   name: string
   startDate: string
   endDate: string

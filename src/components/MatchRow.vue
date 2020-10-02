@@ -1,10 +1,12 @@
 <template>
   <base-item-columns>
     <template slot="default">
-      <MatchDelta :match="match.name" :delta="delta" />
-      <div class="full-width q-pt-sm">
-        {{ formatDate(match.endDate) }}
-      </div>
+      <router-link :to="`/games/schotten2?matchId=${match.id}`">
+        <MatchDelta :match="match.name" :delta="delta" />
+        <div class="full-width q-pt-sm">
+          {{ formatDate(match.endDate) }}
+        </div>
+      </router-link>
     </template>
     <template slot="left" class="row">
       <div class="row" @click="$router.push('/profile/' + left.username)">
