@@ -51,7 +51,8 @@
     "eslint-plugin-vue": "^6.2.2",
     "prettier": "^2.0.5",
     "release-it": "^13.6.5",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.7",
+    "workbox-webpack-plugin": "^5.1.4"
   },
   "engines": {
     "node": ">= 10.18.1",
@@ -66,7 +67,7 @@
       "changelog": "npx auto-changelog --stdout --commit-limit false -u --template changelog-compact.hbs"
     },
     "hooks": {
-      "after:bump": "npx auto-changelog -p --commit-limit false --hide-credit --starting-version 0.2.1"
+      "after:bump": "npx auto-changelog -p --commit-limit false --hide-credit --starting-version 0.1.0"
     },
     "npm": {
       "publish": false
