@@ -1,10 +1,5 @@
 import { Notify } from 'quasar'
-import {
-  DemoMessage,
-  DemoFunction,
-  playDemo,
-  demo,
-} from 'src/games/Schotten2/demo'
+import { DemoMessage, DemoFunction, playDemo } from 'src/games/Schotten2/demo'
 import { game } from 'src/games/Schotten2/game'
 import { startConfetti, stopConfetti } from 'src/utils/confetti'
 
