@@ -1,18 +1,20 @@
 <template>
-  <q-card class="page-container q-pa-md" style="font-size: 0.8rem;">
+  <q-card class="page-container q-pa-md" style="font-size: 0.7rem;">
     <q-card-section title class="row items-center q-pb-md">
-      <div class="text-special-13 text-center">SCHOTTEN TOTTEN 2 RULES</div>
+      <div class="text-special-13 text-center">GAME RULES</div>
       <q-space />
       <q-btn icon="close" flat round dense v-close-popup />
     </q-card-section>
     <q-separator class="q-mb-md" inset />
     <q-card-section>
       <div class="text-center">
-        Designed by
+        Schotten Totten 2 Designed <br />
+        by
         <a href="https://www.knizia.de/" class="text-secondary" target="_blank"
           >Reiner Knizia</a
         >
       </div>
+      <br />
       <p class="text-bold text-special-11">Goal</p>
       <p>
         You are the leader of a powerful faction, sending troops

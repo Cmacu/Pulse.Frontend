@@ -2,26 +2,32 @@
   <q-card
     class="schotten2-card"
     :class="{ 'card-ghost': selected }"
+    style="padding: 0.2rem;"
     v-bind="attributes"
     v-on="listeners"
     bordered
   >
     <div class="column full-height">
-      <div class="row justify-around q-mt-xs">
+      <div class="row no-wrap justify-between items-center">
         <div
+          class="col-auto text-left"
           :style="{
             color,
-            'line-height': '1.1rem',
-            'font-size': '1rem',
+            'line-height': '1rem',
+            'font-size': '1.1rem',
             'width': '1rem',
             'height': '1rem',
           }"
         >
           {{ rank }}
         </div>
-        <div style="width: 1rem; height: 1rem;">
-          <q-img v-if="!hideImage" :src="symbol" contain />
-        </div>
+        <q-img
+          v-if="!hideImage"
+          class="col-auto"
+          :src="symbol"
+          style="width: 1rem; height: 1rem;"
+          contain
+        />
       </div>
       <div style="flex: 1;">
         <div class="flex full-height flex-center">

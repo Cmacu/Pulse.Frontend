@@ -70,7 +70,6 @@ export default defineComponent({
     Section: () => import('./Section.vue'),
     SectionBottom: () => import('./SectionBottom.vue'),
     Hand: () => import('./Hand.vue'),
-    Buttons: () => import('./Buttons.vue'),
   },
   props: {
     matchId: {
@@ -116,12 +115,16 @@ html.schotten2-game,
 html.schotten2-game body,
   overflow: hidden
   font-size: 16px
-  @media(min-height: 900px)
-    font-size: 20px
-  @media(min-height: 1100px)
-    font-size: 26px
-  @media(min-height: 1300px)
-    font-size: 32px
+  @media(min-width: 400px)
+    font-size: 19px
+  @media(min-width: 500px)
+    font-size: 22px
+  @media(min-width: 600px)
+    font-size: 25px
+  @media(min-width: 700px)
+    font-size: 28px
+  @media(min-width: 800px)
+    font-size: 31px
 
 .match-layout
   // font-size: 0.85rem

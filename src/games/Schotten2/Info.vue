@@ -1,8 +1,8 @@
 <template>
   <section class="absolute-top page-container text-dark q-pt-md q-px-sm">
-    <div class="row items-center" style="font-size: 0.6rem; margin-top: -10px;">
+    <div class="row items-center" style="font-size: 12px; margin-top: -10px;">
       <div class="col text-right">{{ attacker }}</div>
-      <q-icon class="col-auto" name="clear" color="primary" size="1rem" />
+      <q-icon class="col-auto" name="clear" color="primary" size="md" />
       <div class="col">{{ defender }}</div>
     </div>
     <div class="row no-wrap">
@@ -28,8 +28,18 @@
 
       <div
         class="col column text-right justify-between"
-        style="font-size: 0.6rem; line-height: 1;"
+        style="margin-top: -0.4rem; margin-bottom: 0.4rem;"
       >
+        <div class="row justify-end">
+          <q-icon
+            v-for="n in 3"
+            :key="n"
+            name="local_fire_department"
+            :color="isAttacker ? 'accent' : 'primary'"
+            :class="{ faded: n > oilCount }"
+            size="2rem"
+          />
+        </div>
         <div>
           <q-btn-dropdown align="right" :color="color" size="0.5rem" no-caps>
             <template v-slot:label>
@@ -40,7 +50,7 @@
                 </div>
               </div>
             </template>
-            <q-list style="font-size: 16px;">
+            <q-list style="font-size: 1rem;">
               <q-item
                 clickable
                 v-ripple
@@ -103,16 +113,6 @@
             </q-list>
           </q-btn-dropdown>
         </div>
-        <div class="row q-mt-sm justify-end">
-          <q-icon
-            v-for="n in 3"
-            :key="n"
-            name="local_fire_department"
-            :color="isAttacker ? 'accent' : 'primary'"
-            :class="{ faded: n > oilCount }"
-            size="2.2rem"
-          />
-        </div>
       </div>
       <!-- RULES DIALOG -->
       <q-dialog v-model="showRules" auto-close>
@@ -160,32 +160,31 @@
             <tr v-for="rank in ranks" :key="rank">
               <td v-for="(suit, suitIndex) in suits" :key="suitIndex">
                 <div
-                  class="row justify-center items-end"
+                  class="row no-wrap justify-evenly items-end q-pa-xs"
                   :class="getDiscardClass(suitIndex, rank)"
                 >
                   <div
-                    class="col text-right"
+                    class="col-auto text-left"
                     :style="{
-                      color: suit.color,
+                      'color': suit.color,
+                      'line-height': '1rem',
+                      'font-size': '1rem',
+                      'width': '1rem',
+                      'height': '1rem',
                     }"
                   >
                     {{ rank }}
                   </div>
-                  <div
-                    class="col text-left"
-                    :style="{ 'padding-bottom': '2px' }"
-                  >
-                    <q-img
-                      :src="`/st2/symbols/${suitIndex}.png`"
-                      height="1rem"
-                      contain
-                    />
-                  </div>
+                  <q-img
+                    :src="`/st2/symbols/${suitIndex}.png`"
+                    style="width: 1rem; height: 1rem;"
+                    contain
+                  />
                 </div>
               </td>
             </tr>
           </table>
-          <div>
+          <div style="font-size: 0.6rem:">
             <q-separator class="q-my-md" inset />
             <div class="row justify-between">
               <div class="text-bold">Legend:</div>

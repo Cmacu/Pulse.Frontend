@@ -10,7 +10,7 @@
       v-if="counter >= 0"
       floating
       :color="color"
-      style="font-size: 0.7rem; margin-top: -4px; padding: 2px;"
+      style="font-size: 0.6rem; margin-top: -0.4rem; padding: 0.2rem;"
       >{{ counter }}</q-badge
     >
   </q-card>
