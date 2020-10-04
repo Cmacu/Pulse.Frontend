@@ -13,8 +13,8 @@
     <q-card-section>
       <div class="row justify-around items-center">
         <div>
-          <span class="text-accent text-center">Title</span>
           <q-select
+            label="Title"
             v-model="gameTitle"
             :options="titleOptions"
             behavior="dialog"
@@ -24,40 +24,22 @@
           />
         </div>
         <div>
-          <q-list>
-            <q-item>
-              <q-item-section>
-                <q-item-label class="text-accent">Mode</q-item-label>
-              </q-item-section>
-              <q-item-section side>
-                <q-select
-                  v-model="gameMode"
-                  :options="modeOptions"
-                  behavior="dialog"
-                  color="accent"
-                  borderless
-                  style="width: 200px;"
-                />
-              </q-item-section>
-            </q-item>
-          </q-list>
-          <q-list>
-            <q-item>
-              <q-item-section>
-                <q-item-label class="text-accent">Speed</q-item-label>
-              </q-item-section>
-              <q-item-section side>
-                <q-select
-                  v-model="gameSpeed"
-                  :options="speedOptions"
-                  behavior="dialog"
-                  color="accent"
-                  borderless
-                  style="width: 200px;"
-                />
-              </q-item-section>
-            </q-item>
-          </q-list>
+          <q-select
+            label="Mode"
+            v-model="gameMode"
+            :options="modeOptions"
+            color="accent"
+            borderless
+            style="width: 200px;"
+          />
+          <q-select
+            label="Speed"
+            v-model="gameSpeed"
+            :options="speedOptions"
+            color="accent"
+            borderless
+            style="width: 200px;"
+          />
         </div>
       </div>
     </q-card-section>

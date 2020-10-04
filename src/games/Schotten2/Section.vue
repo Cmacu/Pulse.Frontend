@@ -1,5 +1,8 @@
 <template>
-  <section class="schotten2-section relative-position">
+  <section
+    class="schotten2-section relative-position"
+    style="margin-left: -2px; margin-right: -2px;"
+  >
     <div class="column justify-end full-height" @click="showDialog = true">
       <q-img
         :src="image"
@@ -20,8 +23,8 @@
       <q-card class="page-container q-pa-sm" style="font-size: 0.75rem;">
         <q-card-section title class="row items-center">
           <div class="text-special-13 text-center">
-            <span>{{ name }}</span>
-            <strong v-if="isDamaged">(Damaged)</strong>
+            <span>{{ showName }}</span>
+            <strong v-if="isDamaged"> ( Damaged ) </strong>
           </div>
           <q-space />
           <q-btn icon="close" flat round dense v-close-popup />
@@ -36,7 +39,7 @@
             </p>
             <!-- SECTION FORMATION DETAILS -->
             <p>
-              Allowed formation types from strongest to lowest are:
+              Allowed formation types from strongest to weakest are:
             </p>
           </div>
           <!-- BIGGER SECTION IMAGE -->
@@ -110,7 +113,7 @@ export default defineComponent({
     const condition = computed(() => (props.isDamaged ? 'damaged' : 'good'))
     return {
       showName: computed(() =>
-        props.name.replace('Left', '').replace('Right ', ''),
+        props.name.replace('Left', 'West ').replace('Right', 'East '),
       ),
       lastEvent: computed(() => {
         const lastEvent = game.state.api.lastEvent

@@ -149,6 +149,9 @@ html.schotten2-game body,
   border-collapse: collapse
   border-spacing: 0
 
+.schotten2-wall td
+  padding: 0px
+
 .schotten2-discards td
   padding: 5px
   font-size: 1.1rem
@@ -163,7 +166,6 @@ html.schotten2-game body,
 .schotten2-defender .schotten2-hand .schotten2-card
   background: white
 
-.schotten2-section,
 .schotten2-card
   display: inline-block
   border: none
