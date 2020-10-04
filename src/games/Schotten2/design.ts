@@ -140,21 +140,74 @@ const formations: Formation[] = [
 ]
 
 interface Schotten2Event {
-  name?: string
+  description: string
   icon: string
   color: string
-  description?: string
+  skipCards?: boolean
 }
 
 const events: { [key: string]: Schotten2Event } = {
-  Eliminate: { icon: 'sports_hockey', color: 'negative' },
-  PlayCard: { icon: 'view_agenda', color: 'primary' },
-  Damaged: { icon: 'power_settings_new', color: 'primary' },
-  Start: { icon: 'check', color: 'positive' },
-  Retreat: { icon: 'directions_run', color: 'accent' },
-  UseOil: { icon: 'local_fire_department', color: 'primary' },
-  Expired: { icon: 'timer_off', color: 'negative' },
-  Resigned: { icon: 'flag', color: 'negative' },
+  Eliminate: {
+    description: 'activated opposites at the',
+    icon: 'sports_hockey',
+    color: 'negative',
+  },
+  PlayCard: {
+    description: 'played a card at the',
+    icon: 'view_agenda',
+    color: 'primary',
+  },
+  Damage: {
+    description: 'damaged the',
+    icon: 'power_settings_new',
+    color: 'primary',
+  },
+  Start: {
+    description: 'started the game',
+    icon: 'check',
+    color: 'positive',
+    skipCards: true,
+  },
+  Retreat: {
+    description: 'retreated at the',
+    icon: 'directions_run',
+    color: 'accent',
+  },
+  UseOil: {
+    description: 'used oil at the',
+    icon: 'local_fire_department',
+    color: 'primary',
+  },
+  Expire: {
+    description: 'expired',
+    icon: 'timer_off',
+    color: 'negative',
+    skipCards: true,
+  },
+  Resign: {
+    description: 'resigned',
+    icon: 'flag',
+    color: 'negative',
+    skipCards: true,
+  },
+  Destroy: {
+    description: 'won by successfully destroying the',
+    icon: 'emoji_events',
+    color: 'primary',
+    skipCards: true,
+  },
+  Demolish: {
+    description: 'won by successfully damaging 4 sections',
+    icon: 'emoji_events',
+    color: 'primary',
+    skipCards: true,
+  },
+  Defend: {
+    description: 'won by successfully defending the wall',
+    icon: 'emoji_events',
+    color: 'primary',
+    skipCards: true,
+  },
 }
 
 export { events, suits, formations }

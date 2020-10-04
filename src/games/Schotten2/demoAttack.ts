@@ -41,12 +41,12 @@ demoAttack.push(() => {
   game.state.api.siegeCardsCount = 48
   game.state.api.oilCount = 3
   game.state.api.handCards = [
-    { suit: 4, rank: 8, protected: true }, // Red 8
-    { suit: 1, rank: 10, protected: true }, // Blue 10
-    { suit: 4, rank: 0, protected: true }, // Red 0
-    { suit: 2, rank: 9, protected: true }, // Green 9
-    { suit: 0, rank: 2, protected: true }, // Yellow 2
-    { suit: 3, rank: 3, protected: true }, // Purple 3
+    { rank: 8, suit: 4, protected: true }, // Red 8
+    { rank: 10, suit: 1, protected: true }, // Blue 10
+    { rank: 0, suit: 4, protected: true }, // Red 0
+    { rank: 9, suit: 2, protected: true }, // Green 9
+    { rank: 2, suit: 0, protected: true }, // Yellow 2
+    { rank: 3, suit: 3, protected: true }, // Purple 3
   ]
   game.state.api.sections = [
     {
@@ -58,7 +58,7 @@ demoAttack.push(() => {
       defense: [],
     },
     {
-      name: 'Tower',
+      name: 'LeftTower',
       spaces: 0,
       types: [0, 2, 3, 4, 5],
       isDamaged: false,
@@ -66,7 +66,7 @@ demoAttack.push(() => {
       defense: [],
     },
     {
-      name: 'Wall',
+      name: 'LeftWall',
       spaces: 0,
       types: [0, 2, 3, 4, 5],
       isDamaged: false,
@@ -74,7 +74,7 @@ demoAttack.push(() => {
       defense: [],
     },
     {
-      name: 'Door',
+      name: 'Gate',
       spaces: 0,
       types: [0, 2, 3, 4, 5],
       isDamaged: false,
@@ -82,7 +82,7 @@ demoAttack.push(() => {
       defense: [],
     },
     {
-      name: 'Wall',
+      name: 'RightWall',
       spaces: 0,
       types: [0, 2, 3, 4, 5],
       isDamaged: false,
@@ -90,7 +90,7 @@ demoAttack.push(() => {
       defense: [],
     },
     {
-      name: 'Tower',
+      name: 'RightTower',
       spaces: 0,
       types: [0, 2, 3, 4, 5],
       isDamaged: false,
@@ -141,7 +141,7 @@ demoAttack.push(() => {
   Notify.create(
     Object.assign({}, attackerMessage, {
       message: `
-      Go ahead and play the <strong>[Blue 10]</strong> on the Gate!
+      Go ahead and play the <strong>[10 Blue]</strong> on the Gate!
     `,
     }),
   )
@@ -156,6 +156,14 @@ demoAttack.push(() => {
 })
 
 demoAttack.push(() => {
+  game.state.api.lastSection = 3
+  game.state.api.lastEvent = 'PlayCard'
+  game.state.log.push({
+    role: '0',
+    event: 'PlayCard',
+    section: 'Gate',
+    cards: [{ rank: 10, suit: 1 }],
+  })
   game.state.api.isCurrentPlayer = false
   Notify.create(
     Object.assign({}, attackerMessage, {
@@ -173,12 +181,12 @@ demoAttack.push(() => {
   game.state.api.siegeCardsCount--
   game.state.api = Object.assign({}, game.state.api, {
     handCards: [
-      { suit: 4, rank: 8, protected: true }, // Red 8
-      { suit: 1, rank: 11, protected: true }, // New Card: Blue 11
-      { suit: 4, rank: 0, protected: true }, // Red 0
-      { suit: 2, rank: 9, protected: true }, // Green 9
-      { suit: 0, rank: 2, protected: true }, // Yellow 2
-      { suit: 3, rank: 3, protected: true }, // Purple 3
+      { rank: 8, suit: 4, protected: true }, // Red 8
+      { rank: 11, suit: 1, protected: true }, // New Card: Blue 11
+      { rank: 0, suit: 4, protected: true }, // Red 0
+      { rank: 9, suit: 2, protected: true }, // Green 9
+      { rank: 2, suit: 0, protected: true }, // Yellow 2
+      { rank: 3, suit: 3, protected: true }, // Purple 3
     ],
   })
   playDemo()
@@ -189,7 +197,7 @@ demoAttack.push(() => {
     Object.assign({}, attackerMessage, {
       message: `
       Hah!
-      We’ve replenished our hand by drawing a card and we see that it is the <strong>[Blue 11]</strong>!`,
+      We’ve replenished our hand by drawing a card and we see that it is the <strong>[11 Blue]</strong>!`,
       position: 'center',
     }),
   )
@@ -254,7 +262,15 @@ demoAttack.push(() => {
 // DEFENDER PLAYS
 demoAttack.push(() => {
   game.state.api.siegeCardsCount--
-  game.state.api.sections[3].defense.push({ suit: 1, rank: 6 }) // Blue 6
+  game.state.api.sections[3].defense.push({ rank: 6, suit: 1 }) // Blue 6
+  game.state.api.lastSection = 3
+  game.state.api.lastEvent = 'PlayCard'
+  game.state.log.push({
+    role: '1',
+    event: 'PlayCard',
+    section: 'Gate',
+    cards: [{ rank: 6, suit: 1 }],
+  })
   playDemo()
 })
 
@@ -293,7 +309,7 @@ demoAttack.push(() => {
   Notify.create(
     Object.assign({}, attackerMessage, {
       message: `
-      Now play the <strong>[Blue 11]</strong> on the Gate.
+      Now play the <strong>[11 Blue]</strong> on the Gate.
     `,
     }),
   )
@@ -309,14 +325,22 @@ demoAttack.push(() => {
 demoAttack.push(() => {
   game.state.api.isCurrentPlayer = false
   game.state.api.siegeCardsCount--
+  game.state.api.lastSection = 3
+  game.state.api.lastEvent = 'PlayCard'
+  game.state.log.push({
+    role: '0',
+    event: 'PlayCard',
+    section: 'Gate',
+    cards: [{ rank: 11, suit: 1 }],
+  })
   game.state.api = Object.assign({}, game.state.api, {
     handCards: [
-      { suit: 4, rank: 8, protected: true }, // Red 8
-      { suit: 2, rank: 1, protected: true }, // New Card: Green 1
-      { suit: 4, rank: 0, protected: true }, // Red 0
-      { suit: 2, rank: 9, protected: true }, // Green 9
-      { suit: 0, rank: 2, protected: true }, // Yellow 2
-      { suit: 3, rank: 3, protected: true }, // Purple 3
+      { rank: 8, suit: 4, protected: true }, // Red 8
+      { rank: 1, suit: 2, protected: true }, // New Card: Green 1
+      { rank: 0, suit: 4, protected: true }, // Red 0
+      { rank: 9, suit: 2, protected: true }, // Green 9
+      { rank: 2, suit: 0, protected: true }, // Yellow 2
+      { rank: 3, suit: 3, protected: true }, // Purple 3
     ],
   })
   setTimeout(() => {
@@ -328,9 +352,22 @@ demoAttack.push(() => {
     gate.defense = []
     game.state.api = Object.assign({}, game.state.api, {
       discardCards: [
-        { suit: 1, rank: 10 }, // Blue 10
-        { suit: 1, rank: 11 }, // Blue 11
-        { suit: 1, rank: 6 }, // Blue 6
+        { rank: 10, suit: 1 }, // Blue 10
+        { rank: 11, suit: 1 }, // Blue 11
+        { rank: 6, suit: 1 }, // Blue 6
+      ],
+    })
+    game.state.api.lastSection = 3
+    game.state.api.lastEvent = 'Damage'
+    game.state.log.push({
+      role: '0',
+      event: 'Damage',
+      section: 'Gate',
+      cards: [
+        { rank: 10, suit: 1 },
+        { rank: 11, suit: 1 },
+        { rank: -1, suit: -1, protected: true }, // vs
+        { rank: 6, suit: 1 },
       ],
     })
     playDemo()
@@ -437,8 +474,19 @@ demoAttack.push(() => {
   )
 })
 
+// DEFENDER Plays [10 Green]
 demoAttack.push(() => {
-  game.state.api.sections[0].defense.push({ suit: 2, rank: 10 }) // Green 10
+  const card = { rank: 10, suit: 2 }
+  const section = 0
+  game.state.api.sections[section].defense.push(card) // Green 10
+  game.state.api.lastEvent = 'PlayCard'
+  game.state.api.lastSection = section
+  game.state.log.push({
+    role: '1',
+    event: 'PlayCard',
+    section: 'LeftPit',
+    cards: [card],
+  })
   playDemo()
 })
 
@@ -457,12 +505,13 @@ demoAttack.push(() => {
   Notify.create(
     Object.assign({}, attackerMessage, {
       message: `
-      Let’s play the <strong>[Green 9]</strong> next
+      Let’s play the <strong>[9 Green]</strong> next
     `,
     }),
   )
 })
 
+// Play [9 Green]
 demoAttack.push(() => {
   game.state.api.handCards[3].protected = false
   game.state.api.sections[0].spaces = 1
@@ -472,19 +521,35 @@ demoAttack.push(() => {
 
 demoAttack.push(() => {
   game.state.api.isCurrentPlayer = false
+  game.state.api.lastSection = 0
+  game.state.api.lastEvent = 'PlayCard'
+  game.state.log.push({
+    role: '0',
+    event: 'PlayCard',
+    section: 'LeftPit',
+    cards: [{ rank: 9, suit: 2 }],
+  })
   game.state.api = Object.assign({}, game.state.api, {
     handCards: [
-      { suit: 4, rank: 8, protected: true }, // Red 8
-      { suit: 2, rank: 1, protected: true }, // Green 1
-      { suit: 4, rank: 0, protected: true }, // Red 0
-      { suit: 1, rank: 1, protected: true }, // Blue 1
-      { suit: 0, rank: 2, protected: true }, // Yellow 2
-      { suit: 3, rank: 3, protected: true }, // Purple 3
+      { rank: 8, suit: 4, protected: true }, // Red 8
+      { rank: 1, suit: 2, protected: true }, // Green 1
+      { rank: 0, suit: 4, protected: true }, // Red 0
+      { rank: 1, suit: 1, protected: true }, // Blue 1
+      { rank: 2, suit: 0, protected: true }, // Yellow 2
+      { rank: 3, suit: 3, protected: true }, // Purple 3
     ],
   })
   game.state.api.siegeCardsCount--
   setTimeout(() => {
-    game.state.api.sections[0].defense.push({ suit: 3, rank: 10 }) // Purple 10
+    game.state.api.sections[0].defense.push({ rank: 10, suit: 3 }) // Purple 10
+    game.state.api.lastSection = 0
+    game.state.api.lastEvent = 'PlayCard'
+    game.state.log.push({
+      role: '0',
+      event: 'PlayCard',
+      section: 'LeftPit',
+      cards: [{ rank: 10, suit: 3 }],
+    })
     game.state.api.siegeCardsCount--
     playDemo()
   }, eventDelay)
@@ -530,12 +595,20 @@ demoAttack.push(() => {
 
 demoAttack.push(() => {
   game.state.api.enablePreparation = false
+  game.state.api.lastSection = 0
+  game.state.api.lastEvent = 'Retreat'
+  game.state.log.push({
+    role: '0',
+    event: 'Retreat',
+    section: 'LeftPit',
+    cards: [{ rank: 9, suit: 2 }],
+  })
   game.state.api = Object.assign({}, game.state.api, {
     discardCards: [
-      { suit: 1, rank: 10 }, // Blue 10
-      { suit: 1, rank: 11 }, // Blue 11
-      { suit: 1, rank: 6 }, // Blue 6
-      { suit: 3, rank: 9 }, // Green 9
+      { rank: 10, suit: 1 }, // Blue 10
+      { rank: 11, suit: 1 }, // Blue 11
+      { rank: 6, suit: 1 }, // Blue 6
+      { rank: 9, suit: 3 }, // Green 9
     ],
   })
   Notify.create(
@@ -578,19 +651,35 @@ demoAttack.push(() => {
 
 demoAttack.push(() => {
   game.state.api.isCurrentPlayer = false
+  game.state.api.lastSection = 3
+  game.state.api.lastEvent = 'PlayCard'
+  game.state.log.push({
+    role: '0',
+    event: 'PlayCard',
+    section: 'Gate',
+    cards: [{ rank: 1, suit: 1 }],
+  })
   game.state.api = Object.assign({}, game.state.api, {
     handCards: [
-      { suit: 4, rank: 8, protected: true }, // Red 8
-      { suit: 2, rank: 1, protected: true }, // Green 1
-      { suit: 4, rank: 0, protected: true }, // Red 0
-      { suit: 4, rank: 7, protected: true }, // Red 7
-      { suit: 0, rank: 2, protected: true }, // Yellow 2
-      { suit: 3, rank: 3, protected: true }, // Purple 3
+      { rank: 8, suit: 4, protected: true }, // Red 8
+      { rank: 1, suit: 2, protected: true }, // Green 1
+      { rank: 0, suit: 4, protected: true }, // Red 0
+      { rank: 7, suit: 4, protected: true }, // Red 7
+      { rank: 2, suit: 0, protected: true }, // Yellow 2
+      { rank: 3, suit: 3, protected: true }, // Purple 3
     ],
   })
   game.state.api.siegeCardsCount--
   setTimeout(() => {
-    game.state.api.sections[3].defense.push({ suit: 0, rank: 6 }) // Yellow 6
+    game.state.api.sections[3].defense.push({ rank: 6, suit: 0 }) // Yellow 6
+    game.state.api.lastEvent = 'PlayCard'
+    game.state.api.lastSection = 3
+    game.state.log.push({
+      role: '1',
+      event: 'PlayCard',
+      section: 'Gate',
+      cards: [{ rank: 6, suit: 0 }],
+    })
     game.state.api.siegeCardsCount--
     setTimeout(() => {
       game.state.api.isCurrentPlayer = true
@@ -602,19 +691,35 @@ demoAttack.push(() => {
 
 demoAttack.push(() => {
   game.state.api.isCurrentPlayer = false
+  game.state.api.lastEvent = 'PlayCard'
+  game.state.api.lastSection = 3
+  game.state.log.push({
+    role: '0',
+    event: 'PlayCard',
+    section: 'Gate',
+    cards: [{ rank: 2, suit: 0 }],
+  })
   game.state.api = Object.assign({}, game.state.api, {
     handCards: [
-      { suit: 4, rank: 8, protected: true }, // Red 8
-      { suit: 2, rank: 1, protected: true }, // Green 1
-      { suit: 4, rank: 0, protected: true }, // Red 0
-      { suit: 4, rank: 7, protected: true }, // Red 7
-      { suit: 1, rank: 9, protected: true }, // Blue 9
-      { suit: 3, rank: 3, protected: true }, // Purple 3
+      { rank: 8, suit: 4, protected: true }, // Red 8
+      { rank: 1, suit: 2, protected: true }, // Green 1
+      { rank: 0, suit: 4, protected: true }, // Red 0
+      { rank: 7, suit: 4, protected: true }, // Red 7
+      { rank: 9, suit: 1, protected: true }, // Blue 9
+      { rank: 3, suit: 3, protected: true }, // Purple 3
     ],
   })
   game.state.api.siegeCardsCount--
   setTimeout(() => {
-    game.state.api.sections[4].defense.push({ suit: 1, rank: 8 }) // Blue 8
+    game.state.api.sections[4].defense.push({ rank: 8, suit: 1 }) // Blue 8
+    game.state.api.lastEvent = 'PlayCard'
+    game.state.api.lastSection = 4
+    game.state.log.push({
+      role: '1',
+      event: 'PlayCard',
+      section: 'RightWall',
+      cards: [{ rank: 8, suit: 1 }],
+    })
     game.state.api.siegeCardsCount--
     setTimeout(() => {
       game.state.api.isCurrentPlayer = true
@@ -626,19 +731,35 @@ demoAttack.push(() => {
 
 demoAttack.push(() => {
   game.state.api.isCurrentPlayer = false
+  game.state.api.lastEvent = 'PlayCard'
+  game.state.api.lastSection = 3
+  game.state.log.push({
+    role: '0',
+    event: 'PlayCard',
+    section: 'Gate',
+    cards: [{ rank: 3, suit: 3 }],
+  })
   game.state.api = Object.assign({}, game.state.api, {
     handCards: [
-      { suit: 4, rank: 8, protected: true }, // Red 8
-      { suit: 2, rank: 1, protected: true }, // Green 1
-      { suit: 4, rank: 0, protected: true }, // Red 0
-      { suit: 4, rank: 7, protected: true }, // Red 7
-      { suit: 1, rank: 9, protected: true }, // Blue 9
-      { suit: 0, rank: 11, protected: true }, // Yellow 11
+      { rank: 8, suit: 4, protected: true }, // Red 8
+      { rank: 1, suit: 2, protected: true }, // Green 1
+      { rank: 0, suit: 4, protected: true }, // Red 0
+      { rank: 7, suit: 4, protected: true }, // Red 7
+      { rank: 9, suit: 1, protected: true }, // Blue 9
+      { rank: 11, suit: 0, protected: true }, // Yellow 11
     ],
   })
   game.state.api.siegeCardsCount--
   setTimeout(() => {
-    game.state.api.sections[3].defense.push({ suit: 3, rank: 3 }) // Green 3
+    game.state.api.sections[3].defense.push({ rank: 3, suit: 2 }) // Green 3
+    game.state.api.lastEvent = 'PlayCard'
+    game.state.api.lastSection = 3
+    game.state.log.push({
+      role: '1',
+      event: 'PlayCard',
+      section: 'Gate',
+      cards: [{ rank: 3, suit: 2 }],
+    })
     game.state.api.siegeCardsCount--
     setTimeout(() => {
       game.state.api.isCurrentPlayer = true
@@ -650,34 +771,58 @@ demoAttack.push(() => {
 
 demoAttack.push(() => {
   game.state.api.isCurrentPlayer = false
+  game.state.api.lastEvent = 'PlayCard'
+  game.state.api.lastSection = 3
+  game.state.log.push({
+    role: '0',
+    event: 'PlayCard',
+    section: 'Gate',
+    cards: [{ rank: 0, suit: 4 }],
+  })
   game.state.api = Object.assign({}, game.state.api, {
     handCards: [
-      { suit: 4, rank: 8, protected: true }, // Red 8
-      { suit: 2, rank: 1, protected: true }, // Green 1
-      { suit: 0, rank: 2, protected: true }, // Yellow 2
-      { suit: 4, rank: 7, protected: true }, // Red 7
-      { suit: 1, rank: 9, protected: true }, // Blue 9
-      { suit: 0, rank: 11, protected: true }, // Yellow 11
+      { rank: 8, suit: 4, protected: true }, // Red 8
+      { rank: 1, suit: 2, protected: true }, // Green 1
+      { rank: 2, suit: 0, protected: true }, // Yellow 2
+      { rank: 7, suit: 4, protected: true }, // Red 7
+      { rank: 9, suit: 1, protected: true }, // Blue 9
+      { rank: 11, suit: 0, protected: true }, // Yellow 11
     ],
   })
   game.state.api.siegeCardsCount--
   setTimeout(() => {
     const gate = game.state.api.sections[3]
-    gate.name = 'destroyed'
+    gate.name = 'Destroy'
     gate.attack = []
     gate.defense = []
     game.state.api = Object.assign({}, game.state.api, {
       discardCards: [
-        { suit: 1, rank: 10 }, // Blue 10
-        { suit: 1, rank: 11 }, // Blue 11
-        { suit: 1, rank: 6 }, // Blue 6
-        { suit: 3, rank: 9 }, // Green 9
-        { suit: 4, rank: 3 }, // Purple 3
-        { suit: 0, rank: 6 }, // Yellow 6
-        { suit: 4, rank: 0 }, // Red 0
-        { suit: 1, rank: 1 }, // Blue 1
-        { suit: 0, rank: 2 }, // Yellow 2
-        { suit: 4, rank: 3 }, // Purple 3
+        { rank: 10, suit: 1 }, // Blue 10
+        { rank: 11, suit: 1 }, // Blue 11
+        { rank: 6, suit: 1 }, // Blue 6
+        { rank: 9, suit: 3 }, // Green 9
+        { rank: 3, suit: 2 }, // Yellow 3
+        { rank: 6, suit: 0 }, // Yellow 6
+        { rank: 0, suit: 4 }, // Red 0
+        { rank: 1, suit: 1 }, // Blue 1
+        { rank: 2, suit: 0 }, // Yellow 2
+        { rank: 3, suit: 3 }, // Purple 3
+      ],
+    })
+    game.state.api.lastEvent = 'Destroy'
+    game.state.api.lastSection = 3
+    game.state.log.push({
+      role: '0',
+      event: 'Destroy',
+      section: 'Gate',
+      cards: [
+        { rank: 1, suit: 1 }, // Blue 1
+        { rank: 2, suit: 0 }, // Yellow 2
+        { rank: 3, suit: 3 }, // Purple 3
+        { rank: 0, suit: 4 }, // Red 0
+        { rank: -1, suit: -1, protected: true }, // vs
+        { rank: 6, suit: 0 }, // Yellow 6
+        { rank: 3, suit: 2 }, // Yellow 3
       ],
     })
     startConfetti()

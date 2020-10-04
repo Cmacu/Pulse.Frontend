@@ -1,6 +1,6 @@
 <template>
   <section class="absolute-top page-container text-dark q-pt-md q-px-sm">
-    <div class="row items-center" style="font-size: 12px; margin-top: -10px;">
+    <div class="row items-center" style="font-size: 12px; margin-top: -20px;">
       <div class="col text-right">{{ attacker }}</div>
       <q-icon class="col-auto" name="clear" color="primary" size="md" />
       <div class="col">{{ defender }}</div>
@@ -28,7 +28,7 @@
 
       <div
         class="col column text-right justify-between"
-        style="margin-top: -0.4rem; margin-bottom: 0.4rem;"
+        style="margin-top: -0.4rem; margin-bottom: 0.2rem;"
       >
         <div class="row justify-end">
           <q-icon
@@ -41,7 +41,13 @@
           />
         </div>
         <div>
-          <q-btn-dropdown align="right" :color="color" size="0.5rem" no-caps>
+          <q-btn-dropdown
+            id="more_options"
+            align="right"
+            :color="color"
+            size="0.5rem"
+            no-caps
+          >
             <template v-slot:label>
               <div class="column items-end text-right">
                 <div>{{ player }} turn</div>
@@ -113,6 +119,7 @@
             </q-list>
           </q-btn-dropdown>
         </div>
+        <Log :attacker="attacker" :defender="defender" />
       </div>
       <!-- RULES DIALOG -->
       <q-dialog v-model="showRules" auto-close>
@@ -235,6 +242,7 @@ export default defineComponent({
   components: {
     InfoCard: () => import('./InfoCard.vue'),
     Rules: () => import('./Rules.vue'),
+    Log: () => import('./Log.vue'),
   },
   props: {
     attacker: {

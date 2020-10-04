@@ -10,11 +10,6 @@ import { startConfetti, stopConfetti } from 'src/utils/confetti'
 const SECTION_COUNT = 7
 const LOCAL_KEY = 'pulse-schotten2'
 
-interface SectionCard {
-  sectionIndex: number
-  card: Schotten2Card
-}
-
 export type UpdateStateFunction = (gameState: Schotten2State) => void
 
 export interface Schotten2Api {
@@ -51,9 +46,19 @@ export interface Schotten2State {
   newCards: number
   discardCards: Schotten2Card[]
   sections: Schotten2Section[]
+  lastPlayer: string
   lastEvent: string
   lastSection: number
 }
+
+interface Schotten2Log {
+  role: string
+  event: string
+  section: string
+  cards?: Schotten2Card[]
+}
+
+const log: Schotten2Log[] = []
 
 const sections: Schotten2Section[] = []
 
@@ -78,6 +83,7 @@ const defaultState = {
   enableOil: false,
   enableRetreat: false,
   handOrder,
+  log,
   handOrderSelectedIndex: -1,
   demoIndex: 0,
   api: {
@@ -107,7 +113,35 @@ let state = getDefaultState()
 let engine: Schotten2Api
 const matchId = ref('')
 
+const parseLog = (gameState: Schotten2State) =>
+  Promise.resolve(() => {
+    const section = game.state.api.sections?.[+gameState.lastSection]
+    const formation =
+      gameState.lastPlayer == '0' ? section.attack : section.defense
+    const card = formation[formation.length - 1]
+    let cards = [card]
+
+    if (gameState.lastEvent.toLowerCase() == 'eliminate') {
+      const opposite = { suit: card.suit, rank: card.rank == 0 ? 11 : 0 }
+      cards = [card, { rank: -1, suit: -1, protected: true }, opposite]
+    } else if (gameState.lastEvent == 'Damage') {
+      cards = [
+        ...section.attack,
+        { rank: -1, suit: -1, protected: true },
+        ...section.defense,
+      ]
+    }
+
+    state.log.push({
+      role: gameState.lastPlayer,
+      event: gameState.lastEvent,
+      section: section?.name,
+      cards,
+    })
+  })
+
 const setState = (gameState: Schotten2State) => {
+  parseLog(gameState)
   state.cardPlayed = false
   // console.error(gameState.isCurrentPlayer, state.api.isCurrentPlayer)
   if (

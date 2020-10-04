@@ -13,12 +13,12 @@ export const attackerMessage: DemoMessage = {
   position: 'top',
   onDismiss: () => playDemo(),
 }
-// {suit: 0, rank: 9}, // [Yellow 9] - Attacker hand
-// {suit: 1, rank: 7}, // [Blue 7] - Attacker hand
-// {suit: 1, rank: 9}, // [Blue 9] - Attacker Hand
-// {suit: 3, rank: 6}, // [Purple 6] - Attacker Hand
-// {suit: 2, rank: 1}, // [Green 1] - Attacker Hand
-// {suit: 0, rank: 3}, // [Yellow 3] - Attacker Hand
+// { rank: 9, suit: 0}, // [9 Yellow] - Attacker hand
+// { rank: 7, suit: 1}, // [7 Blue] - Attacker hand
+// { rank: 9, suit: 1}, // [9 Blue] - Attacker Hand
+// { rank: 6, suit: 3}, // [6 Purple] - Attacker Hand
+// { rank: 1, suit: 2}, // [1 Green] - Attacker Hand
+// { rank: 3, suit: 0}, // [3 Yellow] - Attacker Hand
 
 export const defenderMessage: DemoMessage = {
   avatar: '/symbols/Will.png',
@@ -46,29 +46,29 @@ demoDefense.push(() => {
   game.state.api.siegeCardsCount = 2
   game.state.api.oilCount = 1
   game.state.api.discardCards = [
-    { suit: 0, rank: 0 }, // [Yellow 0] - Discard (Eliminated)
-    { suit: 0, rank: 11 }, // [Yellow 11] - Discard (Eliminated)
-    { suit: 1, rank: 11 }, // [Blue 11] - Discard (Gate)
-    { suit: 4, rank: 11 }, // [Red 11] - Discard (Gate)
-    { suit: 0, rank: 8 }, // [Yellow 8] - Discard (Tower)
-    { suit: 1, rank: 4 }, // [Blue 4] - Discard (Tower)
-    { suit: 1, rank: 5 }, // [Blue 5] - Discard (Tower)
-    { suit: 2, rank: 3 }, // [Green 3] - Discard (Tower)
-    { suit: 3, rank: 5 }, // [Purple 5] - Discard (Tower)
-    { suit: 3, rank: 8 }, // [Purple 8] - Discard (Tower)
-    { suit: 3, rank: 9 }, // [Purple 9] - Discard (Tower)
-    { suit: 4, rank: 5 }, // [Red 5] - Discard (Attacker)
-    { suit: 4, rank: 6 }, // [Red 6] - Discard (Attacker)
-    { suit: 3, rank: 2 }, // [Purple 2] - Discard (Attacker)
-    { suit: 3, rank: 3 }, // [Purple 3] - Discard (Attacker)
+    { rank: 0, suit: 0 }, // [0 Yellow] - Discard (Eliminated)
+    { rank: 11, suit: 0 }, // [1 Yellow1] - Discard (Eliminated)
+    { rank: 11, suit: 1 }, // [1 Blue1] - Discard (Gate)
+    { rank: 11, suit: 4 }, // [1 Red1] - Discard (Gate)
+    { rank: 8, suit: 0 }, // [8 Yellow] - Discard (Tower)
+    { rank: 4, suit: 1 }, // [4 Blue] - Discard (Tower)
+    { rank: 5, suit: 1 }, // [5 Blue] - Discard (Tower)
+    { rank: 3, suit: 2 }, // [3 Green] - Discard (Tower)
+    { rank: 5, suit: 3 }, // [5 Purple] - Discard (Tower)
+    { rank: 8, suit: 3 }, // [8 Purple] - Discard (Tower)
+    { rank: 9, suit: 3 }, // [9 Purple] - Discard (Tower)
+    { rank: 5, suit: 4 }, // [5 Red] - Discard (Attacker)
+    { rank: 6, suit: 4 }, // [6 Red] - Discard (Attacker)
+    { rank: 2, suit: 3 }, // [2 Purple] - Discard (Attacker)
+    { rank: 3, suit: 3 }, // [3 Purple] - Discard (Attacker)
   ]
   game.state.api.handCards = [
-    { suit: 3, rank: 8, protected: true }, // [Green 8]
-    { suit: 2, rank: 11, protected: true }, // [Green 11]
-    { suit: 0, rank: 2, protected: true }, // [Yellow 2]
-    { suit: 1, rank: 6, protected: true }, // [Blue 6]
-    { suit: 4, rank: 4, protected: true }, // [Red 4]
-    { suit: 3, rank: 7, protected: true }, // [Purple 7]
+    { rank: 8, suit: 3, protected: true }, // [8 Green]
+    { rank: 11, suit: 2, protected: true }, // [1 Green1]
+    { rank: 2, suit: 0, protected: true }, // [2 Yellow]
+    { rank: 6, suit: 1, protected: true }, // [6 Blue]
+    { rank: 4, suit: 4, protected: true }, // [4 Red]
+    { rank: 7, suit: 3, protected: true }, // [7 Purple]
   ]
   game.state.api = Object.assign({}, game.state.api, {
     sections: [
@@ -78,85 +78,85 @@ demoDefense.push(() => {
         types: [1],
         isDamaged: false,
         attack: [
-          { suit: 3, rank: 4 }, // [Purple 4]
-          { suit: 2, rank: 4 }, // [Green 4]
+          { rank: 4, suit: 3 }, // [4 Purple]
+          { rank: 4, suit: 2 }, // [4 Green]
         ],
         defense: [
-          { suit: 4, rank: 11 }, // [Red 11]
-          { suit: 3, rank: 10 }, // [Purple 10]
-          { suit: 3, rank: 11 }, // [Purple 11]
+          { rank: 11, suit: 4 }, // [1 Red1]
+          { rank: 10, suit: 3 }, // [1 Purple0]
+          { rank: 11, suit: 3 }, // [1 Purple1]
         ],
       },
       {
-        name: 'Tower',
+        name: 'LeftTower',
         spaces: 0,
         types: [0, 2, 3, 4, 5],
         isDamaged: false,
         attack: [
-          { suit: 0, rank: 10 }, // [Yellow 10]
-          { suit: 2, rank: 7 }, // [Green 7]
+          { rank: 10, suit: 0 }, // [1 Yellow0]
+          { rank: 7, suit: 2 }, // [7 Green]
         ],
         defense: [
-          { suit: 4, rank: 8 }, // [Red 8]
-          { suit: 4, rank: 9 }, // [Red 9]
-          { suit: 0, rank: 7 }, // [Yellow 7]
+          { rank: 8, suit: 4 }, // [8 Red]
+          { rank: 9, suit: 4 }, // [9 Red]
+          { rank: 7, suit: 0 }, // [7 Yellow]
         ],
       },
       {
-        name: 'Wall',
+        name: 'LeftWall',
         spaces: 0,
         types: [0, 2, 3, 4, 5],
         isDamaged: false,
         attack: [
-          { suit: 4, rank: 3 }, // [Red 3]
+          { rank: 3, suit: 4 }, // [3 Red]
         ],
         defense: [
-          { suit: 0, rank: 4 }, // [Yellow 4]
-          { suit: 0, rank: 5 }, // [Yellow 5]
-          { suit: 0, rank: 6 }, // [Yellow 6]
+          { rank: 4, suit: 0 }, // [4 Yellow]
+          { rank: 5, suit: 0 }, // [5 Yellow]
+          { rank: 6, suit: 0 }, // [6 Yellow]
         ],
       },
       {
-        name: 'Door',
+        name: 'Gate',
         spaces: 0,
         types: [1],
         isDamaged: true,
         attack: [
-          { suit: 1, rank: 1 }, // [Yellow 1]
-          { suit: 2, rank: 0 }, // [Green 0]
-          { suit: 4, rank: 0 }, // [Red 0]
+          { rank: 1, suit: 1 }, // [1 Yellow]
+          { rank: 0, suit: 2 }, // [0 Green]
+          { rank: 0, suit: 4 }, // [0 Red]
         ],
         defense: [
-          { suit: 1, rank: 1 }, // [Blue 1]
-          { suit: 3, rank: 1 }, // [Purple 1]
-          { suit: 1, rank: 2 }, // [Blue 2]
+          { rank: 1, suit: 1 }, // [1 Blue]
+          { rank: 1, suit: 3 }, // [1 Purple]
+          { rank: 2, suit: 1 }, // [2 Blue]
         ],
       },
       {
-        name: 'Wall',
+        name: 'RightWall',
         spaces: 0,
         types: [0, 2, 3, 4, 5],
         isDamaged: false,
         attack: [
-          { suit: 2, rank: 2 }, // [Green 2]
-          { suit: 2, rank: 5 }, // [Green 5]
-          { suit: 2, rank: 6 }, // [Green 6]
+          { rank: 2, suit: 2 }, // [2 Green]
+          { rank: 5, suit: 2 }, // [5 Green]
+          { rank: 6, suit: 2 }, // [6 Green]
         ],
         defense: [
-          { suit: 4, rank: 10 }, // [Red 10]
-          { suit: 2, rank: 10 }, // [Green 10]
-          { suit: 1, rank: 10 }, // [Blue 10]
+          { rank: 10, suit: 4 }, // [1 Red0]
+          { rank: 10, suit: 2 }, // [1 Green0]
+          { rank: 10, suit: 1 }, // [1 Blue0]
         ],
       },
       {
-        name: 'Tower',
+        name: 'RightTower',
         spaces: 0,
         types: [0, 4],
         isDamaged: true,
         attack: [],
         defense: [
-          { suit: 1, rank: 8 }, // [Blue 8]
-          { suit: 2, rank: 9 }, // [Green 9]
+          { rank: 8, suit: 1 }, // [8 Blue]
+          { rank: 9, suit: 2 }, // [9 Green]
         ],
       },
       {
@@ -165,13 +165,13 @@ demoDefense.push(() => {
         types: [1],
         isDamaged: false,
         attack: [
-          { suit: 1, rank: 0 }, // [Blue 0]
-          { suit: 1, rank: 3 }, // [Blue 3]
+          { rank: 0, suit: 1 }, // [0 Blue]
+          { rank: 3, suit: 1 }, // [3 Blue]
         ],
         defense: [
-          { suit: 3, rank: 0 }, // [Purple 0]
-          { suit: 4, rank: 1 }, // [Red 1]
-          { suit: 4, rank: 2 }, // [Red 2]
+          { rank: 0, suit: 3 }, // [0 Purple]
+          { rank: 1, suit: 4 }, // [1 Red]
+          { rank: 2, suit: 4 }, // [2 Red]
         ],
       },
     ],
@@ -219,7 +219,17 @@ demoDefense.push(() => {
 })
 
 demoDefense.push(() => {
-  game.state.api.sections[5].attack.push({ suit: 4, rank: 7 })
+  game.state.api.sections[5].attack.push({ rank: 7, suit: 4 })
+  game.state.api.lastEvent = 'PlayCard'
+  game.state.api.lastSection = 3
+  game.state.log.push({
+    role: '0',
+    event: 'PlayCard',
+    section: 'RightTower',
+    cards: [
+      { rank: 7, suit: 4 }, // Red 7
+    ],
+  })
   game.state.api.siegeCardsCount--
   game.state.api.isCurrentPlayer = true
   setTimeout(playDemo, eventDelay)
@@ -252,7 +262,7 @@ demoDefense.push(() => {
     Object.assign({}, defenderMessage, {
       message: `
       Let's see.
-      The attacker can play the remaining [Green 1] at the door.
+      The attacker can play the remaining [11 Green] at the door.
       This will make for a stronger formation than ours and destroy it.
       The game will be lost.
     `,
@@ -265,7 +275,7 @@ demoDefense.push(() => {
   Notify.create(
     Object.assign({}, defenderMessage, {
       message: `
-      And if the attacker plays the remaining [Blue 7] on the tower
+      And if the attacker plays the remaining [7 Blue] on the tower
       it will be destroyed...
     `,
     }),
@@ -320,7 +330,7 @@ demoDefense.push(() => {
   Notify.create(
     Object.assign({}, defenderMessage, {
       message: `
-      Lets remove that <strong>[Red 7]</strong>
+      Lets remove that <strong>[7 Red]</strong>
       This will take care of the first thread
     `,
     }),
@@ -341,9 +351,15 @@ demoDefense.push(() => {
   game.state.api.oilCount--
   game.state.api.enablePreparation = false
   game.state.enableOil = false
-  game.state.api.sections.forEach((section) => {
-    if (!section.attack.length) return
-    section.attack[0].protected = false
+  game.state.api.lastEvent = 'UseOil'
+  game.state.api.lastSection = 5
+  game.state.log.push({
+    role: '1',
+    event: 'UseOil',
+    section: 'RightTower',
+    cards: [
+      { rank: 7, suit: 4 }, // Red 7
+    ],
   })
   playDemo()
 })
@@ -373,7 +389,7 @@ demoDefense.push(() => {
     Object.assign({}, defenderMessage, {
       message: `
       Time for the final trick under our sleeves.
-      Let’s play the <strong>[Green 11]</strong> on the gate.
+      Let’s play the <strong>[11 Green]</strong> on the gate.
     `,
     }),
   )
@@ -389,6 +405,16 @@ demoDefense.push(() => {
 demoDefense.push(() => {
   game.state.api.isCurrentPlayer = false
   game.state.handOrderSelectedIndex = -1
+  game.state.api.lastEvent = 'PlayCard'
+  game.state.api.lastSection = 3
+  game.state.log.push({
+    role: '1',
+    event: 'PlayCard',
+    section: 'Gate',
+    cards: [
+      { rank: 11, suit: 2 }, // 11 Green
+    ],
+  })
   setTimeout(() => {
     game.state.api.discardCards.push(
       game.state.api.sections[3].attack.splice(1, 1)[0],
@@ -398,15 +424,27 @@ demoDefense.push(() => {
     )
     game.state.api = Object.assign({}, game.state.api, {
       handCards: [
-        { suit: 3, rank: 8, protected: true }, // [Purple 8]
-        { suit: 2, rank: 8, protected: true }, // [Green 8]
-        { suit: 0, rank: 2, protected: true }, // [Yellow 2]
-        { suit: 1, rank: 6, protected: true }, // [Blue 6]
-        { suit: 4, rank: 4, protected: true }, // [Red 4]
-        { suit: 3, rank: 7, protected: true }, // [Purple 7]
+        { rank: 8, suit: 3, protected: true }, // [8 Purple]
+        { rank: 8, suit: 2, protected: true }, // [8 Green]
+        { rank: 2, suit: 0, protected: true }, // [2 Yellow]
+        { rank: 6, suit: 1, protected: true }, // [6 Blue]
+        { rank: 4, suit: 4, protected: true }, // [4 Red]
+        { rank: 7, suit: 3, protected: true }, // [7 Purple]
       ],
     })
     game.state.api.siegeCardsCount--
+    game.state.api.lastEvent = 'Eliminate'
+    game.state.api.lastSection = 3
+    game.state.log.push({
+      role: '1',
+      event: 'Eliminate',
+      section: 'Gate',
+      cards: [
+        { rank: 11, suit: 2 }, // 11 Green
+        { rank: -1, suit: -1, protected: true }, // vs
+        { rank: 0, suit: 2 }, // 0 Green
+      ],
+    })
     playDemo()
   }, eventDelay)
 })
@@ -415,7 +453,7 @@ demoDefense.push(() => {
   Notify.create(
     Object.assign({}, defenderMessage, {
       message: `
-      As per the rules our <strong>[Green 11]</strong> eliminated the opposite <strong>[Green 0]</strong>.
+      As per the rules our <strong>[11 Green]</strong> eliminated the opposite <strong>[0 Green]</strong>.
     `,
     }),
   )
@@ -443,10 +481,27 @@ demoDefense.push(() => {
 })
 
 demoDefense.push(() => {
-  game.state.api.sections[5].attack.push({ suit: 1, rank: 7 })
+  game.state.api.sections[5].attack.push({ rank: 7, suit: 1 })
+  game.state.api.lastEvent = 'PlayCard'
+  game.state.api.lastSection = 5
+  game.state.log.push({
+    role: '0',
+    event: 'PlayCard',
+    section: 'RightTower',
+    cards: [
+      { rank: 7, suit: 1 }, // 11 Green
+    ],
+  })
   setTimeout(() => {
     game.state.api.sections.forEach((section) => {
       section.attack = []
+    })
+    game.state.api.lastEvent = 'Defend'
+    game.state.api.lastSection = -1
+    game.state.log.push({
+      role: '1',
+      event: 'Defend',
+      section: '',
     })
     startConfetti()
     playDemo()
