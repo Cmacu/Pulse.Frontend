@@ -1,10 +1,11 @@
 import { reactive, ref } from '@vue/composition-api'
 import { LocalStorage, Notify } from 'quasar'
 import { demo } from 'src/games/Schotten2/demo'
+import { events } from 'src/games/Schotten2/design'
 import { socket } from 'src/games/Schotten2/socket'
 import router from 'src/router'
 import store from 'src/store'
-import { NOTIFICATIONS } from 'src/store/modules/config'
+import { NOTIFICATIONS, Notification } from 'src/store/modules/config'
 import { startConfetti, stopConfetti } from 'src/utils/confetti'
 
 const SECTION_COUNT = 7
@@ -18,6 +19,7 @@ export interface Schotten2Api {
   useOil: (sectionIndex: number) => void
   retreat: (sectionIndex: number) => void
   resign: () => Promise<void> | undefined
+  load: (cardCount: number) => Promise<void> | undefined
   disconnect: () => void | Promise<void>
 }
 
@@ -49,13 +51,19 @@ export interface Schotten2State {
   lastPlayer: string
   lastEvent: string
   lastSection: number
+  gameOver: string
 }
 
-interface Schotten2Log {
+export interface Schotten2Log {
   role: string
+  player?: string
   event: string
+  description?: string
   section: string
   cards?: Schotten2Card[]
+  icon?: string
+  color?: string
+  skipCards?: boolean
 }
 
 const log: Schotten2Log[] = []
@@ -79,7 +87,7 @@ const discardCards: Schotten2Card[] = []
 
 const defaultState = {
   loading: true,
-  cardPlayed: false,
+  isLog: false,
   enableOil: false,
   enableRetreat: false,
   handOrder,
@@ -113,39 +121,46 @@ let state = getDefaultState()
 let engine: Schotten2Api
 const matchId = ref('')
 
-const parseLog = (gameState: Schotten2State) =>
-  Promise.resolve(() => {
-    const section = game.state.api.sections?.[+gameState.lastSection]
+const parseLog = (gameState: Schotten2State): Schotten2Log | undefined => {
+  if (gameState.lastEvent == 'DrawCard') return
+  const event = events[gameState.lastEvent]
+  const emptyCard: Schotten2Card = { rank: -1, suit: -1, protected: true }
+  let card = emptyCard
+  const lastSection = +gameState.lastSection
+  let section: Schotten2Section | undefined = undefined
+  let cards: Schotten2Card[] = []
+  if (!event.skipCards && lastSection >= 0 && state.api.sections?.length) {
+    section = gameState.sections[lastSection]
     const formation =
       gameState.lastPlayer == '0' ? section.attack : section.defense
-    const card = formation[formation.length - 1]
-    let cards = [card]
+    card = formation[formation.length - 1]
+    cards = [card]
+  }
 
-    if (gameState.lastEvent.toLowerCase() == 'eliminate') {
-      const opposite = { suit: card.suit, rank: card.rank == 0 ? 11 : 0 }
-      cards = [card, { rank: -1, suit: -1, protected: true }, opposite]
-    } else if (gameState.lastEvent == 'Damage') {
-      cards = [
-        ...section.attack,
-        { rank: -1, suit: -1, protected: true },
-        ...section.defense,
-      ]
-    }
+  if (gameState.lastEvent == 'Eliminate') {
+    const opposite = { suit: card.suit, rank: card.rank == 0 ? 11 : 0 }
+    cards = [card, emptyCard, opposite]
+  } else if (gameState.lastEvent == 'Damage') {
+    cards = [...(section?.attack || []), emptyCard, ...(section?.attack || [])]
+  }
 
-    state.log.push({
-      role: gameState.lastPlayer,
-      event: gameState.lastEvent,
-      section: section?.name,
-      cards,
-    })
-  })
+  return {
+    role: gameState.lastPlayer,
+    event: gameState.lastEvent,
+    description: event.description,
+    skipCards: event.skipCards,
+    icon: event.icon,
+    color: event.color,
+    section:
+      section?.name?.replace('Left', 'West ')?.replace('Right', 'East ') || '',
+    cards,
+  }
+}
 
-const setState = (gameState: Schotten2State) => {
-  parseLog(gameState)
-  state.cardPlayed = false
-  // console.error(gameState.isCurrentPlayer, state.api.isCurrentPlayer)
+const setState = (gameState: Schotten2State, isLog = false) => {
   if (
-    isGameOver(gameState) &&
+    !isLog &&
+    !isGameOver(gameState) &&
     gameState.isCurrentPlayer &&
     !state.api.isCurrentPlayer
   )
@@ -155,29 +170,50 @@ const setState = (gameState: Schotten2State) => {
       message: 'Its your turn',
       timeout: 3000,
     })
+  if (state.isLog && !isLog) {
+    state.loading = false
+    return
+  }
+  const log = parseLog(gameState)
   state.api = Object.assign({}, state.api, gameState)
   LocalStorage.set(LOCAL_KEY, state)
+  if (log) state.log.push(log)
   state.loading = false
 }
 
 const isGameOver = (gameState: Schotten2State): boolean => {
-  if (gameState.lastEvent != 'Destroyed' && gameState.lastEvent != 'Defended')
-    return false
+  if (!gameState.gameOver) return false
+  let notification: Notification
+  if (gameState.gameOver == 'Win') {
+    startConfetti()
+    notification = store.state.config.notifications[NOTIFICATIONS.WIN]
+  } else if (gameState.gameOver == 'Loss') {
+    notification = store.state.config.notifications[NOTIFICATIONS.LOSS]
+  } else {
+    notification = store.state.config.notifications[NOTIFICATIONS.OVER]
+  }
 
-  let isWin = false
-  if (gameState.isAttacker && gameState.lastEvent == 'Destroyed') isWin = true
-  else if (!gameState.isAttacker && gameState.lastEvent == 'Defended')
-    isWin = true
-
-  if (isWin) startConfetti()
-  const notify = isWin ? NOTIFICATIONS.WIN : NOTIFICATIONS.LOSS
   Notify.create(
-    Object.assign(store.state.config.notifications[notify], {
+    Object.assign({}, notification, {
       timeout: 0,
-      onDismiss: () => {
-        stopConfetti()
-        router.push('/')
-      },
+      closeBtn: false,
+      actions: [
+        {
+          label: 'Open Pulse Games',
+          color: 'white',
+          size: '0.5rem',
+          handler: () => {
+            stopConfetti()
+            router.push('/')
+          },
+        },
+        {
+          label: 'Dismiss',
+          color: 'dark',
+          size: '0.5rem',
+          handler: stopConfetti,
+        },
+      ],
     }),
   )
   return true
@@ -189,7 +225,6 @@ const disablePrepOptions = () => {
 }
 
 const placeCard = (sectionIndex: number, cardIndex: number) => {
-  state.cardPlayed = true
   state.api.isCurrentPlayer = false
   const card = state.api.handCards[cardIndex]
   state.api.handCards.splice(cardIndex, 1)
@@ -208,10 +243,10 @@ const actions = {
     engine = socket
     if (match.includes('demo')) engine = demo
     matchId.value = match
+    await engine.disconnect()
     await engine.connect(match, setState)
-    // const gameState = await getState()
-    // setState(gameState)
   },
+  parseLog,
   toggleCard: (orderIndex: number) => {
     disablePrepOptions()
     state.api.newCards = 0
@@ -258,8 +293,18 @@ const actions = {
   },
   resign: () => engine.resign(),
   disconnect: () => {
+    matchId.value = ''
     LocalStorage.remove(LOCAL_KEY)
     return engine.disconnect()
+  },
+  loadLog: (logState: Schotten2State) => {
+    state.isLog = true
+    setState(logState, true)
+  },
+  restoreState: () => {
+    console.error('restore', game.state.api.siegeCardsCount)
+    state.isLog = false
+    engine.load(game.state.api.siegeCardsCount)
   },
 }
 

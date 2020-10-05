@@ -44,6 +44,10 @@ const api = {
       `/match?player=${player}&skip=${skip}&take=${take}&opponent=${opponent}`,
     )
   },
+  getSchotten2Log: (matchId: string, skip: number) =>
+    axiosInstance.get('/schotten2/log', {
+      params: { matchId, skip },
+    }),
   getMatch: (matchId: string) => axiosInstance.get('/match/' + matchId),
   getSettings: () => axiosInstance.get('/player/settings'),
   getResources: () => axiosInstance.get('/resource'),

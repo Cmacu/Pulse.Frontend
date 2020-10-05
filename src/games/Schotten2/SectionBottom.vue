@@ -47,7 +47,9 @@ export default defineComponent({
     SiegeCard: () => import('./SiegeCard.vue'),
   },
   setup(props) {
-    const isCurrentPlayer = computed(() => game.state.api.isCurrentPlayer)
+    const isCurrentPlayer = computed(
+      () => !game.state.isLog && game.state.api.isCurrentPlayer,
+    )
     const handOrderSelectedIndex = computed(
       () => game.state.handOrderSelectedIndex,
     )

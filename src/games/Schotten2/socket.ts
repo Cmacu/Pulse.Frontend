@@ -10,6 +10,7 @@ import auth from 'src/utils/auth'
 
 const HUB = {
   url: process.env.API + '/st2hub',
+  sendCheckState: 'CheckState',
   sendRetreat: 'Retreat',
   sendUseOil: 'UseOil',
   sendPlayCard: 'PlayCard',
@@ -97,6 +98,7 @@ export const socket: Schotten2Api = {
     await start()
     connection.onclose(onClose)
   },
+  load: (cardCount: number) => connection?.send(HUB.sendCheckState, cardCount),
   retreat: (sectionIndex) => connection?.send(HUB.sendRetreat, sectionIndex),
   useOil: (sectionIndex) => connection?.send(HUB.sendUseOil, sectionIndex),
   playCard: (sectionIndex: number, handIndex: number) =>
