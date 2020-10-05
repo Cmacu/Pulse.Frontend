@@ -37,12 +37,9 @@ export default defineComponent({
     },
   },
   setup(props, { attrs, listeners }) {
-    const side = computed(() =>
-      game.state.api.isAttacker ? 'attack' : 'defense',
-    )
     return {
       color: computed(() => (game.state.api.isAttacker ? 'accent' : 'primary')),
-      image: computed(() => `/st2/info/${side.value}/${props.name}.png`),
+      image: computed(() => `/st2/info/attack/${props.name}.png`),
       attributes: computed(() => Object.assign(props, attrs)),
       listeners: computed(() => Object.assign({}, listeners)),
     }

@@ -1,6 +1,17 @@
 <template>
   <q-page class="flex flex-center full-height" :class="pageClass">
-    <Info :attacker="attacker" :defender="defender" />
+    <section
+      class="absolute-top page-container row no-wrap q-px-sm q-pt-xs justify-between items-start text-dark"
+      style="font-size: 0.7rem;"
+    >
+      <div class="row items-center">
+        <div>{{ attacker }}</div>
+        <q-icon name="clear" color="grey-5" size="0.8rem" />
+        <div>{{ defender }}</div>
+      </div>
+      <Log :matchId="matchId" :attacker="attacker" :defender="defender" />
+    </section>
+    <Info :opponent="opponent" />
 
     <table class="schotten2-wall page-container">
       <!-- Opponent Cards -->
@@ -66,6 +77,7 @@ export default defineComponent({
   name: 'Schotten2Game',
   components: {
     Info: () => import('./Info.vue'),
+    Log: () => import('./Log.vue'),
     SectionTop: () => import('./SectionTop.vue'),
     Section: () => import('./Section.vue'),
     SectionBottom: () => import('./SectionBottom.vue'),
@@ -85,11 +97,12 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props) {
+  setup(props, context) {
     const htmlElement = document.documentElement
     onMounted(async () => {
       window.scrollTo(0, 1)
       htmlElement.className = 'schotten2-game'
+      context.root.$forceUpdate()
       await game.actions.loadState(props.matchId)
     })
     onUnmounted(async () => {
@@ -100,6 +113,10 @@ export default defineComponent({
     const isAttacker = computed(() => game.state.api.isAttacker)
     return {
       isAttacker,
+      opponent: computed(() => {
+        const name = game.state.api.isAttacker ? props.defender : props.attacker
+        return name || 'Opponent'
+      }),
       pageClass: computed(() =>
         isAttacker.value ? 'schotten2-attacker' : 'schotten2-defender',
       ),

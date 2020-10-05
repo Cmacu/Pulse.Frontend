@@ -30,13 +30,14 @@
       </q-card-section>
       <q-card-section class="col-2 flex flex-center">
         <div v-if="timer">{{ timer }}</div>
-        <div
+        <router-link
           v-if="match.name"
-          class="text-center text-overline"
+          :to="`/games/schotten2?matchId=${match.matchId}`"
+          class="text-center text-overline text-default"
           style="margin: -10px 0px;"
         >
           <MatchDelta :match="match.name" :delta="match.delta" />
-        </div>
+        </router-link>
       </q-card-section>
       <q-card-section class="col-5 flex flex-center">
         <div class="text-overline full-width text-center">

@@ -37,7 +37,7 @@ export interface Suit {
 const suits: Suit[] = [
   {
     name: '',
-    color: '#a7b56d',
+    color: '#bfbf67',
     icon: 'anchor',
     image: '',
   },
@@ -148,7 +148,7 @@ interface Schotten2Event {
 
 const events: { [key: string]: Schotten2Event } = {
   Eliminate: {
-    description: 'activated opposites at the',
+    description: 'eliminated opposites at the',
     icon: 'sports_hockey',
     color: 'negative',
   },

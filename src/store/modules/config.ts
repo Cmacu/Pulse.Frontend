@@ -58,6 +58,7 @@ export enum NOTIFICATIONS {
   LOSS,
   PROMOTED,
   DEMOTED,
+  OVER,
 }
 
 export interface BadgeDetails {
@@ -388,6 +389,11 @@ const defaultState: ConfigInterface = {
       message: 'Your rank decreased! Your new rank is ',
       color: 'negative',
       icon: 'new_releases',
+    },
+    [NOTIFICATIONS.OVER]: {
+      message: 'Game Over',
+      color: 'primary',
+      icon: 'o_close',
     },
   },
   badges: {
