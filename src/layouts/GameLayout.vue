@@ -73,14 +73,14 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const attacker = ref('Attacker')
-    const defender = ref('Defender')
+    const attacker = ref('Aife')
+    const defender = ref('Chulainn')
     onMounted(async () => {
       if (props.matchId == 'demoAttack') {
-        return (attacker.value = 'General')
+        return (attacker.value = 'Milord')
       }
       if (props.matchId == 'demoDefense') {
-        return (defender.value = 'General')
+        return (defender.value = 'Milord')
       }
 
       const response = await api.getMatch(props.matchId)

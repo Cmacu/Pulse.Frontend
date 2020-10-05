@@ -1,6 +1,7 @@
 import { Notify } from 'quasar'
 import { DemoMessage, DemoFunction, playDemo } from 'src/games/Schotten2/demo'
 import { game } from 'src/games/Schotten2/game'
+import router from 'src/router'
 import { startConfetti, stopConfetti } from 'src/utils/confetti'
 
 let moreOptionsEnabled = false
@@ -35,81 +36,84 @@ export const defenderMessage: DemoMessage = {
 
 const demoAttack: DemoFunction[] = []
 demoAttack.push(() => {
-  game.state.api.isAttacker = true
-  game.state.api.isCurrentPlayer = false
-  game.state.api.enablePreparation = false
-  game.state.api.siegeCardsCount = 48
-  game.state.api.oilCount = 3
-  game.state.api.handCards = [
-    { rank: 8, suit: 4, protected: true }, // Red 8
-    { rank: 10, suit: 1, protected: true }, // Blue 10
-    { rank: 0, suit: 4, protected: true }, // Red 0
-    { rank: 9, suit: 2, protected: true }, // Green 9
-    { rank: 2, suit: 0, protected: true }, // Yellow 2
-    { rank: 3, suit: 3, protected: true }, // Purple 3
-  ]
-  game.state.api.sections = [
-    {
-      name: 'LeftPit',
-      spaces: 0,
-      types: [1],
-      isDamaged: false,
-      attack: [],
-      defense: [],
-    },
-    {
-      name: 'LeftTower',
-      spaces: 0,
-      types: [0, 2, 3, 4, 5],
-      isDamaged: false,
-      attack: [],
-      defense: [],
-    },
-    {
-      name: 'LeftWall',
-      spaces: 0,
-      types: [0, 2, 3, 4, 5],
-      isDamaged: false,
-      attack: [],
-      defense: [],
-    },
-    {
-      name: 'Gate',
-      spaces: 0,
-      types: [0, 2, 3, 4, 5],
-      isDamaged: false,
-      attack: [],
-      defense: [],
-    },
-    {
-      name: 'RightWall',
-      spaces: 0,
-      types: [0, 2, 3, 4, 5],
-      isDamaged: false,
-      attack: [],
-      defense: [],
-    },
-    {
-      name: 'RightTower',
-      spaces: 0,
-      types: [0, 2, 3, 4, 5],
-      isDamaged: false,
-      attack: [],
-      defense: [],
-    },
-    {
-      name: 'RightPit',
-      spaces: 0,
-      types: [1],
-      isDamaged: false,
-      attack: [],
-      defense: [],
-    },
-  ]
+  const state = {
+    isAttacker: true,
+    isCurrentPlayer: false,
+    enablePreparation: false,
+    siegeCardsCount: 48,
+    oilCount: 3,
+    handCards: [
+      { rank: 8, suit: 4, protected: true }, // Red 8
+      { rank: 10, suit: 1, protected: true }, // Blue 10
+      { rank: 0, suit: 4, protected: true }, // Red 0
+      { rank: 9, suit: 2, protected: true }, // Green 9
+      { rank: 2, suit: 0, protected: true }, // Yellow 2
+      { rank: 3, suit: 3, protected: true }, // Purple 3
+    ],
+    sections: [
+      {
+        name: 'LeftPit',
+        spaces: 0,
+        types: [1],
+        isDamaged: false,
+        attack: [],
+        defense: [],
+      },
+      {
+        name: 'LeftTower',
+        spaces: 0,
+        types: [0, 2, 3, 4, 5],
+        isDamaged: false,
+        attack: [],
+        defense: [],
+      },
+      {
+        name: 'LeftWall',
+        spaces: 0,
+        types: [0, 2, 3, 4, 5],
+        isDamaged: false,
+        attack: [],
+        defense: [],
+      },
+      {
+        name: 'Gate',
+        spaces: 0,
+        types: [0, 2, 3, 4, 5],
+        isDamaged: false,
+        attack: [],
+        defense: [],
+      },
+      {
+        name: 'RightWall',
+        spaces: 0,
+        types: [0, 2, 3, 4, 5],
+        isDamaged: false,
+        attack: [],
+        defense: [],
+      },
+      {
+        name: 'RightTower',
+        spaces: 0,
+        types: [0, 2, 3, 4, 5],
+        isDamaged: false,
+        attack: [],
+        defense: [],
+      },
+      {
+        name: 'RightPit',
+        spaces: 0,
+        types: [1],
+        isDamaged: false,
+        attack: [],
+        defense: [],
+      },
+    ],
+  }
+  game.state.api = Object.assign({}, game.state.api, state)
   Notify.create(
     Object.assign({}, attackerMessage, {
       message: `
-      General! We are ready to attack the castle!
+      Milord! We are ready to attack the castle!
     `,
     }),
   )
@@ -141,7 +145,8 @@ demoAttack.push(() => {
   Notify.create(
     Object.assign({}, attackerMessage, {
       message: `
-      Go ahead and play the <strong>[10 Blue]</strong> on the Gate!
+      Go ahead and play the <strong>[10 Blue]</strong>
+      on the middle Wall Section which is called the <strong>Gate</strong>!
     `,
     }),
   )
@@ -160,7 +165,9 @@ demoAttack.push(() => {
   game.state.api.lastEvent = 'PlayCard'
   game.state.log.push({
     role: '0',
+    player: 'Milord',
     event: 'PlayCard',
+    description: 'played card at the',
     section: 'Gate',
     cards: [{ rank: 10, suit: 1 }],
   })
@@ -168,8 +175,8 @@ demoAttack.push(() => {
   Notify.create(
     Object.assign({}, attackerMessage, {
       message: `
-      We will attempt to <strong>capture</strong> this Wall Segment
-      by completing a stronger formation on our side than the Defender is able to.
+      We will attempt to <strong>damage</strong> this Wall Segment
+      by completing a stronger formation on our side than the Chulainn is able to.
       This will <strong>damage</strong> the Wall Segment, the first step to victory.
     `,
     }),
@@ -207,7 +214,8 @@ demoAttack.push(() => {
   Notify.create(
     Object.assign({}, attackerMessage, {
       message: `
-      Since this wall section only has two slots to <strong>play</strong> a card,
+      Since this wall section only has  two Banners which
+      indicate the slots to <strong>play</strong> a card,
       we’ll only need to <strong>play</strong> one more card to have a complete Formation!
     `,
     }),
@@ -219,7 +227,7 @@ demoAttack.push(() => {
     Object.assign({}, attackerMessage, {
       message: `
       At any time, you can see the list of Formations and their ranking
-      in the game rules by hitting the highlighted “more options” button
+      in the game rules by hitting the highlighted dropdown button
     `,
     }),
   )
@@ -228,11 +236,10 @@ demoAttack.push(() => {
 
 demoAttack.push(() => {
   toggleMoreOptions()
-
   Notify.create(
     Object.assign({}, defenderMessage, {
       message: `
-      Yawn* Ah General!  Forgive my yawn.
+      Yawn* Ah Milord!  Forgive my yawn.
     `,
     }),
   )
@@ -267,7 +274,9 @@ demoAttack.push(() => {
   game.state.api.lastEvent = 'PlayCard'
   game.state.log.push({
     role: '1',
+    player: 'Chulainn',
     event: 'PlayCard',
+    description: 'played card at the',
     section: 'Gate',
     cards: [{ rank: 6, suit: 1 }],
   })
@@ -278,7 +287,7 @@ demoAttack.push(() => {
   Notify.create(
     Object.assign({}, attackerMessage, {
       message: `
-      I don’t think that Defender is trembling at the sight of us as expected… but no matter.
+      I don’t think that Chulainn is trembling at the sight of us as expected… but no matter.
     `,
     }),
   )
@@ -298,7 +307,7 @@ demoAttack.push(() => {
   Notify.create(
     Object.assign({}, attackerMessage, {
       message: `
-      However, there are only two slots to <strong>play</strong> cards on the Gate segment.
+      However, there are only only two Banners and thus two slots to <strong>play</strong> cards on the Gate segment.
       So we only need to play one more card on the Gate in order to have a complete Formation.
     `,
     }),
@@ -329,7 +338,9 @@ demoAttack.push(() => {
   game.state.api.lastEvent = 'PlayCard'
   game.state.log.push({
     role: '0',
+    player: 'Milord',
     event: 'PlayCard',
+    description: 'played card at the',
     section: 'Gate',
     cards: [{ rank: 11, suit: 1 }],
   })
@@ -361,7 +372,9 @@ demoAttack.push(() => {
     game.state.api.lastEvent = 'Damage'
     game.state.log.push({
       role: '0',
+      player: 'Milord',
       event: 'Damage',
+      description: 'damaged the',
       section: 'Gate',
       cards: [
         { rank: 10, suit: 1 },
@@ -398,7 +411,7 @@ demoAttack.push(() => {
   Notify.create(
     Object.assign({}, attackerMessage, {
       message: `
-      As the Defender is unable to play a stronger formation,
+      As the Chulainn is unable to play a stronger formation,
       or remove any of our cards, the wall is damaged.
       This removed all cards on either side of that segment
       and presents the new Section limitation.
@@ -444,9 +457,9 @@ demoAttack.push(() => {
   Notify.create(
     Object.assign({}, attackerMessage, {
       message: `
-      You may have noticed some of the Wall Segments have slots with icons.
-      In the case of the damaged Gate, the formation
-      requirement is 4 cards and only the smallest sum is evaluated.
+      You may have noticed some of the Wall Segments  have Banners with icons.
+      In the case of the damaged Gate, the new formation requirement is 4 cards
+      and only Sum Formations are evaluated and, in this case, the lowest(-) sum wins
     `,
     }),
   )
@@ -457,6 +470,7 @@ demoAttack.push(() => {
     Object.assign({}, attackerMessage, {
       message: `
       No other formation type may be considered!
+      To read more about a particular Wall Section click on it.
     `,
     }),
   )
@@ -468,7 +482,7 @@ demoAttack.push(() => {
     Object.assign({}, attackerMessage, {
       message: `
         At any time, see a list of “Wall Section Limitations”
-        and their the game rules by hitting the highlighted “more options” button
+        and their the game rules by hitting the highlighted highlighted dropdown button
     `,
     }),
   )
@@ -483,7 +497,9 @@ demoAttack.push(() => {
   game.state.api.lastSection = section
   game.state.log.push({
     role: '1',
+    player: 'Chulainn',
     event: 'PlayCard',
+    description: 'played card at the',
     section: 'LeftPit',
     cards: [card],
   })
@@ -495,7 +511,7 @@ demoAttack.push(() => {
   Notify.create(
     Object.assign({}, defenderMessage, {
       message: `
-      If a formation is tied the winner is the one who completed their formation first.
+      If a formation is tied, the winner is the player who completed their formation first.
     `,
     }),
   )
@@ -525,7 +541,9 @@ demoAttack.push(() => {
   game.state.api.lastEvent = 'PlayCard'
   game.state.log.push({
     role: '0',
+    player: 'Milord',
     event: 'PlayCard',
+    description: 'played card at the',
     section: 'LeftPit',
     cards: [{ rank: 9, suit: 2 }],
   })
@@ -546,7 +564,9 @@ demoAttack.push(() => {
     game.state.api.lastEvent = 'PlayCard'
     game.state.log.push({
       role: '0',
+      player: 'Milord',
       event: 'PlayCard',
+      description: 'played card at the',
       section: 'LeftPit',
       cards: [{ rank: 10, suit: 3 }],
     })
@@ -590,6 +610,7 @@ demoAttack.push(() => {
 
 demoAttack.push(() => {
   game.state.api.isCurrentPlayer = true
+  game.state.handOrderSelectedIndex = -1
   game.state.api.enablePreparation = true
 })
 
@@ -599,7 +620,9 @@ demoAttack.push(() => {
   game.state.api.lastEvent = 'Retreat'
   game.state.log.push({
     role: '0',
+    player: 'Milord',
     event: 'Retreat',
+    description: 'retreated at the',
     section: 'LeftPit',
     cards: [{ rank: 9, suit: 2 }],
   })
@@ -624,7 +647,7 @@ demoAttack.push(() => {
   Notify.create(
     Object.assign({}, attackerMessage, {
       message: `
-      Don’t worry about him, General. Now the field is clear for our next approach.
+      Don’t worry about him, Milord. Now the field is clear for our next approach.
       `,
     }),
   )
@@ -655,7 +678,9 @@ demoAttack.push(() => {
   game.state.api.lastEvent = 'PlayCard'
   game.state.log.push({
     role: '0',
+    player: 'Milord',
     event: 'PlayCard',
+    description: 'played card at the',
     section: 'Gate',
     cards: [{ rank: 1, suit: 1 }],
   })
@@ -676,7 +701,9 @@ demoAttack.push(() => {
     game.state.api.lastSection = 3
     game.state.log.push({
       role: '1',
+      player: 'Chulainn',
       event: 'PlayCard',
+      description: 'played card at the',
       section: 'Gate',
       cards: [{ rank: 6, suit: 0 }],
     })
@@ -695,7 +722,9 @@ demoAttack.push(() => {
   game.state.api.lastSection = 3
   game.state.log.push({
     role: '0',
+    player: 'Milord',
     event: 'PlayCard',
+    description: 'played card at the',
     section: 'Gate',
     cards: [{ rank: 2, suit: 0 }],
   })
@@ -716,7 +745,9 @@ demoAttack.push(() => {
     game.state.api.lastSection = 4
     game.state.log.push({
       role: '1',
+      player: 'Chulainn',
       event: 'PlayCard',
+      description: 'played card at the',
       section: 'RightWall',
       cards: [{ rank: 8, suit: 1 }],
     })
@@ -735,7 +766,9 @@ demoAttack.push(() => {
   game.state.api.lastSection = 3
   game.state.log.push({
     role: '0',
+    player: 'Milord',
     event: 'PlayCard',
+    description: 'played card at the',
     section: 'Gate',
     cards: [{ rank: 3, suit: 3 }],
   })
@@ -756,7 +789,9 @@ demoAttack.push(() => {
     game.state.api.lastSection = 3
     game.state.log.push({
       role: '1',
+      player: 'Chulainn',
       event: 'PlayCard',
+      description: 'played card at the',
       section: 'Gate',
       cards: [{ rank: 3, suit: 2 }],
     })
@@ -775,7 +810,9 @@ demoAttack.push(() => {
   game.state.api.lastSection = 3
   game.state.log.push({
     role: '0',
+    player: 'Milord',
     event: 'PlayCard',
+    description: 'played card at the',
     section: 'Gate',
     cards: [{ rank: 0, suit: 4 }],
   })
@@ -813,7 +850,9 @@ demoAttack.push(() => {
     game.state.api.lastSection = 3
     game.state.log.push({
       role: '0',
+      player: 'Milord',
       event: 'Destroy',
+      description: 'won by successfully destroying the',
       section: 'Gate',
       cards: [
         { rank: 1, suit: 1 }, // Blue 1
@@ -829,7 +868,7 @@ demoAttack.push(() => {
     Notify.create(
       Object.assign({}, attackerMessage, {
         message: `
-          Victory General! Well done!!
+          Victory Milord! Well done!!
         `,
       }),
     )
@@ -854,6 +893,27 @@ demoAttack.push(() => {
       But I’ll be back and better than ever in the next tutorial!
       Who could have seen that twist coming!
       `,
+      closeBtn: false,
+      actions: [
+        {
+          label: 'Open Pulse Games',
+          color: 'white',
+          size: '0.5rem',
+          handler: () => {
+            stopConfetti()
+            router.push('/')
+          },
+        },
+        {
+          label: 'Defender Demo',
+          color: 'dark',
+          size: '0.5rem',
+          handler: () => {
+            stopConfetti()
+            location.href = '/games/schotten2?matchId=demoDefense'
+          },
+        },
+      ],
     }),
   )
 })

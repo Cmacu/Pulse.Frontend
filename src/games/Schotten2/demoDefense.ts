@@ -1,24 +1,25 @@
 import { Notify } from 'quasar'
 import { DemoMessage, DemoFunction, playDemo } from 'src/games/Schotten2/demo'
 import { game } from 'src/games/Schotten2/game'
+import router from 'src/router'
 import { startConfetti, stopConfetti } from 'src/utils/confetti'
 
 const eventDelay = 2 * 1000
 
 export const attackerMessage: DemoMessage = {
-  avatar: '/symbols/Cmacu.png',
+  avatar: '/symbols/Opponent.png',
   color: 'accent',
   html: true,
   timeout: 0,
   position: 'top',
   onDismiss: () => playDemo(),
 }
-// { rank: 9, suit: 0}, // [9 Yellow] - Attacker hand
-// { rank: 7, suit: 1}, // [7 Blue] - Attacker hand
-// { rank: 9, suit: 1}, // [9 Blue] - Attacker Hand
-// { rank: 6, suit: 3}, // [6 Purple] - Attacker Hand
-// { rank: 1, suit: 2}, // [1 Green] - Attacker Hand
-// { rank: 3, suit: 0}, // [3 Yellow] - Attacker Hand
+// { rank: 9, suit: 0}, // [9 Yellow] - Aife hand
+// { rank: 7, suit: 1}, // [7 Blue] - Aife hand
+// { rank: 9, suit: 1}, // [9 Blue] - Aife Hand
+// { rank: 6, suit: 3}, // [6 Purple] - Aife Hand
+// { rank: 1, suit: 2}, // [1 Green] - Aife Hand
+// { rank: 3, suit: 0}, // [3 Yellow] - Aife Hand
 
 export const defenderMessage: DemoMessage = {
   avatar: '/symbols/Will.png',
@@ -36,6 +37,15 @@ export const toggleSiegeCards = () => {
   if (siegeCards)
     siegeCards.style.border = siegeCardsEnabled ? 'none' : '2px solid red'
   siegeCardsEnabled = !siegeCardsEnabled
+}
+
+let logEnabled = false
+
+export const toggleLog = () => {
+  const siegeCards = document.getElementById('schotten2-log')
+  if (siegeCards)
+    siegeCards.style.borderBottom = logEnabled ? 'none' : '2px solid red'
+  logEnabled = !logEnabled
 }
 
 const demoDefense: DemoFunction[] = []
@@ -57,10 +67,10 @@ demoDefense.push(() => {
     { rank: 5, suit: 3 }, // [5 Purple] - Discard (Tower)
     { rank: 8, suit: 3 }, // [8 Purple] - Discard (Tower)
     { rank: 9, suit: 3 }, // [9 Purple] - Discard (Tower)
-    { rank: 5, suit: 4 }, // [5 Red] - Discard (Attacker)
-    { rank: 6, suit: 4 }, // [6 Red] - Discard (Attacker)
-    { rank: 2, suit: 3 }, // [2 Purple] - Discard (Attacker)
-    { rank: 3, suit: 3 }, // [3 Purple] - Discard (Attacker)
+    { rank: 5, suit: 4 }, // [5 Red] - Discard (Aife)
+    { rank: 6, suit: 4 }, // [6 Red] - Discard (Aife)
+    { rank: 2, suit: 3 }, // [2 Purple] - Discard (Aife)
+    { rank: 3, suit: 3 }, // [3 Purple] - Discard (Aife)
   ]
   game.state.api.handCards = [
     { rank: 8, suit: 3, protected: true }, // [8 Green]
@@ -179,7 +189,7 @@ demoDefense.push(() => {
   Notify.create(
     Object.assign({}, defenderMessage, {
       message: `
-      General, You can see our nemesis is back and has been throwing
+      Milord, You can see our nemesis is back and has been throwing
       his paltry forces at us in an attempt to retake the castle.
     `,
     }),
@@ -201,7 +211,7 @@ demoDefense.push(() => {
   Notify.create(
     Object.assign({}, defenderMessage, {
       message: `
-      The Attacker doesn’t have much time left to win though. The deck has almost run out!
+      The Aife doesn’t have much time left to win though. The Siege Cards deck has almost run out!
     `,
     }),
   )
@@ -212,7 +222,7 @@ demoDefense.push(() => {
   Notify.create(
     Object.assign({}, defenderMessage, {
       message: `
-      He has managed to damage two wall segments and remember if he controls one of those he will win!
+      He has managed to damage two wall sections and remember if he controls one of those he will win!
     `,
     }),
   )
@@ -224,7 +234,9 @@ demoDefense.push(() => {
   game.state.api.lastSection = 3
   game.state.log.push({
     role: '0',
+    player: 'Aife',
     event: 'PlayCard',
+    description: 'played a card at the',
     section: 'RightTower',
     cards: [
       { rank: 7, suit: 4 }, // Red 7
@@ -239,7 +251,7 @@ demoDefense.push(() => {
   Notify.create(
     Object.assign({}, defenderMessage, {
       message: `
-      The draw deck has one last card, so we only have to prevent the Attacker
+      The draw deck has one last card, so we only have to prevent the Aife
       from winning on his next turn in order to be victorious.
     `,
     }),
@@ -257,12 +269,22 @@ demoDefense.push(() => {
 })
 
 demoDefense.push(() => {
-  // Highlight the gate
   Notify.create(
     Object.assign({}, defenderMessage, {
       message: `
       Let's see.
-      The attacker can play the remaining [11 Green] at the door.
+      We know what's remaining based on the discard cards.
+      Click on <strong>Discard Cards</strong> to see the details.
+    `,
+    }),
+  )
+})
+
+demoDefense.push(() => {
+  Notify.create(
+    Object.assign({}, defenderMessage, {
+      message: `
+      The attacker can play the remaining [1 Green] at the door.
       This will make for a stronger formation than ours and destroy it.
       The game will be lost.
     `,
@@ -355,7 +377,9 @@ demoDefense.push(() => {
   game.state.api.lastSection = 5
   game.state.log.push({
     role: '1',
+    player: 'Milord',
     event: 'UseOil',
+    description: 'used oil at the',
     section: 'RightTower',
     cards: [
       { rank: 7, suit: 4 }, // Red 7
@@ -409,7 +433,9 @@ demoDefense.push(() => {
   game.state.api.lastSection = 3
   game.state.log.push({
     role: '1',
+    player: 'Milord',
     event: 'PlayCard',
+    description: 'played a card at the',
     section: 'Gate',
     cards: [
       { rank: 11, suit: 2 }, // 11 Green
@@ -437,7 +463,9 @@ demoDefense.push(() => {
     game.state.api.lastSection = 3
     game.state.log.push({
       role: '1',
+      player: 'Milord',
       event: 'Eliminate',
+      description: 'eliminated opposites at the',
       section: 'Gate',
       cards: [
         { rank: 11, suit: 2 }, // 11 Green
@@ -460,6 +488,18 @@ demoDefense.push(() => {
 })
 
 demoDefense.push(() => {
+  toggleLog()
+  Notify.create(
+    Object.assign({}, defenderMessage, {
+      message: `
+      For more details about what happened during each turn check the highlighted <strong>Log</strong>
+    `,
+    }),
+  )
+})
+
+demoDefense.push(() => {
+  toggleLog()
   Notify.create(
     Object.assign({}, defenderMessage, {
       message: `
@@ -486,7 +526,9 @@ demoDefense.push(() => {
   game.state.api.lastSection = 5
   game.state.log.push({
     role: '0',
+    player: 'Aife',
     event: 'PlayCard',
+    description: 'played a card at the',
     section: 'RightTower',
     cards: [
       { rank: 7, suit: 1 }, // 11 Green
@@ -500,7 +542,9 @@ demoDefense.push(() => {
     game.state.api.lastSection = -1
     game.state.log.push({
       role: '1',
+      player: 'Milord',
       event: 'Defend',
+      description: 'won by successfully defending the wall',
       section: '',
     })
     startConfetti()
@@ -512,9 +556,14 @@ demoDefense.push(() => {
   Notify.create(
     Object.assign({}, defenderMessage, {
       message: `
-        The Attacker has failed to win and so you are victorious General!
-        Well done. You know know how to play Schotten Totten 2!
+        The Aife has failed to win and so you are victorious Milord!
+        Well done. You now know how to play Schotten Totten 2!
       `,
+      closeBtn: 'Free to Play',
+      onDismiss: () => {
+        stopConfetti()
+        router.push('/')
+      },
     }),
   )
 })

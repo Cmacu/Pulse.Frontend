@@ -15,6 +15,24 @@
         >
       </div>
       <br />
+      <p>
+        Aífe stood before Dún Scáith, the mythical Fortress of Shadow. She knew
+        to choose the approach carefully, feigning charges to make the Chulainn
+        over commit and give an opening elsewhere. However, play too many tricks
+        and she would surely fail as the siege could only be kept up for so
+        long...
+      </p>
+      <p>
+        Chulainn stood on his highest rampart squinting to see where the Aífe
+        would first attempt to breach the walls. This was the last stand as
+        there would be no retreat. He saw his men taking cramped defensive
+        positions on the walls and hoped they wouldn’t soon see those walls
+        crumble in upon them.
+      </p>
+      <p>
+        The highland mist began to clear… both sides knew the battle would soon
+        be decided.
+      </p>
       <p class="text-bold text-special-11">Goal</p>
       <p>
         You are the leader of a powerful faction, sending troops
