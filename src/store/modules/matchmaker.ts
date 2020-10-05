@@ -307,7 +307,7 @@ const matchmakerModule = defineModule({
         context.state.opponents[1],
       )
       context.commit(mutations.SET_DELTA.name, delta)
-      context.commit(mutations.SET_MATCH_ID.name, '')
+      // context.commit(mutations.SET_MATCH_ID.name, '')
       context.commit(mutations.SET_STATE.name, MATCH_STATES.AVAILABLE)
     },
   },
