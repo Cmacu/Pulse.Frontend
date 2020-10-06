@@ -46,6 +46,7 @@
         <router-view
           :key="$route.fullPath"
           :matchId="matchId"
+          :matchName="matchName"
           :attacker="attacker"
           :defender="defender"
         />
@@ -75,11 +76,14 @@ export default defineComponent({
   setup(props) {
     const attacker = ref('Aife')
     const defender = ref('Chulainn')
+    const matchName = ref('')
     onMounted(async () => {
       if (props.matchId == 'demoAttack') {
+        matchName.value = 'Attack Demo'
         return (attacker.value = 'Milord')
       }
       if (props.matchId == 'demoDefense') {
+        matchName.value = 'Defense Demo'
         return (defender.value = 'Milord')
       }
 
@@ -89,9 +93,11 @@ export default defineComponent({
       )
       attacker.value = players[0].username
       defender.value = players[1].username
+      matchName.value = response.data.name
     })
     return {
       location,
+      matchName,
       attacker,
       defender,
       refresh: () => location.reload(),

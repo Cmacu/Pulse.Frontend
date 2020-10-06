@@ -1,12 +1,16 @@
 <template>
-  <div>
-    <div id="schotten2-log" class="cursor-pointer" @click="atLogClick">
+  <div
+    class="col q-pa-sm bg-white shadow-2 cursor-pointer q-mr-sm"
+    @click="atLogClick"
+  >
+    <div id="schotten2-log">
       <LogItem
         v-if="lastLog && lastLog.description"
         v-bind="lastLog"
         :player="player"
         :align-center="true"
       />
+      <div v-else>Log</div>
     </div>
     <q-dialog
       v-model="showLog"
@@ -111,7 +115,7 @@ export default defineComponent({
     }
 
     const displayLog = () => {
-      currentLog.value = logCount.value.length - 1
+      currentLog.value = logCount.value - 1
       showLog.value = true
       focusLogItem(currentLog.value)
     }
@@ -139,7 +143,7 @@ export default defineComponent({
         )
         const apiLogs = response.data
         for (const apiLog of apiLogs) {
-          const log = game.actions.parseLog(apiLog)
+          const log = game.actions.parseLog(apiLog, apiLog)
           if (!log) continue
           logStates.value.push(apiLog)
           log.player = log.role == '0' ? props.attacker : props.defender

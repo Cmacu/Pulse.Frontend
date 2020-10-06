@@ -20,12 +20,16 @@
         </div>
       </div>
 
-      <div class="col-3" @click="showRules = true">
-        <q-img src="/symbols/SchottenTotten2InGame.png" contain />
+      <div class="relative-position col-4 q-px-md" @click="showRules = true">
+        <q-img
+          class="absolute-top"
+          src="/symbols/SchottenTotten2InGame.png"
+          contain
+        />
       </div>
 
       <div
-        class="col column text-right justify-end"
+        class="relative-position col column text-right justify-end"
         style="margin-top: -0.4rem; margin-bottom: 0.2rem;"
       >
         <div class="row justify-end" @click="showOilDescription = true">
@@ -35,7 +39,7 @@
             name="local_fire_department"
             :color="isAttacker ? 'accent' : 'primary'"
             :class="{ faded: n > oilCount }"
-            size="1.8rem"
+            size="1.5rem"
           />
         </div>
 
@@ -45,8 +49,8 @@
             align="right"
             :color="color"
             size="0.5rem"
-            class="q-px-xs"
-            outline
+            class="q-pl-xs full-width bg-white shadow-2"
+            flat
             dense
             no-caps
           >

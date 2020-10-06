@@ -1,15 +1,23 @@
 <template>
   <q-page class="flex flex-center full-height" :class="pageClass">
     <section
-      class="absolute-top page-container row no-wrap q-px-sm q-pt-xs justify-between items-start text-dark"
-      style="font-size: 0.7rem;"
+      class="absolute-top page-container row no-wrap q-px-sm justify-between items-start text-dark"
+      style="font-size: 0.7rem; line-height: 1;"
     >
-      <div class="row items-center">
-        <div>{{ attacker }}</div>
-        <q-icon name="clear" color="grey-5" size="0.8rem" />
-        <div>{{ defender }}</div>
-      </div>
       <Log :matchId="matchId" :attacker="attacker" :defender="defender" />
+      <div
+        class="column bg-white shadow-2 q-pa-xs items-center"
+        style="z-index: 3;"
+      >
+        <div class="row q-pb-sm border-bottom text-center text-underline">
+          {{ matchName }}
+        </div>
+        <div class="row no-wrap">
+          <div>{{ attacker }}</div>
+          <q-icon name="clear" color="primary" size="0.8rem" />
+          <div>{{ defender }}</div>
+        </div>
+      </div>
     </section>
     <Info :opponent="opponent" />
 
@@ -85,6 +93,10 @@ export default defineComponent({
   },
   props: {
     matchId: {
+      type: String,
+      required: true,
+    },
+    matchName: {
       type: String,
       required: true,
     },

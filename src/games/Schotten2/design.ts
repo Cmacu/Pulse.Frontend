@@ -148,12 +148,12 @@ interface Schotten2Event {
 
 const events: { [key: string]: Schotten2Event } = {
   Eliminate: {
-    description: 'eliminated opposites at the',
+    description: 'found opposites at the',
     icon: 'sports_hockey',
     color: 'negative',
   },
   PlayCard: {
-    description: 'played a card at the',
+    description: 'played at the',
     icon: 'view_agenda',
     color: 'primary',
   },
@@ -191,13 +191,13 @@ const events: { [key: string]: Schotten2Event } = {
     skipCards: true,
   },
   Destroy: {
-    description: 'won by successfully destroying the',
+    description: 'won by destroying the',
     icon: 'emoji_events',
     color: 'primary',
     skipCards: true,
   },
   Demolish: {
-    description: 'won by successfully damaging 4 sections',
+    description: 'won by damaging 4 sections',
     icon: 'emoji_events',
     color: 'primary',
     skipCards: true,

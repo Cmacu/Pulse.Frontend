@@ -1,5 +1,5 @@
 <template>
-  <div class="row q-gutter-xs justify-end items-center">
+  <div class="row q-gutter-xs items-center" style="line-height: 1;">
     <q-icon v-if="isCurrent" name="check" color="positive" size="1rem" />
     <span>{{ player }}</span>
     <i>{{ description }}</i>

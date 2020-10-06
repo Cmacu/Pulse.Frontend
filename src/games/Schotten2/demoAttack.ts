@@ -482,7 +482,7 @@ demoAttack.push(() => {
     Object.assign({}, attackerMessage, {
       message: `
         At any time, see a list of “Wall Section Limitations”
-        and their the game rules by hitting the highlighted highlighted dropdown button
+        in the game rules by hitting the highlighted dropdown button
     `,
     }),
   )
