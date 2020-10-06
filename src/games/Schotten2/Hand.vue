@@ -52,13 +52,14 @@ import { defineComponent, computed, ref } from '@vue/composition-api'
 import { suits } from './design'
 import { game } from './game'
 import { Container, Draggable, DropResult } from 'vue-smooth-dnd'
+import SiegeCard from './SiegeCard.vue'
 
 export default defineComponent({
   name: 'Hand',
   components: {
     Container,
     Draggable,
-    SiegeCard: () => import('./SiegeCard.vue'),
+    SiegeCard,
   },
   setup() {
     const hideImages = ref<boolean[]>([])

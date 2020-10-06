@@ -16,14 +16,18 @@
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api'
 import router from '../router'
+import GameOptions from 'components/GameOptions.vue'
+import ProfileStats from 'components/ProfileStats.vue'
+import MatchMaker from 'components/MatchMaker.vue'
+import MatchMakerLog from 'components/MatchMakerLog.vue'
 
 export default defineComponent({
   name: 'IndexPage',
   components: {
-    GameOptions: () => import('components/GameOptions.vue'),
-    ProfileStats: () => import('components/ProfileStats.vue'),
-    MatchMaker: () => import('components/MatchMaker.vue'),
-    MatchMakerLog: () => import('components/MatchMakerLog.vue'),
+    GameOptions,
+    ProfileStats,
+    MatchMaker,
+    MatchMakerLog,
   },
   setup() {
     return {

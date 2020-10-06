@@ -29,6 +29,7 @@ import { defineComponent, computed, PropType } from '@vue/composition-api'
 import { suits } from './design'
 import { game, Schotten2Section } from './game'
 import { Container, DropResult } from 'vue-smooth-dnd'
+import SiegeCard from './SiegeCard.vue'
 
 export default defineComponent({
   name: 'SectionBottom',
@@ -44,7 +45,7 @@ export default defineComponent({
   },
   components: {
     Container,
-    SiegeCard: () => import('./SiegeCard.vue'),
+    SiegeCard,
   },
   setup(props) {
     const isCurrentPlayer = computed(

@@ -18,6 +18,7 @@
 import { defineComponent, computed, PropType } from '@vue/composition-api'
 import { suits } from './design'
 import { game, Schotten2Section } from './game'
+import SiegeCard from './SiegeCard.vue'
 
 export default defineComponent({
   name: 'SectionTop',
@@ -32,7 +33,7 @@ export default defineComponent({
     },
   },
   components: {
-    SiegeCard: () => import('./SiegeCard.vue'),
+    SiegeCard,
   },
   setup(props) {
     const cards = computed(() => {

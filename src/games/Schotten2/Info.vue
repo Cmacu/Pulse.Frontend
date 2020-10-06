@@ -254,12 +254,14 @@
 import { defineComponent, computed, ref } from '@vue/composition-api'
 import { suits } from './design'
 import { game } from './game'
+import InfoCard from './InfoCard.vue'
+import Rules from './Rules.vue'
 
 export default defineComponent({
   name: 'Info',
   components: {
-    InfoCard: () => import('./InfoCard.vue'),
-    Rules: () => import('./Rules.vue'),
+    InfoCard,
+    Rules,
   },
   props: {
     opponent: {

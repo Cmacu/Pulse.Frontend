@@ -114,11 +114,12 @@
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted } from '@vue/composition-api'
 import store from '../store/'
+import MenuTabs from 'components/MenuTabs.vue'
 
 export default defineComponent({
   name: 'MainLayout',
   components: {
-    MenuTabs: () => import('components/MenuTabs.vue'),
+    MenuTabs,
   },
   setup() {
     const loading = ref(true)

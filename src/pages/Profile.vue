@@ -21,12 +21,14 @@
 import { defineComponent, computed } from '@vue/composition-api'
 import store from '../store'
 import router from 'src/router'
+import ProfileInfo from 'components/ProfileInfo.vue'
+import MatchHistory from 'components/MatchHistory.vue'
 
 export default defineComponent({
   name: 'ProfilePage',
   components: {
-    ProfileInfo: () => import('components/ProfileInfo.vue'),
-    MatchHistory: () => import('components/MatchHistory.vue'),
+    ProfileInfo,
+    MatchHistory,
   },
   props: {
     name: {

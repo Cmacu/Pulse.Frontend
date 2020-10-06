@@ -79,11 +79,12 @@ import { defineComponent, computed, ref } from '@vue/composition-api'
 import { game, Schotten2Log, Schotten2State } from './game'
 import { suits } from './design'
 import api from 'src/utils/api'
+import LogItem from './LogItem.vue'
 
 export default defineComponent({
   name: '',
   components: {
-    LogItem: () => import('./LogItem.vue'),
+    LogItem,
   },
   props: {
     attacker: {

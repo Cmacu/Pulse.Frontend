@@ -49,11 +49,12 @@ import calendar from 'dayjs/plugin/calendar'
 import { MatchInterface } from '../store/modules/stats'
 import { OpponentInterface } from '../store/modules/matchmaker'
 import store from '../store'
+import MatchDelta from 'components/MatchDelta.vue'
 
 export default defineComponent({
   name: 'MatchRow',
   components: {
-    MatchDelta: () => import('components/MatchDelta.vue'),
+    MatchDelta,
   },
   props: {
     match: {

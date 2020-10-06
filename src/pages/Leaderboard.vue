@@ -93,11 +93,12 @@ import api from 'src/utils/api'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import calendar from 'dayjs/plugin/calendar'
+import LeaderboardRow from 'components/LeaderboardRow.vue'
 
 export default defineComponent({
   name: 'LeaderboardPage',
   components: {
-    LeaderboardRow: () => import('components/LeaderboardRow.vue'),
+    LeaderboardRow,
   },
   setup() {
     dayjs.extend(utc)

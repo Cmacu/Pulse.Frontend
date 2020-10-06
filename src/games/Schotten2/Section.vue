@@ -77,10 +77,11 @@
 import { defineComponent, computed, ref, PropType } from '@vue/composition-api'
 import { formations, events } from './design'
 import { game } from './game'
+import SiegeCard from './SiegeCard.vue'
 
 export default defineComponent({
   name: 'Section',
-  components: { SiegeCard: () => import('./SiegeCard.vue') },
+  components: { SiegeCard },
   props: {
     name: {
       type: String,

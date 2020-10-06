@@ -269,11 +269,12 @@
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api'
 import { formations } from './design'
+import SiegeCard from './SiegeCard.vue'
 
 export default defineComponent({
   name: 'Rules',
   components: {
-    SiegeCard: () => import('./SiegeCard.vue'),
+    SiegeCard,
   },
   props: {
     side: {

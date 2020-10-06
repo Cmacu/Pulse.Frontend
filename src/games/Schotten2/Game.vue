@@ -80,16 +80,22 @@ import {
   onUnmounted,
 } from '@vue/composition-api'
 import { game } from './game'
+import Info from './Info.vue'
+import Log from './Log.vue'
+import SectionTop from './SectionTop.vue'
+import Section from './Section.vue'
+import SectionBottom from './SectionBottom.vue'
+import Hand from './Hand.vue'
 
 export default defineComponent({
   name: 'Schotten2Game',
   components: {
-    Info: () => import('./Info.vue'),
-    Log: () => import('./Log.vue'),
-    SectionTop: () => import('./SectionTop.vue'),
-    Section: () => import('./Section.vue'),
-    SectionBottom: () => import('./SectionBottom.vue'),
-    Hand: () => import('./Hand.vue'),
+    Info,
+    Log,
+    SectionTop,
+    Section,
+    SectionBottom,
+    Hand,
   },
   props: {
     matchId: {

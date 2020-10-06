@@ -120,12 +120,14 @@ import store from 'src/store'
 import { formatSeconds } from '../utils/format'
 import router from '../router'
 import { MATCH_STATES } from 'src/store/modules/config'
+import MatchRandomLoader from 'components/MatchRandomLoader.vue'
+import MatchDelta from 'components/MatchDelta.vue'
 
 export default defineComponent({
   name: 'MatchMaker',
   components: {
-    MatchRandomLoader: () => import('components/MatchRandomLoader.vue'),
-    MatchDelta: () => import('components/MatchDelta.vue'),
+    MatchRandomLoader,
+    MatchDelta,
   },
   setup() {
     const seconds = computed(() => store.state.timer.secondsLeft)

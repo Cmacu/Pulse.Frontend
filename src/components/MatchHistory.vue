@@ -37,11 +37,12 @@ import { defineComponent, ref, computed, onMounted } from '@vue/composition-api'
 import store from '../store'
 import { MatchInterface } from '../store/modules/stats'
 import api from '../utils/api'
+import MatchRow from 'components/MatchRow.vue'
 
 export default defineComponent({
   name: 'MatchHistory',
   components: {
-    MatchRow: () => import('components/MatchRow.vue'),
+    MatchRow,
   },
   props: {
     title: {

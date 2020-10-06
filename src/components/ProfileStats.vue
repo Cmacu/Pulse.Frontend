@@ -80,11 +80,12 @@
 import { defineComponent, computed } from '@vue/composition-api'
 import store from '../store'
 import { DivisionInterface } from 'src/store/modules/config'
+import ProfileTrends from 'components/ProfileTrends.vue'
 
 export default defineComponent({
   name: 'ProfileStats',
   components: {
-    ProfileTrends: () => import('components/ProfileTrends.vue'),
+    ProfileTrends,
   },
   setup() {
     const player = computed(() => store.state.player)
