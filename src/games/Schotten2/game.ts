@@ -198,6 +198,11 @@ const setState = (gameState: Schotten2State, isLog = false) => {
 
 const isGameOver = (gameState: Schotten2State): boolean => {
   if (!gameState.gameOver) return false
+
+  if (gameState.lastEvent == 'Destroy') {
+    gameState.sections[gameState.lastSection].name = 'Destroyed'
+  }
+
   let notification: Notification
   if (gameState.gameOver == 'Win') {
     startConfetti()

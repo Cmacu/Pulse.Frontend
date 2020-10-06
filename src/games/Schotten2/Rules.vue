@@ -1,5 +1,5 @@
 <template>
-  <q-card class="page-container q-pa-md" style="font-size: 0.7rem;">
+  <q-card class="page-container q-pa-md" style="font-size: 0.7rem">
     <q-card-section title class="row items-center q-pb-md">
       <div class="text-special-13 text-center">GAME RULES</div>
       <q-space />
@@ -17,10 +17,9 @@
       <br />
       <p>
         Aífe stood before Dún Scáith, the mythical Fortress of Shadow. She knew
-        to choose the approach carefully, feigning charges to make the Chulainn
-        over commit and give an opening elsewhere. However, play too many tricks
-        and she would surely fail as the siege could only be kept up for so
-        long...
+        to choose the approach carefully, feigning charges to make Chulainn over
+        commit and give an opening elsewhere. However, play too many tricks and
+        she would surely fail as the siege could only be kept up for so long...
       </p>
       <p>
         Chulainn stood on his highest rampart squinting to see where the Aífe
@@ -40,9 +39,7 @@
       </p>
 
       <p class="text-bold text-special-11">Victory:</p>
-      <p>
-        The Attacker wins immediately if:
-      </p>
+      <p>The Attacker wins immediately if:</p>
       <div class="row items-center q-pb-md">
         <div class="col-10">
           <p>- They control 1 <i>damaged</i> <strong>Wall Section</strong></p>
@@ -62,9 +59,7 @@
     </q-card-section>
     <q-separator class="q-mb-md" inset />
     <q-card-section>
-      <p class="text-bold text-special-11">
-        Game Elements:
-      </p>
+      <p class="text-bold text-special-11">Game Elements:</p>
       <div class="row items-center q-pb-md">
         <div class="col-10">- 60 <strong>Siege Cards</strong>:</div>
         <div class="col-2 text-center">
@@ -86,9 +81,7 @@
     </q-card-section>
     <q-separator class="q-mb-md" inset />
     <q-card-section>
-      <p class="text-bold text-special-11">
-        On your Turn:
-      </p>
+      <p class="text-bold text-special-11">On your Turn:</p>
       <p>
         You begin the game with a hand of 6 <strong>Siege Cards</strong>. Turns
         consist of three phases to be taken in order:
@@ -130,9 +123,7 @@
         <strong>Siege Card</strong> deck to restore a hand size of 6.
       </p>
 
-      <p class="text-center text-primary">
-        Declaring Control
-      </p>
+      <p class="text-center text-primary">Declaring Control</p>
       <p>
         Any time a card is played, the control is evaluated automatically for
         any <strong>Wall Section(s)</strong> where the formation is complete
@@ -162,9 +153,7 @@
     </q-card-section>
     <q-separator class="q-mb-md" inset />
     <q-card-section>
-      <p class="text-center text-special-11">
-        Evaluating Formations:
-      </p>
+      <p class="text-center text-special-11">Evaluating Formations:</p>
       <p>
         Listed below are the five types of formations which may be played on
         <strong>Wall Section</strong> in order from strongest to weakest.
@@ -196,25 +185,19 @@
       </p>
 
       <div class="row items-center q-pb-md">
-        <div class="col-10">
-          Any formation is considered
-        </div>
+        <div class="col-10">Any formation is considered</div>
         <div class="col-2 text-center">
           <q-img :src="`/st2/sections/${side}/good/tower.png`" contain />
         </div>
       </div>
       <div class="row items-center q-pb-md">
-        <div class="col-10">
-          Only highest (+) Sum formations are considered
-        </div>
+        <div class="col-10">Only highest (+) Sum formations are considered</div>
         <div class="col-2 text-center">
           <q-img :src="`/st2/sections/${side}/good/leftpit.png`" contain />
         </div>
       </div>
       <div class="row items-center q-pb-md">
-        <div class="col-10">
-          Only lowest (-) Sum formations are considered
-        </div>
+        <div class="col-10">Only lowest (-) Sum formations are considered</div>
         <div class="col-2 text-center">
           <q-img :src="`/st2/sections/${side}/good/rightpit.png`" contain />
         </div>
@@ -228,17 +211,13 @@
         </div>
       </div>
       <div class="row items-center q-pb-md">
-        <div class="col-10">
-          Color and Sum formations are considered
-        </div>
+        <div class="col-10">Color and Sum formations are considered</div>
         <div class="col-2 text-center">
           <q-img :src="`/st2/sections/${side}/damaged/wall.png`" contain />
         </div>
       </div>
       <div class="row items-center q-pb-md">
-        <div class="col-10">
-          Run and Sum formations are considered
-        </div>
+        <div class="col-10">Run and Sum formations are considered</div>
         <div class="col-2 text-center">
           <q-img :src="`/st2/sections/${side}/damaged/leftpit.png`" contain />
         </div>

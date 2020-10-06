@@ -19,7 +19,7 @@
       full-width
       @before-hide="atBeforeHide"
     >
-      <q-card style="font-size: 0.6rem; max-height: 10rem;" square>
+      <q-card style="font-size: 0.6rem; max-height: 10rem" square>
         <q-card-section class="row q-py-xs items-center">
           <div>Game Log</div>
           <q-space />
@@ -29,14 +29,14 @@
 
         <q-card-section
           class="q-py-xs"
-          style="height: 4.5rem; overflow-y: auto;"
+          style="height: 4.5rem; overflow-y: auto"
         >
           <q-list dense>
             <q-item
               v-for="(log, index) in logList"
               :key="index"
               class="q-pa-none"
-              style="padding: 0px !important; min-height: 1rem;"
+              style="padding: 0px !important; min-height: 1rem"
               clickable
               :id="`log-item-${index}`"
               :class="{ 'bg-black': index == currentLog }"
@@ -46,6 +46,25 @@
               :focused="index == currentLog"
             >
               <LogItem v-bind="log" :is-current="index == currentLog" />
+            </q-item>
+            <q-item
+              class="q-pa-none"
+              style="padding: 0px !important; min-height: 1rem"
+              clickable
+              :id="`log-item-${logList.length}`"
+              :class="{ 'bg-black': currentLog == logList.length }"
+              :disable="currentLog == logList.length"
+              @click="loadLog(logList.length)"
+              manual-focus
+              :focused="currentLog == logList.length"
+            >
+              <LogItem
+                v-if="lastLog && lastLog.description"
+                v-bind="lastLog"
+                :player="player"
+                :align-center="true"
+              />
+              <div v-else>Empty</div>
             </q-item>
           </q-list>
         </q-card-section>
@@ -116,18 +135,17 @@ export default defineComponent({
     }
 
     const displayLog = () => {
-      currentLog.value = logCount.value - 1
+      currentLog.value = logList.value.length
       showLog.value = true
       focusLogItem(currentLog.value)
     }
+    let skipFirst = true
     return {
       currentLog,
       showLog,
       lastLog,
       disablePrev: computed(() => currentLog.value <= 0),
-      disableNext: computed(
-        () => currentLog.value >= logStates.value.length - 1,
-      ),
+      disableNext: computed(() => currentLog.value >= logStates.value.length),
       suits,
       player: computed(() =>
         lastLog.value?.role == '0' ? props.attacker : props.defender,
@@ -135,7 +153,7 @@ export default defineComponent({
       logList,
       atLogClick: async () => {
         if (isNaN(+props.matchId)) {
-          logList.value = game.state.log
+          logList.value = [...game.state.log]
           return displayLog()
         }
         const response = await api.getSchotten2Log(
@@ -144,6 +162,10 @@ export default defineComponent({
         )
         const apiLogs = response.data
         for (const apiLog of apiLogs) {
+          if (skipFirst) {
+            skipFirst = false
+            continue
+          }
           const log = game.actions.parseLog(apiLog, apiLog)
           if (!log) continue
           logStates.value.push(apiLog)
@@ -156,7 +178,7 @@ export default defineComponent({
       loadLog: (index: number) => {
         if (isNaN(+props.matchId)) return
         if (index < 0) return
-        if (index >= logStates.value.length) return
+        if (index > logStates.value.length) return
         const state = logStates.value[index]
         game.actions.loadLog(state)
         currentLog.value = index

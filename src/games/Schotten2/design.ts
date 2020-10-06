@@ -202,8 +202,14 @@ const events: { [key: string]: Schotten2Event } = {
     color: 'primary',
     skipCards: true,
   },
+  Stop: {
+    description: 'won by stopping the attack',
+    icon: 'emoji_events',
+    color: 'primary',
+    skipCards: true,
+  },
   Defend: {
-    description: 'won by successfully defending the wall',
+    description: 'won by defending the wall',
     icon: 'emoji_events',
     color: 'primary',
     skipCards: true,
