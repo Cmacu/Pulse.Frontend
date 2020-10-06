@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [0.2.1](https://github.com/Cmacu/Pulse.Frontend/compare/0.2.0...0.2.1)
+
+> 6 October 2020
+
+- fix(schotten2): layout changes [`11d0a2d`](https://github.com/Cmacu/Pulse.Frontend/commit/11d0a2d8ffbe25e502a2e2b6d8a884e29caefde3)
+- fix(schotten2): bug fixes [`072710e`](https://github.com/Cmacu/Pulse.Frontend/commit/072710e4ace78414c72a34105fb36670dff356eb)
+
 #### [0.2.0](https://github.com/Cmacu/Pulse.Frontend/compare/0.1.0...0.2.0)
 
 > 5 October 2020
@@ -11,6 +18,7 @@ All notable changes to this project will be documented in this file. Dates are d
 - fix(schotten2): demo and rules adjustments [`9bd967d`](https://github.com/Cmacu/Pulse.Frontend/commit/9bd967db8b4ad98118d750f5598a6d59397e8d34)
 - fix(UI): layout adjustments and fixes [`9bfefb9`](https://github.com/Cmacu/Pulse.Frontend/commit/9bfefb9ace23aebffb3f9803d3d1657dd97d1d07)
 - fix(UI): resolve sizing and position issues [`475cef4`](https://github.com/Cmacu/Pulse.Frontend/commit/475cef4a66d62ee3a0b668077c59c5766019895b)
+- Release 0.2.0 [`dbde40f`](https://github.com/Cmacu/Pulse.Frontend/commit/dbde40f8420f3b779591318d0a9edb3da4981d43)
 - fix(UI): layout fixes [`ee46507`](https://github.com/Cmacu/Pulse.Frontend/commit/ee46507888a032185a244918c5a402884323526c)
 - feat(match): add link to past matches [`9049830`](https://github.com/Cmacu/Pulse.Frontend/commit/9049830d5582d1ff793c8d458f6d0d0ba9f48a99)
 - fix(schotten2): minor adjustments [`335cb20`](https://github.com/Cmacu/Pulse.Frontend/commit/335cb204d0706e82f32ad400e97ced61d12c3ef4)
