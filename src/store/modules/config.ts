@@ -75,7 +75,7 @@ export interface ListConfig {
 }
 
 interface Stats extends SettingsButton {
-  info: string
+  info: 'totalWins' | 'totalGames' | 'totalResigns' | 'totalTimeouts' | 'totalCulture' | 'totalDecay'
 }
 
 export interface LeaderboardPlayer {

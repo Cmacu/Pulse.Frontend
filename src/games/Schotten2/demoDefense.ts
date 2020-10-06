@@ -11,7 +11,7 @@ export const attackerMessage: DemoMessage = {
   color: 'accent',
   html: true,
   timeout: 0,
-  position: 'top',
+  position: 'center',
   onDismiss: () => playDemo(),
 }
 // { rank: 9, suit: 0}, // [9 Yellow] - Aife hand

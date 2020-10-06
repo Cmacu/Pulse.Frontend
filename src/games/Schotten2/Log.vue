@@ -109,7 +109,7 @@ export default defineComponent({
 
     const focusLogItem = (index: number) => {
       setTimeout(() => {
-        const el = document.getElementById('log-item-' + index)
+        const el = document.getElementById('log-item-' + index.toString())
         el?.scrollIntoView(false)
       }, 100)
     }

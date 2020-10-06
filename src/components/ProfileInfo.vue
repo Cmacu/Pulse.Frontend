@@ -114,13 +114,13 @@ import store from 'src/store'
 import { DivisionInterface, BadgeDetails } from 'src/store/modules/config'
 import router from 'src/router'
 
-interface PlayerStats {
-  games: number
-  wins: number
-  resigns: number
-  timeouts: number
-  culture: number
-}
+// interface PlayerStats {
+//   games: number
+//   wins: number
+//   resigns: number
+//   timeouts: number
+//   culture: number
+// }
 
 export default defineComponent({
   name: 'PlayerInfo',

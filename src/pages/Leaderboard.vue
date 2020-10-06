@@ -80,8 +80,6 @@
           </q-item>
         </q-list>
       </base-card>
-
-      <LeaderboardChart :players="players" />
     </div>
   </q-page>
 </template>
@@ -100,7 +98,6 @@ export default defineComponent({
   name: 'LeaderboardPage',
   components: {
     LeaderboardRow: () => import('components/LeaderboardRow.vue'),
-    LeaderboardChart: () => import('components/LeaderboardChart.vue'),
   },
   setup() {
     dayjs.extend(utc)

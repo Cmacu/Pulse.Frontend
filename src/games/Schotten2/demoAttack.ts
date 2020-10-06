@@ -30,7 +30,7 @@ export const defenderMessage: DemoMessage = {
   color: 'primary',
   html: true,
   timeout: 0,
-  position: 'top',
+  position: 'center',
   onDismiss: () => playDemo(),
 }
 

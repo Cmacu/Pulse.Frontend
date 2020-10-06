@@ -26,7 +26,6 @@ export default defineComponent({
   name: 'ProfilePage',
   components: {
     ProfileInfo: () => import('components/ProfileInfo.vue'),
-    ProfileChord: () => import('components/ProfileChord.vue'),
     MatchHistory: () => import('components/MatchHistory.vue'),
   },
   props: {

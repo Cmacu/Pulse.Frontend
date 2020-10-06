@@ -7,7 +7,6 @@
 // https://quasar.dev/quasar-cli/quasar-conf-js
 /* eslint-env node */
 /* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable @typescript-eslint/camelcase */
 const { configure } = require('quasar/wrappers')
 
 module.exports = configure(function (ctx) {
@@ -85,7 +84,7 @@ module.exports = configure(function (ctx) {
       // preloadChunks: true,
       // showProgress: false,
       gzip: true,
-      analyze: ctx.dev ? true : false,
+      analyze: true, //ctx.dev ? true : false,
       sassLoaderOptions: {
         sourceMap: process.env.NODE_ENV === 'production',
       },
@@ -210,7 +209,7 @@ module.exports = configure(function (ctx) {
       },
 
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
-      nodeIntegration: true,
+      nodeIntegration: false,
 
       extendWebpack(/* cfg */) {
         // do something with Electron main process Webpack cfg
