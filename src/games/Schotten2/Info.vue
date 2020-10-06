@@ -48,7 +48,7 @@
             id="more_options"
             align="right"
             :color="color"
-            size="0.5rem"
+            size="0.6rem"
             class="q-pl-xs full-width bg-white shadow-2"
             flat
             dense

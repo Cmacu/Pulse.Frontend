@@ -92,7 +92,9 @@ import { LeaderboardPlayer } from '../store/modules/config'
 import store from '../store'
 import router from 'src/router'
 import api from 'src/utils/api'
-import moment from 'moment'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import calendar from 'dayjs/plugin/calendar'
 
 export default defineComponent({
   name: 'LeaderboardPage',
@@ -101,6 +103,8 @@ export default defineComponent({
     LeaderboardChart: () => import('components/LeaderboardChart.vue'),
   },
   setup() {
+    dayjs.extend(utc)
+    dayjs.extend(calendar)
     const page = computed(
       () => store.state.config.leaderboardConfig.currentPage,
     )
@@ -122,7 +126,7 @@ export default defineComponent({
       totalPages.value = Math.ceil(
         +response.data.total / (+pageSize.value ?? 1),
       )
-      lastUpdated.value = moment.utc(response.data.createdAt).local().calendar()
+      lastUpdated.value = dayjs(response.data.createdAt).utc(true).local().calendar()
       leaderboardPlayers.value = response.data.results
       players.value = []
       leaderboardPlayers.value.forEach((leader) =>

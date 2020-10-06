@@ -43,7 +43,9 @@
 
 <script lang="ts">
 import { defineComponent, PropType, computed } from '@vue/composition-api'
-import moment from 'moment'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import calendar from 'dayjs/plugin/calendar'
 import { MatchInterface } from '../store/modules/stats'
 import { OpponentInterface } from '../store/modules/matchmaker'
 import store from '../store'
@@ -68,6 +70,8 @@ export default defineComponent({
     },
   },
   setup(props) {
+    dayjs.extend(utc)
+    dayjs.extend(calendar)
     const left = computed(() =>
       Object.assign(
         {},
@@ -123,7 +127,7 @@ export default defineComponent({
       delta: computed(() =>
         store.getters.player.getDelta(left.value, right.value),
       ),
-      formatDate: (date: string) => moment.utc(date).local().calendar(),
+      formatDate: (date: string) => dayjs.utc(date).local().calendar(),
     }
   },
 })

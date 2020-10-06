@@ -59,7 +59,7 @@ module.exports = {
   // add your custom rules here
   rules: {
     // others rules...
-
+    'vue/experimental-script-setup-vars': 'off',
     // TypeScript
     'quotes': ['warn', 'single'],
     '@typescript-eslint/explicit-function-return-type': 'off',
