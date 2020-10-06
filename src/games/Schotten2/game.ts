@@ -19,7 +19,7 @@ export interface Schotten2Api {
   useOil: (sectionIndex: number) => void
   retreat: (sectionIndex: number) => void
   resign: () => Promise<void> | undefined
-  load: (cardCount: number) => Promise<void> | undefined
+  load: (key: string) => Promise<void> | undefined
   disconnect: () => void | Promise<void>
 }
 
@@ -38,6 +38,7 @@ export interface Schotten2Section {
 }
 
 export interface Schotten2State {
+  key: string
   isAttacker: boolean
   isCurrentPlayer: boolean
   enablePreparation: boolean
@@ -85,6 +86,24 @@ const handCards: Schotten2Card[] = []
 const handOrder: number[] = [0, 1, 2, 3, 4, 5]
 const discardCards: Schotten2Card[] = []
 
+const defaultApi: Schotten2State = {
+  key: '',
+  isAttacker: true,
+  enablePreparation: true,
+  isCurrentPlayer: false,
+  opponentCardsCount: 0,
+  siegeCardsCount: 0,
+  oilCount: 0,
+  handCards,
+  newCards: 0,
+  discardCards,
+  sections,
+  lastPlayer: '0',
+  lastEvent: '',
+  lastSection: -1,
+  gameOver: '',
+}
+
 const defaultState = {
   loading: true,
   isLog: false,
@@ -94,20 +113,7 @@ const defaultState = {
   log,
   handOrderSelectedIndex: -1,
   demoIndex: 0,
-  api: {
-    isAttacker: true,
-    enablePreparation: true,
-    isCurrentPlayer: false,
-    opponentCardsCount: 0,
-    siegeCardsCount: 0,
-    oilCount: 0,
-    handCards,
-    newCards: 0,
-    discardCards,
-    sections,
-    lastEvent: '',
-    lastSection: -1,
-  },
+  api: defaultApi,
 }
 
 const getDefaultState = () =>
@@ -121,27 +127,34 @@ let state = getDefaultState()
 let engine: Schotten2Api
 const matchId = ref('')
 
-const parseLog = (gameState: Schotten2State): Schotten2Log | undefined => {
+const parseLog = (
+  gameState: Schotten2State,
+  originalState: Schotten2State,
+): Schotten2Log | undefined => {
   if (gameState.lastEvent == 'DrawCard') return
   const event = events[gameState.lastEvent]
   const emptyCard: Schotten2Card = { rank: -1, suit: -1, protected: true }
   let card = emptyCard
   const lastSection = +gameState.lastSection
   let section: Schotten2Section | undefined = undefined
+  let formation: Schotten2Card[] = []
   let cards: Schotten2Card[] = []
   if (!event.skipCards && lastSection >= 0 && state.api.sections?.length) {
     section = gameState.sections[lastSection]
-    const formation =
-      gameState.lastPlayer == '0' ? section.attack : section.defense
+    formation = gameState.lastPlayer == '0' ? section.attack : section.defense
     card = formation[formation.length - 1]
     cards = [card]
   }
 
   if (gameState.lastEvent == 'Eliminate') {
+    section = originalState.sections[lastSection]
+    formation = gameState.lastPlayer == '0' ? section.attack : section.defense
+    card = formation[formation.length - 1]
     const opposite = { suit: card.suit, rank: card.rank == 0 ? 11 : 0 }
     cards = [card, emptyCard, opposite]
   } else if (gameState.lastEvent == 'Damage') {
-    cards = [...(section?.attack || []), emptyCard, ...(section?.attack || [])]
+    section = originalState.sections[lastSection]
+    cards = [...(section?.attack || []), emptyCard, ...(section?.defense || [])]
   }
 
   return {
@@ -174,10 +187,12 @@ const setState = (gameState: Schotten2State, isLog = false) => {
     state.loading = false
     return
   }
-  const log = parseLog(gameState)
+  if (state?.api?.sections?.length) {
+    const log = parseLog(gameState, Object.assign({}, state.api))
+    if (log) state.log.push(log)
+  }
   state.api = Object.assign({}, state.api, gameState)
   LocalStorage.set(LOCAL_KEY, state)
-  if (log) state.log.push(log)
   state.loading = false
 }
 
@@ -302,9 +317,9 @@ const actions = {
     setState(logState, true)
   },
   restoreState: () => {
-    console.error('restore', game.state.api.siegeCardsCount)
+    // console.error('restore', game.state.api.key)
     state.isLog = false
-    engine.load(game.state.api.siegeCardsCount)
+    engine.load(game.state.api.key)
   },
 }
 

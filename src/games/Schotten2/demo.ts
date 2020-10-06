@@ -46,5 +46,6 @@ export const demo: Schotten2Api = {
     location.href = '/'
     return Promise.resolve()
   },
+  load: () => Promise.resolve(),
   disconnect: () => Promise.resolve(),
 }

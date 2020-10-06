@@ -43,6 +43,16 @@ const onClose = async (message: unknown) => {
   await start()
 }
 
+const onError = (message: string) => {
+  console.error(MESSAGES.disconnected, message)
+  Notify.create({
+    message: 'Something unexpected happened: ' + message,
+    color: 'negative',
+    icon: 'error_outline',
+  })
+  auth.refresh()
+}
+
 const onDisconnect = (message: string) => {
   console.error(MESSAGES.disconnected, message)
   Notify.create({
@@ -93,12 +103,12 @@ export const socket: Schotten2Api = {
     // Handle messages
     connection.on(HUB.receiveUpdateState, onUpdateState)
     // Handle disconnects
+    connection.on(HUB.receiveError, onError)
     connection.on(HUB.receiveDisconnect, onDisconnect)
-    connection.on(HUB.receiveError, onDisconnect)
     await start()
     connection.onclose(onClose)
   },
-  load: (cardCount: number) => connection?.send(HUB.sendCheckState, cardCount),
+  load: (key: string) => connection?.send(HUB.sendCheckState, key),
   retreat: (sectionIndex) => connection?.send(HUB.sendRetreat, sectionIndex),
   useOil: (sectionIndex) => connection?.send(HUB.sendUseOil, sectionIndex),
   playCard: (sectionIndex: number, handIndex: number) =>
