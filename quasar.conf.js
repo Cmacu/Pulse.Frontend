@@ -84,7 +84,7 @@ module.exports = configure(function (ctx) {
       // preloadChunks: true,
       // showProgress: false,
       gzip: true,
-      analyze: true, //ctx.dev ? true : false,
+      analyze: ctx.dev ? true : false,
       sassLoaderOptions: {
         sourceMap: process.env.NODE_ENV === 'production',
       },

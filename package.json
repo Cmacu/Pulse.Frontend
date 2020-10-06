@@ -22,7 +22,6 @@
     "@quasar/extras": "^1.9.7",
     "@vue/composition-api": "^1.0.0-beta.15",
     "axios": "^0.20.0",
-    "core-js": "^3.6.5",
     "country-list": "^2.2.0",
     "dayjs": "^1.9.1",
     "direct-vuex": "^0.12.0",
@@ -41,7 +40,7 @@
     "@typescript-eslint/eslint-plugin": "^4.4.0",
     "@typescript-eslint/parser": "^4.4.0",
     "auto-changelog": "^2.2.1",
-    "babel-eslint": "^10.0.1",
+    "babel-eslint": "^10.1.0",
     "browserslist": "^4.14.5",
     "eslint": "^7.10.0",
     "eslint-config-prettier": "^6.12.0",
@@ -58,7 +57,7 @@
     "yarn": ">= 1.21.1"
   },
   "browserslist": [
-    "ie 11",
+    "ie >= 11",
     "last 10 Chrome versions",
     "last 10 Firefox versions",
     "last 4 Edge versions",

@@ -86,7 +86,7 @@ export default defineComponent({
   setup(props) {
     const datasets = computed(() => {
       const data = []
-      if (props.areaData.length)
+      if (props.areaData.length > 1)
         data.push({
           data: props.areaData,
           className: 'trend-area',
@@ -95,7 +95,7 @@ export default defineComponent({
           fill: true,
           opacity: 0.5,
         })
-      if (props.lineData.length)
+      if (props.lineData.length > 1)
         data.push({
           data: props.lineData,
           className: 'trend-line',
