@@ -2,12 +2,21 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [0.2.2](https://github.com/Cmacu/Pulse.Frontend/compare/0.2.1...0.2.2)
+
+- chore: update dependencies [`61311e2`](https://github.com/Cmacu/Pulse.Frontend/commit/61311e227b7866c97a61364bcdadca905fc15044)
+- chore: update typescript and cofig [`ed7848d`](https://github.com/Cmacu/Pulse.Frontend/commit/ed7848d983088ed9d941017d4bc600ce917bdd2e)
+- fix(schotten2): improve log and rules [`7156c40`](https://github.com/Cmacu/Pulse.Frontend/commit/7156c40a80a5e36821597a0aa3ce33fa8a62d00b)
+- refactor(vue): local instead of dynamic imports to reduce webpack chunks [`0047ecc`](https://github.com/Cmacu/Pulse.Frontend/commit/0047eccf6c0eefff974ccdc8951a4d3a41bcbfa8)
+- fix(core): config and trends fix [`0bc56ad`](https://github.com/Cmacu/Pulse.Frontend/commit/0bc56adaaef80a520aafedb2dfb01f2103227935)
+
 #### [0.2.1](https://github.com/Cmacu/Pulse.Frontend/compare/0.2.0...0.2.1)
 
-> 6 October 2020
+> 5 October 2020
 
 - fix(schotten2): layout changes [`11d0a2d`](https://github.com/Cmacu/Pulse.Frontend/commit/11d0a2d8ffbe25e502a2e2b6d8a884e29caefde3)
 - fix(schotten2): bug fixes [`072710e`](https://github.com/Cmacu/Pulse.Frontend/commit/072710e4ace78414c72a34105fb36670dff356eb)
+- Release 0.2.1 [`13fe576`](https://github.com/Cmacu/Pulse.Frontend/commit/13fe576d3653f2c182ff2be7dccfac0831de9fb2)
 
 #### [0.2.0](https://github.com/Cmacu/Pulse.Frontend/compare/0.1.0...0.2.0)
 
