@@ -119,5 +119,4 @@ export const socket: Schotten2Api = {
     connection?.send(HUB.sendPlayCard, sectionIndex, handIndex),
   resign: () => connection?.send(HUB.sendResign),
   disconnect,
-  reset: () => (connection = undefined),
 }
