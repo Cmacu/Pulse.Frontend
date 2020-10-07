@@ -66,6 +66,7 @@ const onDisconnect = (message: string) => {
 
 const start = (): Promise<void> => {
   if (!connection) return Promise.resolve()
+
   return connection.start().catch(() => {
     return new Promise((resolve) =>
       setTimeout(() => start().then(() => resolve()), _retryTimeout),
@@ -81,7 +82,10 @@ const disconnect = () => {
     return
   }
   _manuallyClosed = true
-  return connection.stop()
+  return connection.stop().then(() => {
+    connection = undefined
+    return Promise.resolve()
+  })
 }
 
 export const socket: Schotten2Api = {
@@ -115,4 +119,5 @@ export const socket: Schotten2Api = {
     connection?.send(HUB.sendPlayCard, sectionIndex, handIndex),
   resign: () => connection?.send(HUB.sendResign),
   disconnect,
+  reset: () => (connection = undefined),
 }

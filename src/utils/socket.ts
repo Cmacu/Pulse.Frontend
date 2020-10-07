@@ -147,6 +147,7 @@ export const disconnect = () => {
   if (_runTimeout !== undefined) clearTimeout(_runTimeout)
   store.dispatch.matchmaker.cancelSearch()
   return connection.stop().then(() => {
+    connection = undefined
     return Promise.resolve()
   })
 }

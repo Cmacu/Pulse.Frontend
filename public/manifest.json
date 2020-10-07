@@ -2,7 +2,7 @@
   "name": "pulsegames.io",
   "short_name": "Pulse Games",
   "start_url": ".",
-  "display": "fullscreen",
+  "display": "standalone",
   "orientation": "portrait",
   "background_color": "#2a3035",
   "description": "Competitive two-player board games. Free. Online. Mobile-friendly.",
