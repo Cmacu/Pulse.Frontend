@@ -2,8 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [0.2.5](https://github.com/Cmacu/Pulse.Frontend/compare/0.2.4...0.2.5)
+
+- fix(auth): fixes and spectating mode [`d288365`](https://github.com/Cmacu/Pulse.Frontend/commit/d288365a635b0025a36dec2b5b0b5d02764dbb3c)
+
 #### [0.2.4](https://github.com/Cmacu/Pulse.Frontend/compare/0.2.3...0.2.4)
 
+> 6 October 2020
+
+- Release 0.2.4 [`7118aa6`](https://github.com/Cmacu/Pulse.Frontend/commit/7118aa6766b22b9cf59a1e1742affc2b1d51856e)
 - fix(socket): remove reset [`ab33770`](https://github.com/Cmacu/Pulse.Frontend/commit/ab337700f85b97ee6d8914786814567deba4232c)
 
 #### [0.2.3](https://github.com/Cmacu/Pulse.Frontend/compare/0.2.2...0.2.3)
