@@ -8,11 +8,11 @@
         v-if="lastLog && lastLog.description"
         v-bind="lastLog"
         :player="player"
-        :align-center="true"
       />
       <div v-else>Log</div>
     </div>
     <q-dialog
+      class="page-container"
       v-model="showLog"
       id="log-dialog"
       position="top"
@@ -59,10 +59,8 @@
               :focused="currentLog == logList.length"
             >
               <LogItem
-                v-if="lastLog && lastLog.description"
-                v-bind="lastLog"
-                :player="player"
-                :align-center="true"
+                v-if="currentState && currentState.description"
+                v-bind="currentState"
               />
               <div v-else>Empty</div>
             </q-item>
@@ -124,6 +122,7 @@ export default defineComponent({
     const logList = ref<Schotten2Log[]>([])
     const logCount = ref(0)
     const currentLog = ref(0)
+    const currentState = ref<Schotten2Log>()
     const lastLog = computed(() => game.state.log[game.state.log.length - 1])
     const logStates = ref<Schotten2State[]>([])
 
@@ -142,6 +141,7 @@ export default defineComponent({
     let skipFirst = true
     return {
       currentLog,
+      currentState,
       showLog,
       lastLog,
       disablePrev: computed(() => currentLog.value <= 0),
@@ -173,6 +173,7 @@ export default defineComponent({
           logList.value.push(log)
         }
         logCount.value += apiLogs.length
+        currentState.value = game.state.log[game.state.log.length - 1]
         displayLog()
       },
       loadLog: (index: number) => {

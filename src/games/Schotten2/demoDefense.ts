@@ -85,7 +85,7 @@ demoDefense.push(() => {
       {
         name: 'LeftPit',
         spaces: 0,
-        types: [1],
+        types: [0],
         isDamaged: false,
         attack: [
           { rank: 4, suit: 3 }, // [4 Purple]
@@ -100,7 +100,7 @@ demoDefense.push(() => {
       {
         name: 'LeftTower',
         spaces: 0,
-        types: [0, 2, 3, 4, 5],
+        types: [5, 4, 3, 2, 0],
         isDamaged: false,
         attack: [
           { rank: 10, suit: 0 }, // [1 Yellow0]
@@ -115,7 +115,7 @@ demoDefense.push(() => {
       {
         name: 'LeftWall',
         spaces: 0,
-        types: [0, 2, 3, 4, 5],
+        types: [5, 4, 3, 2, 0],
         isDamaged: false,
         attack: [
           { rank: 3, suit: 4 }, // [3 Red]
@@ -145,7 +145,7 @@ demoDefense.push(() => {
       {
         name: 'RightWall',
         spaces: 0,
-        types: [0, 2, 3, 4, 5],
+        types: [5, 4, 3, 2, 0],
         isDamaged: false,
         attack: [
           { rank: 2, suit: 2 }, // [2 Green]
@@ -161,7 +161,7 @@ demoDefense.push(() => {
       {
         name: 'RightTower',
         spaces: 0,
-        types: [0, 4],
+        types: [4, 0],
         isDamaged: true,
         attack: [],
         defense: [

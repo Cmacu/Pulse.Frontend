@@ -3,7 +3,7 @@
     <Container
       orientation="horizontal"
       class="bg-transparent row justify-evenly items-end"
-      style="display: flex;"
+      style="display: flex"
       :drag-begin-delay="$q.platform.is.mobile ? 5 : 0"
       @drop="atHandDrop"
       @drag-start="atDragCard"
@@ -17,30 +17,30 @@
           v-bind="handCards[cardIndex]"
           :selected="handOrderSelectedIndex == orderIndex"
           @click="atCardClick(orderIndex)"
-          style="margin-right: 1px;"
+          style="margin-right: 1px"
         />
       </Draggable>
     </Container>
     <q-btn
       class="schotten2-card"
-      v-if="isAttacker"
+      v-if="handCards.length && isAttacker"
       :disable="disableSpecial"
       @click="atRetreatClick"
       color="accent"
       :class="{ 'enable-special': enableRetreat }"
     >
-      <div style="font-size: 0.6rem; line-height: 1.1rem;">Retreat</div>
+      <div style="font-size: 0.6rem; line-height: 1.1rem">Retreat</div>
       <q-icon name="directions_run" size="2rem" />
     </q-btn>
     <q-btn
       class="schotten2-card"
-      v-if="!isAttacker"
+      v-if="handCards.length && !isAttacker"
       :disable="disableSpecial || !oilCount"
       @click="atOilClick"
       color="primary"
       :class="{ 'enable-special': enableOil }"
     >
-      <div style="font-size: 0.65rem; line-height: 1.1rem;">Oil</div>
+      <div style="font-size: 0.65rem; line-height: 1.1rem">Oil</div>
       <q-icon name="local_fire_department" size="2rem" />
       <q-badge color="dark" floating>{{ oilCount }}</q-badge>
     </q-btn>

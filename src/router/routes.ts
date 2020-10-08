@@ -34,6 +34,7 @@ const routes: RouteConfig[] = [
     children: [
       {
         path: 'email',
+        props: (route) => Object.assign({}, route.query),
         component: () => import('pages/Email.vue'),
       },
       {
@@ -51,6 +52,15 @@ const routes: RouteConfig[] = [
 
   {
     path: '/games',
+    beforeEnter: async (to: Route, from: Route, next: Next) => {
+      if (to.fullPath.includes('=demo')) return next()
+      const isLoggedIn = await auth.isLoggedIn()
+      if (!isLoggedIn) {
+        auth.setRedirectUrl(to.fullPath)
+        return next('/auth/login' + location.search)
+      }
+      next()
+    },
     props: (route) => Object.assign({}, route.query),
     component: () => import('layouts/GameLayout.vue'),
     children: [

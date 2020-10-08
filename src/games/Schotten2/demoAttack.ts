@@ -62,7 +62,7 @@ demoAttack.push(() => {
       {
         name: 'LeftTower',
         spaces: 0,
-        types: [0, 2, 3, 4, 5],
+        types: [5, 4, 3, 2, 0],
         isDamaged: false,
         attack: [],
         defense: [],
@@ -70,7 +70,7 @@ demoAttack.push(() => {
       {
         name: 'LeftWall',
         spaces: 0,
-        types: [0, 2, 3, 4, 5],
+        types: [5, 4, 3, 2, 0],
         isDamaged: false,
         attack: [],
         defense: [],
@@ -78,7 +78,7 @@ demoAttack.push(() => {
       {
         name: 'Gate',
         spaces: 0,
-        types: [0, 2, 3, 4, 5],
+        types: [5, 4, 3, 2, 0],
         isDamaged: false,
         attack: [],
         defense: [],
@@ -86,7 +86,7 @@ demoAttack.push(() => {
       {
         name: 'RightWall',
         spaces: 0,
-        types: [0, 2, 3, 4, 5],
+        types: [5, 4, 3, 2, 0],
         isDamaged: false,
         attack: [],
         defense: [],
@@ -94,7 +94,7 @@ demoAttack.push(() => {
       {
         name: 'RightTower',
         spaces: 0,
-        types: [0, 2, 3, 4, 5],
+        types: [5, 4, 3, 2, 0],
         isDamaged: false,
         attack: [],
         defense: [],

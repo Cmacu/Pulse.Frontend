@@ -1,9 +1,7 @@
 <template>
   <q-card-section class="text-center">
     <q-form class="q-gutter-md" @submit="submit">
-      <p>
-        Your username (what other players see)
-      </p>
+      <p>Your username (what other players see)</p>
       <q-input
         name="username"
         color="primary"
@@ -88,7 +86,7 @@ export default defineComponent({
       usernameError.value = ''
       codeError.value = ''
       loading.value = true
-      const checkResponse = await api.checkUsername(username.value)
+      const checkResponse = await api.checkUsername(username.value, props.email)
       console.error(checkResponse)
       if (checkResponse.data) {
         usernameError.value = 'Username is taken. Try a different one'
