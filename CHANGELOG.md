@@ -2,9 +2,16 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [0.2.6](https://github.com/Cmacu/Pulse.Frontend/compare/0.2.5...0.2.6)
+
+- fix(UX): add to home screen icon fix [`e381b52`](https://github.com/Cmacu/Pulse.Frontend/commit/e381b522dc879a579e76e6e2b4ca2cb3ab54e47b)
+
 #### [0.2.5](https://github.com/Cmacu/Pulse.Frontend/compare/0.2.4...0.2.5)
 
+> 7 October 2020
+
 - fix(auth): fixes and spectating mode [`d288365`](https://github.com/Cmacu/Pulse.Frontend/commit/d288365a635b0025a36dec2b5b0b5d02764dbb3c)
+- Release 0.2.5 [`7fd7509`](https://github.com/Cmacu/Pulse.Frontend/commit/7fd7509cba50a5efd684046c8cdf551b603bf3f8)
 
 #### [0.2.4](https://github.com/Cmacu/Pulse.Frontend/compare/0.2.3...0.2.4)
 
