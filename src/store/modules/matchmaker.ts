@@ -232,15 +232,17 @@ const matchmakerModule = defineModule({
       context.commit(mutations.START_LOADING.name)
       store.dispatch.timer.stopTimer()
       await socket.disconnect()
-      context.commit(mutations.SET_STATE.name, MATCH_STATES.AVAILABLE)
+      if (context.state.status != MATCH_STATES.MATCHED) {
+        context.commit(mutations.SET_STATE.name, MATCH_STATES.AVAILABLE)
+      }
     },
     setMatched(context) {
       if (store.state.settings.enableSound) playMatchedSound()
       context.commit(mutations.SET_STATE.name, MATCH_STATES.MATCHED)
     },
     async startMatch(context, matchId: string) {
-      context.commit(mutations.SET_MATCH_ID.name, matchId)
       store.dispatch.matchmaker.cancelSearch()
+      context.commit(mutations.SET_MATCH_ID.name, matchId)
       if (await store.dispatch.matchmaker.isMatchInProgress(matchId)) {
         context.commit(mutations.SET_STATE.name, MATCH_STATES.PLAYING)
       } else {

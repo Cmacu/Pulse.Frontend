@@ -9,7 +9,7 @@
       <div class="row items-center q-gutter-sm">
         <q-icon v-if="!$q.screen.lt.sm" name="o_alarm" size="25px" />
         <div>{{ matchmakerTimeout }} min</div>
-        <div style="width: 30px;">
+        <div style="width: 30px">
           <q-slider
             :value="matchmakerTimeout"
             :min="10"
@@ -33,8 +33,8 @@
         <router-link
           v-if="match.name"
           :to="`/games/schotten2?matchId=${match.matchId}`"
-          class="text-center text-overline text-default"
-          style="margin: -10px 0px;"
+          class="text-center text-default"
+          style="margin: -10px 0px"
         >
           <MatchDelta :match="match.name" :delta="match.delta" />
         </router-link>
@@ -65,9 +65,7 @@
           color="primary"
         /> -->
         <q-spinner-puff v-if="match.showSearching" size="xl" color="primary" />
-        <div v-else class="text-grey">
-          VS
-        </div>
+        <div v-else class="text-grey">VS</div>
       </q-card-section>
       <q-card-section class="col-5 flex flex-center">
         <base-avatar
@@ -83,7 +81,7 @@
       </q-card-section>
     </q-card-section>
     <q-card-section
-      style="height: 60px; overflow-y: hidden;"
+      style="height: 60px; overflow-y: hidden"
       class="text-center text-overline"
     >
       <MatchRandomLoader v-if="match.showSearching" />

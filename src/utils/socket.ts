@@ -56,9 +56,8 @@ const onMatched = (message: string) => {
 }
 
 const onPlaying = (matchId: string) => {
-  console.info(MESSAGES.started, matchId)
-  disconnect()
   store.dispatch.matchmaker.startMatch(matchId)
+  disconnect()
 }
 
 const onDisconnect = (message: string) => {
