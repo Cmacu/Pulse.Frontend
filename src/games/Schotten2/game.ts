@@ -49,6 +49,8 @@ export interface Schotten2State {
   newCards: number
   discardCards: Schotten2Card[]
   sections: Schotten2Section[]
+  turnEndAt: string
+  isReserve: boolean
   lastPlayer: string
   lastEvent: string
   lastSection: number
@@ -98,6 +100,8 @@ const defaultApi: Schotten2State = {
   newCards: 0,
   discardCards,
   sections,
+  turnEndAt: '',
+  isReserve: false,
   lastPlayer: '0',
   lastEvent: '',
   lastSection: -1,
@@ -187,6 +191,13 @@ const setState = (gameState: Schotten2State, isLog = false) => {
     state.loading = false
     return
   }
+
+  store.dispatch.timer.setTimer({
+    utc: gameState.turnEndAt,
+    isReserve: gameState.isReserve,
+    onComplete: () => engine.load(''),
+  })
+
   if (state?.api?.sections?.length) {
     const log = parseLog(gameState, Object.assign({}, state.api))
     if (log) state.log.push(log)
@@ -198,7 +209,7 @@ const setState = (gameState: Schotten2State, isLog = false) => {
 
 const isGameOver = (gameState: Schotten2State): boolean => {
   if (!gameState.gameOver) return false
-
+  store.dispatch.timer.stopTimer()
   if (gameState.lastEvent == 'Destroy') {
     gameState.sections[gameState.lastSection].name = 'Destroyed'
   }
@@ -314,7 +325,9 @@ const actions = {
   resign: () => engine.resign(),
   disconnect: () => {
     matchId.value = ''
+    state.log = []
     LocalStorage.remove(LOCAL_KEY)
+    store.dispatch.timer.stopTimer()
     return engine.disconnect()
   },
   loadLog: (logState: Schotten2State) => {

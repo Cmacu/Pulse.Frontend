@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHr lpr lFr" class="match-layout">
-    <q-header class="bg-default" style="font-size: 21px;" elevated>
+    <q-header class="bg-default" style="font-size: 21px" elevated>
       <q-toolbar class="page-container row">
         <div class="col-1 col-sm-3">
           <base-btn
@@ -22,11 +22,62 @@
           </a>
         </div>
         <div class="col-auto col-sm-3 text-right">
-          <base-btn flat icon-right="timer" dense padding="none">
-            <span class="text-primary">1:11</span>
+          <base-btn
+            flat
+            icon-right="timer"
+            dense
+            padding="none"
+            @click="showTimer"
+          >
+            <span :class="timerColor">{{ timer }}</span>
           </base-btn>
+          <q-dialog v-model="showTimerDetails" position="top">
+            <q-card class="page-container" style="margin-top: 50px">
+              <q-card-section class="row items-center">
+                <div>Timer</div>
+                <q-space />
+                <q-btn icon="close" flat round dense v-close-popup />
+              </q-card-section>
+              <q-separator inset />
+              <q-card-section class="text-center">
+                {{ timerDescription }}
+              </q-card-section>
+              <q-card-section class="row" :class="{ reverse: !isAttacker }">
+                <div class="col text-accent">
+                  <div class="text-center">{{ attacker }}</div>
+                  <div class="text-center text-special-16 q-mb-xs">
+                    {{ attackerReserve }}
+                  </div>
+                  <div class="text-center text-special-07">reserve left</div>
+                </div>
+                <div class="col text-primary">
+                  <div class="text-center">{{ defender }}</div>
+                  <div class="text-center text-special-16 q-mb-xs">
+                    {{ defenderReserve }}
+                  </div>
+                  <div class="text-center text-special-07">reserve left</div>
+                </div>
+              </q-card-section>
+              <q-card-actions
+                align="between"
+                class="row"
+                :class="{ reverse: !isAttacker }"
+              >
+                <q-btn :label="attackerLabel" color="accent" outline>
+                  <span>&nbsp;1 min</span>
+                  <q-badge color="grey" floating>WIP</q-badge>
+                </q-btn>
+                <q-space />
+                <q-btn :label="defenderLabel" color="primary" outline>
+                  <span>&nbsp;1 min</span>
+                  <q-badge color="grey" floating>WIP</q-badge>
+                </q-btn>
+              </q-card-actions>
+            </q-card>
+          </q-dialog>
         </div>
       </q-toolbar>
+      <q-linear-progress v-if="loading" class="absolute" indeterminate />
     </q-header>
     <!-- <q-drawer
       v-model="showDrawer"
@@ -59,6 +110,7 @@
 import { defineComponent, computed, onMounted, ref } from '@vue/composition-api'
 import store from 'src/store'
 import api from 'src/utils/api'
+import { formatTimer } from 'src/utils/format'
 import { OpponentInterface } from 'src/store/modules/matchmaker'
 
 export default defineComponent({
@@ -74,6 +126,11 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const showTimerDetails = ref(false)
+    const loading = ref(false)
+    const timerDescription = ref('')
+    const attackerReserve = ref('1m15s')
+    const defenderReserve = ref('4h20m')
     const attacker = ref('Aife')
     const defender = ref('Chulainn')
     const matchName = ref('')
@@ -95,13 +152,37 @@ export default defineComponent({
       defender.value = players[1].username
       matchName.value = response.data.name
     })
+    const isAttacker = computed(
+      () => attacker.value == store.state.player.username,
+    )
     return {
+      showTimerDetails,
+      loading,
+      timerDescription,
+      attackerReserve,
+      defenderReserve,
+      isAttacker,
       location,
       matchName,
       attacker,
       defender,
+      attackerLabel: computed(() => (isAttacker ? 'Give' : 'Request')),
+      defenderLabel: computed(() => (!isAttacker ? 'Give' : 'Request')),
+      timer: computed(() => store.getters.timer.getTimer),
+      timerColor: computed(() =>
+        store.state.timer.isReserve ? 'text-negative' : 'text-primary',
+      ),
       refresh: () => location.reload(),
       config: computed(() => store.state.config),
+      showTimer: async () => {
+        loading.value = true
+        const response = await api.getTimer(props.matchId)
+        timerDescription.value = response.data.description
+        attackerReserve.value = formatTimer(response.data.attackReserve)
+        defenderReserve.value = formatTimer(response.data.defenseReserve)
+        loading.value = false
+        showTimerDetails.value = true
+      },
     }
   },
 })

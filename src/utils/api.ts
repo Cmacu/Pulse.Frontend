@@ -48,6 +48,7 @@ const api = {
     axiosInstance.get('/schotten2/log', {
       params: { matchId, skip },
     }),
+  getTimer: (matchId: string) => axiosInstance.get('/timer/' + matchId),
   getMatch: (matchId: string) => axiosInstance.get('/match/' + matchId),
   getSettings: () => axiosInstance.get('/player/settings'),
   getResources: () => axiosInstance.get('/resource'),

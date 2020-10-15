@@ -32,6 +32,17 @@ export const formatSeconds = (s: number): string => {
   return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s
 }
 
+export const formatTimer = (timer: number) => {
+  const minutes = Math.floor(timer / 60)
+  if (minutes < 1) return pad(timer) + 's'
+  const seconds = timer % 60
+  const hours = Math.floor(minutes / 60)
+  if (hours < 1) return minutes + 'm' + pad(seconds) + 's'
+  const days = Math.floor(hours / 24)
+  if (days < 1) return hours + 'h' + pad(minutes) + 'm'
+  return days + 'd' + pad(hours) + 'h'
+}
+
 export const pad = (num: number, size = 2) => {
   let s = num + ''
   while (s.length < size) s = '0' + s
