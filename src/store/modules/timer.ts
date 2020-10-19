@@ -62,7 +62,6 @@ const timerModule = defineModule({
       if (timer) clearInterval(timer)
       const utcTime = dayjs.utc(payload.utc)
       const expiresAt = utcTime.toDate().getTime()
-      console.error(utcTime, expiresAt)
       if (new Date().getTime() > expiresAt)
         return context.commit(mutations.RESET.name)
       context.commit(mutations.SET_EXPIRES_AT.name, expiresAt)
