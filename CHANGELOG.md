@@ -2,9 +2,16 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [0.4.3](https://github.com/Cmacu/Pulse.Frontend/compare/0.4.2...0.4.3)
+
+- fix(auth): endless loading bug [`6b304d4`](https://github.com/Cmacu/Pulse.Frontend/commit/6b304d4e8f5f01931f4ecf91b94fefbcbf1c5125)
+
 #### [0.4.2](https://github.com/Cmacu/Pulse.Frontend/compare/0.4.1...0.4.2)
 
+> 18 October 2020
+
 - fix(core): add app splash/loading screen [`579d5df`](https://github.com/Cmacu/Pulse.Frontend/commit/579d5dfa7fc23b892bf290ee34a22875d8706def)
+- Release 0.4.2 [`7325d79`](https://github.com/Cmacu/Pulse.Frontend/commit/7325d79dafbafd040fd3cd8b8eccc5e6c31c9492)
 
 #### [0.4.1](https://github.com/Cmacu/Pulse.Frontend/compare/0.4.0...0.4.1)
 
