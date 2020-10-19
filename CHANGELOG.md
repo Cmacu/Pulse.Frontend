@@ -2,9 +2,16 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [0.4.2](https://github.com/Cmacu/Pulse.Frontend/compare/0.4.1...0.4.2)
+
+- fix(core): add app splash/loading screen [`579d5df`](https://github.com/Cmacu/Pulse.Frontend/commit/579d5dfa7fc23b892bf290ee34a22875d8706def)
+
 #### [0.4.1](https://github.com/Cmacu/Pulse.Frontend/compare/0.4.0...0.4.1)
 
+> 18 October 2020
+
 - fix(schotten2): timer and focus bugs [`db96770`](https://github.com/Cmacu/Pulse.Frontend/commit/db9677082014298f7389a413d72e4cd5a9498738)
+- Release 0.4.1 [`151bb1b`](https://github.com/Cmacu/Pulse.Frontend/commit/151bb1b0550dccab0ab297ccd2cfd45cad63863c)
 
 #### [0.4.0](https://github.com/Cmacu/Pulse.Frontend/compare/0.3.0...0.4.0)
 
