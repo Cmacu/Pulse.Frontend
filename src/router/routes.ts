@@ -34,6 +34,7 @@ const routes: RouteConfig[] = [
         Loading.hide()
         return next('/auth/email')
       }
+      Loading.hide()
       next()
     },
     children: [
