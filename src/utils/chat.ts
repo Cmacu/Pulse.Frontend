@@ -14,7 +14,7 @@ let connection: HubConnection | undefined = undefined
 
 export const chat = {
   connect: async (
-    matchId: number,
+    matchId: string,
     onReceiveMessage: (message: ChatMessage) => void,
   ) => {
     connection = await hub.connect(

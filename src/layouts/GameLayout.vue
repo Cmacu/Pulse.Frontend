@@ -195,8 +195,10 @@ export default defineComponent({
 
     const scrollToLastMessage = () => {
       setTimeout(() => {
-        const el = document.getElementById('chat-messages')
-        el?.lastChild.scrollIntoView(false)
+        const el = document.getElementById(
+          'chat-messages-' + (chatMessages.value.length - 1),
+        )
+        el?.scrollIntoView(false)
       }, 100)
     }
 

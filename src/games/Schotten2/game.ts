@@ -192,11 +192,13 @@ const setState = (gameState: Schotten2State, isLog = false) => {
     return
   }
 
-  store.dispatch.timer.setTimer({
-    utc: gameState.turnEndAt,
-    isReserve: gameState.isReserve,
-    onComplete: () => engine.load(''),
-  })
+  if (!gameState.gameOver) {
+    store.dispatch.timer.setTimer({
+      utc: gameState.turnEndAt,
+      isReserve: gameState.isReserve,
+      onComplete: () => engine.load(''),
+    })
+  }
 
   if (state?.api?.sections?.length) {
     const log = parseLog(gameState, Object.assign({}, state.api))
