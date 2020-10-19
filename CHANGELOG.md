@@ -2,10 +2,17 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [0.4.0](https://github.com/Cmacu/Pulse.Frontend/compare/0.3.0...0.4.0)
+
+- feat(core): implement in game chat [`d4ce8cc`](https://github.com/Cmacu/Pulse.Frontend/commit/d4ce8cc6fcf2ab5572f5b2807ccb3c14a87e2a3f)
+
 #### [0.3.0](https://github.com/Cmacu/Pulse.Frontend/compare/0.2.6...0.3.0)
+
+> 15 October 2020
 
 - feat(timer): add base timer features [`c006589`](https://github.com/Cmacu/Pulse.Frontend/commit/c0065898145e4929f66f42aa7f7ecd95802a7b45)
 - fix(matchmaker): minor bugs [`95b9988`](https://github.com/Cmacu/Pulse.Frontend/commit/95b9988c40712fd52a6f52edf3be8cca7f6f5152)
+- Release 0.3.0 [`91653cd`](https://github.com/Cmacu/Pulse.Frontend/commit/91653cd847924da39624e5e0aeda183de10bcda5)
 
 #### [0.2.6](https://github.com/Cmacu/Pulse.Frontend/compare/0.2.5...0.2.6)
 
