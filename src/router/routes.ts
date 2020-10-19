@@ -1,5 +1,6 @@
 import { RouteConfig, Route, NavigationGuard } from 'vue-router'
 import auth from 'src/utils/auth'
+import { Loading } from 'quasar'
 
 type Next = Parameters<NavigationGuard>[2]
 
@@ -22,13 +23,17 @@ const routes: RouteConfig[] = [
     path: '/auth',
     component: () => import('layouts/AuthLayout.vue'),
     beforeEnter: async (to: Route, from: Route, next: Next) => {
+      Loading.show()
       const isLoggedIn = await auth.isLoggedIn()
       if (isLoggedIn) {
         const redirectUrl = auth.getRedirectUrl()
+        Loading.hide()
         return next(redirectUrl)
       }
-      if (!to.path.includes('email') && !to.query['email'])
+      if (!to.path.includes('email') && !to.query['email']) {
+        Loading.hide()
         return next('/auth/email')
+      }
       next()
     },
     children: [
@@ -54,11 +59,14 @@ const routes: RouteConfig[] = [
     path: '/games',
     beforeEnter: async (to: Route, from: Route, next: Next) => {
       if (to.fullPath.includes('=demo')) return next()
+      Loading.show()
       const isLoggedIn = await auth.isLoggedIn()
       if (!isLoggedIn) {
         auth.setRedirectUrl(to.fullPath)
+        Loading.hide()
         return next('/auth/login' + location.search)
       }
+      Loading.hide()
       next()
     },
     props: (route) => Object.assign({}, route.query),
@@ -74,11 +82,14 @@ const routes: RouteConfig[] = [
   {
     path: '/',
     beforeEnter: async (to: Route, from: Route, next: Next) => {
+      Loading.show()
       const isLoggedIn = await auth.isLoggedIn()
       if (!isLoggedIn) {
         auth.setRedirectUrl(to.fullPath)
+        Loading.hide()
         return next('/auth/login' + location.search)
       }
+      Loading.hide()
       next()
     },
     component: () => import('layouts/MainLayout.vue'),

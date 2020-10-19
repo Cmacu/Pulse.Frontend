@@ -1,5 +1,9 @@
 <template>
   <div id="q-app">
+    <div
+      class="loading-screen q-pa-xl text-center"
+      v-if="$q.loading.isActive"
+    />
     <router-view />
   </div>
 </template>
@@ -20,3 +24,17 @@ export default defineComponent({
   },
 })
 </script>
+
+<style lang="sass" scoped>
+.loading-screen
+  position: fixed
+  top: 0px
+  left: 0px
+  right: 0px
+  bottom: 0px
+  background-color: $dark-page
+  background-image: url('/logo.png')
+  background-position: center
+  background-size: contain
+  background-repeat: no-repeat
+</style>

@@ -58,7 +58,7 @@ module.exports = configure(function (ctx) {
       directives: ['TouchSwipe'],
 
       // Quasar plugins
-      plugins: ['Notify', 'LocalStorage'],
+      plugins: ['Loading', 'Notify', 'LocalStorage'],
     },
 
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie
