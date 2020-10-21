@@ -2,8 +2,15 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [0.4.4](https://github.com/Cmacu/Pulse.Frontend/compare/0.4.3...0.4.4)
+
+- fix(auth): update links [`13e7fd6`](https://github.com/Cmacu/Pulse.Frontend/commit/13e7fd670cb3215e5d7f0c7d99124bbc41a70c3c)
+
 #### [0.4.3](https://github.com/Cmacu/Pulse.Frontend/compare/0.4.2...0.4.3)
 
+> 18 October 2020
+
+- Release 0.4.3 [`6846f3f`](https://github.com/Cmacu/Pulse.Frontend/commit/6846f3f660eedc0ea068649352114019496f084e)
 - fix(auth): endless loading bug [`6b304d4`](https://github.com/Cmacu/Pulse.Frontend/commit/6b304d4e8f5f01931f4ecf91b94fefbcbf1c5125)
 
 #### [0.4.2](https://github.com/Cmacu/Pulse.Frontend/compare/0.4.1...0.4.2)
