@@ -36,7 +36,7 @@
             <router-view />
           </base-card>
           <div class="row q-pa-md fit q-gutter-sm wrap justify-center">
-            <a href="/game/schotten2?matchId=demoAttack" class="text-accent"
+            <a href="/games/schotten2?matchId=demoAttack" class="text-accent"
               >Demo</a
             >
             <span>-</span>
