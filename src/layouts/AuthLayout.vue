@@ -3,7 +3,7 @@
     <q-header class="bg-default text-white text-center row">
       <q-toolbar
         class="col"
-        style="cursor: pointer;"
+        style="cursor: pointer"
         @click="location.href = 'https://pulsegames.io/index.html'"
       >
         <q-toolbar-title class="top-title">
@@ -17,7 +17,7 @@
 
     <q-page-container>
       <q-page class="flex flex-center">
-        <div class="q-ma-md" style="max-width: 500px; width: 100%;">
+        <div class="q-ma-md" style="max-width: 500px; width: 100%">
           <base-card
             icon="o_lock"
             title="Welcome to Pulse Games"
@@ -36,11 +36,13 @@
             <router-view />
           </base-card>
           <div class="row q-pa-md fit q-gutter-sm wrap justify-center">
-            <a href="/public/schotten2" class="text-accent">Demo</a>
+            <a href="/game/schotten2?matchId=demoAttack" class="text-accent"
+              >Demo</a
+            >
             <span>-</span>
             <a href="/public/leaderboard" class="text-accent">Leaderboard</a>
             <span>-</span>
-            <a href="https://pulsegames.io/blog" class="text-accent">Blog</a>
+            <a href="https://pulsegames.io" class="text-accent">Website</a>
           </div>
         </div>
       </q-page>
@@ -48,7 +50,7 @@
 
     <q-footer
       class="bg-default text-center text-white"
-      style="border-top: 1px solid #111;"
+      style="border-top: 1px solid #111"
     >
       <div class="q-ma-md">{{ config.name }} @ 2020</div>
     </q-footer>
