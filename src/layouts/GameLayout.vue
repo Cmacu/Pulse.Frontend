@@ -8,7 +8,7 @@
           </base-btn>
         </div>
         <div class="col row text-white justify-center items-center">
-          <q-avatar class="q-mr-xs" @click="location.href = '/'">
+          <q-avatar class="q-mr-xs cursor-pointer" @click="location.href = '/'">
             <img :src="config.icon" />
           </q-avatar>
           <a href="http://pulsegames.io" target="_blank" class="text-white">
@@ -19,14 +19,7 @@
           </a>
         </div>
         <div class="col-1 col-sm-3 text-right">
-          <base-btn flat icon="message" dense padding="none" @click="viewChat">
-            <q-badge
-              v-if="chatUnreadCount"
-              floating
-              color="negative"
-              :label="chatUnreadCount"
-            />
-          </base-btn>
+          <Chat v-if="+matchId" :matchId="+matchId" :matchName="matchName" />
         </div>
       </q-toolbar>
       <q-linear-progress v-if="loading" class="absolute" indeterminate />
@@ -89,51 +82,6 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
-
-    <q-dialog v-model="showChat" position="right" full-height @hide="closeChat">
-      <q-card class="chat">
-        <div class="row items-center q-pa-sm">
-          <div class="q-pl-sm">{{ matchName }} Chat</div>
-          <q-space />
-          <q-btn icon="close" flat round dense @click="closeChat" />
-        </div>
-        <q-separator inset />
-        <div id="chat-messages" class="chat-messages q-px-md">
-          <q-chat-message
-            v-for="(message, index) in chatMessages"
-            :id="`chat-message-${index}`"
-            :key="index"
-            :name="message.username"
-            :bg-color="message.bgColor"
-            :avatar="message.avatar"
-            :text="[message.message]"
-            :sent="message.username == player"
-            :stamp="message.createdAt"
-            text-sanitize
-          />
-        </div>
-        <q-form class="chat-input absolute-bottom" @submit="sendMessage">
-          <q-input
-            v-model="chatMessage"
-            class="full-width"
-            filled
-            square
-            placeholder="Type a message"
-          >
-            <slot name="append">
-              <q-btn
-                v-if="chatMessage.length"
-                icon="send"
-                flat
-                dense
-                @click="sendMessage"
-              />
-              <q-btn v-else icon="close" flat dense @click="closeChat" />
-            </slot>
-          </q-input>
-        </q-form>
-      </q-card>
-    </q-dialog>
   </q-layout>
 </template>
 
@@ -143,13 +91,12 @@ import store from 'src/store'
 import api from 'src/utils/api'
 import { formatTimer } from 'src/utils/format'
 import { OpponentInterface } from 'src/store/modules/matchmaker'
-import { chat, ChatMessage } from 'src/utils/chat'
-import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
-import calendar from 'dayjs/plugin/calendar'
 
 export default defineComponent({
   name: 'GameLayout',
+  components: {
+    Chat: () => import('components/Chat.vue'),
+  },
   props: {
     matchId: {
       type: String,
@@ -161,10 +108,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    dayjs.extend(utc)
-    dayjs.extend(calendar)
     const showTimerDetails = ref(false)
-    const showChat = ref(false)
     const loading = ref(false)
     const timerDescription = ref('')
     const attackerReserve = ref('1m15s')
@@ -172,35 +116,6 @@ export default defineComponent({
     const attacker = ref('Aife')
     const defender = ref('Chulainn')
     const matchName = ref('')
-    const chatUnreadCount = ref(0)
-    const chatMessage = ref('')
-    const chatMessages = ref<ChatMessage[]>([])
-
-    const onReceiveMessage = (message: ChatMessage) => {
-      if (!message.isRead && message.username != store.state.player.username) {
-        chatUnreadCount.value++
-        message.username += ' (new)'
-      }
-      if (message.username != store.state.player.username)
-        message.bgColor = 'info'
-
-      message.createdAt = dayjs.utc(message.createdAt).local().calendar()
-      message.avatar = store.getters.config.getAvatar(
-        message.username,
-        message.avatar,
-      )
-      chatMessages.value.push(message)
-      scrollToLastMessage()
-    }
-
-    const scrollToLastMessage = () => {
-      setTimeout(() => {
-        const el = document.getElementById(
-          'chat-message-' + (chatMessages.value.length - 1),
-        )
-        el?.scrollIntoView(false)
-      }, 100)
-    }
 
     onMounted(async () => {
       if (props.matchId == 'demoAttack') {
@@ -222,20 +137,14 @@ export default defineComponent({
       if (!store.state.player.username) {
         await store.dispatch.player.updatePlayer()
       }
-
-      chat.connect(props.matchId, onReceiveMessage)
     })
 
     const isAttacker = computed(
       () => attacker.value == store.state.player.username,
     )
     return {
-      chatMessage,
-      chatMessages,
-      chatUnreadCount,
-      showTimerDetails,
-      showChat,
       loading,
+      showTimerDetails,
       timerDescription,
       attackerReserve,
       defenderReserve,
@@ -244,15 +153,14 @@ export default defineComponent({
       matchName,
       attacker,
       defender,
-      player: computed(() => store.state.player.username),
+      config: computed(() => store.state.config),
       attackerLabel: computed(() => (isAttacker ? 'Give' : 'Request')),
       defenderLabel: computed(() => (!isAttacker ? 'Give' : 'Request')),
-      timer: computed(() => store.getters.timer.getTimer),
+      timer: computed(() => store.getters.timer.getTimer || '0:00'),
       timerColor: computed(() =>
         store.state.timer.isReserve ? 'text-negative' : 'text-primary',
       ),
       refresh: () => location.reload(),
-      config: computed(() => store.state.config),
       showTimer: async () => {
         loading.value = true
         const response = await api.getTimer(props.matchId)
@@ -262,44 +170,7 @@ export default defineComponent({
         loading.value = false
         showTimerDetails.value = true
       },
-      sendMessage: () => {
-        console.error(chatMessage.value)
-        chat.submitMessage(chatMessage.value)
-        chatMessage.value = ''
-      },
-      viewChat: () => {
-        showChat.value = true
-        scrollToLastMessage()
-      },
-      closeChat: () => {
-        showChat.value = false
-        if (chatUnreadCount) {
-          chat.markRead()
-          chatUnreadCount.value = 0
-        }
-        chatUnreadCount.value = 0
-      },
     }
   },
 })
 </script>
-
-<style lang="sass" scoped>
-.chat
-  position: relative
-  font-size: 16px
-  margin-top: 50px
-  width: 100vw
-  max-width: 400px
-  font-size: 16px
-
-.chat-messages
-  overflow-y: auto
-  padding-top: 110px
-  position: absolute
-  bottom: 110px
-  max-height: calc( 100% - 180px )
-
-.chat-input
-  margin-bottom: 50px
-</style>
