@@ -1,10 +1,8 @@
-import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
 import { defineModule } from 'direct-vuex'
+import date from 'src/utils/date'
 import { pad } from 'src/utils/format'
 import store from '..'
 
-dayjs.extend(utc)
 export interface TimerInterface {
   secondsLeft: number
   expiresAt: number
@@ -26,8 +24,10 @@ const defaultState: TimerInterface = {
 }
 
 const mutations = {
-  RESET(state: TimerInterface, newState = defaultState) {
-    state = Object.assign({}, state, newState)
+  RESET(state: TimerInterface) {
+    state.expiresAt = 0
+    state.secondsLeft = 0
+    state.isReserve = false
   },
   SET_EXPIRES_AT(state: TimerInterface, expiresAt: number) {
     state.expiresAt = expiresAt
@@ -45,6 +45,7 @@ const timerModule = defineModule({
   state: (): TimerInterface => Object.assign({}, defaultState),
   getters: {
     getTimer: (context) => {
+      if (!context.secondsLeft) return 0
       const sign = context.isReserve ? '- ' : ''
       const minutes = Math.floor(context.secondsLeft / 60)
       if (minutes < 1) return sign + '0:' + pad(context.secondsLeft)
@@ -60,8 +61,7 @@ const timerModule = defineModule({
   actions: {
     setTimer: (context, payload: TimerPayload) => {
       if (timer) clearInterval(timer)
-      const utcTime = dayjs.utc(payload.utc)
-      const expiresAt = utcTime.toDate().getTime()
+      const expiresAt = date.utc(payload.utc).toDate().getTime()
       if (new Date().getTime() > expiresAt)
         return context.commit(mutations.RESET.name)
       context.commit(mutations.SET_EXPIRES_AT.name, expiresAt)
@@ -75,11 +75,12 @@ const timerModule = defineModule({
         now.getMinutes() + store.state.settings.matchmakerTimeout,
       )
       context.commit(mutations.SET_EXPIRES_AT.name, expiresAt)
+      context.commit(mutations.SET_RESERVE.name, false)
       store.dispatch.timer.countdown(store.dispatch.matchmaker.cancelSearch)
     },
     stopTimer(context) {
-      if (timer) clearInterval(timer)
       context.commit(mutations.RESET.name)
+      if (timer) clearInterval(timer)
     },
     countdown(context, onComplete: () => void) {
       timer = setInterval(() => {

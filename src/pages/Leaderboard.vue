@@ -14,11 +14,11 @@
         <div
           v-if="loading"
           class="text-center"
-          style="width: 100%; height: 710px;"
+          style="width: 100%; height: 710px"
         >
           <q-spinner-dots size="10em" color="primary" />
         </div>
-        <q-list v-else class="stripped" style="height: 710px;">
+        <q-list v-else class="stripped" style="height: 710px">
           <q-item>
             <q-item-section side>
               <q-select
@@ -31,7 +31,7 @@
                 @filter="filterFn"
                 @input="onPlayerInput"
                 :loading="searchLoading"
-                style="width: 170px;"
+                style="width: 170px"
                 placeholder="Player search"
                 dense
                 clearable
@@ -49,10 +49,10 @@
             </q-item-section>
             <q-item-section></q-item-section>
             <q-item-section side>
-              <div class="text-overline" style="line-height: 1.1rem;">
+              <div class="text-overline" style="line-height: 1.1rem">
                 Last Updated:
               </div>
-              <div class="text-overline" style="line-height: 1.1rem;">
+              <div class="text-overline" style="line-height: 1.1rem">
                 {{ lastUpdated }}
               </div>
             </q-item-section>
@@ -90,10 +90,8 @@ import { LeaderboardPlayer } from '../store/modules/config'
 import store from '../store'
 import router from 'src/router'
 import api from 'src/utils/api'
-import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
-import calendar from 'dayjs/plugin/calendar'
 import LeaderboardRow from 'components/LeaderboardRow.vue'
+import date from 'src/utils/date'
 
 export default defineComponent({
   name: 'LeaderboardPage',
@@ -101,8 +99,6 @@ export default defineComponent({
     LeaderboardRow,
   },
   setup() {
-    dayjs.extend(utc)
-    dayjs.extend(calendar)
     const page = computed(
       () => store.state.config.leaderboardConfig.currentPage,
     )
@@ -124,7 +120,7 @@ export default defineComponent({
       totalPages.value = Math.ceil(
         +response.data.total / (+pageSize.value ?? 1),
       )
-      lastUpdated.value = dayjs(response.data.createdAt).utc(true).local().calendar()
+      lastUpdated.value = date.utc(response.data.createdAt).local().calendar()
       leaderboardPlayers.value = response.data.results
       players.value = []
       leaderboardPlayers.value.forEach((leader) =>
