@@ -105,6 +105,7 @@
         />
       </q-btn-group>
     </q-card-actions>
+    <audio id="matched-sound" src="/sounds/beer1.mp3" />
   </base-card>
 </template>
 
@@ -128,15 +129,12 @@ export default defineComponent({
     MatchDelta,
   },
   setup() {
-    const seconds = computed(() => store.state.timer.secondsLeft)
     return {
       MATCH_STATES,
       matchmakerTimeout: computed(() => store.state.settings.matchmakerTimeout),
       updateTimeout: store.dispatch.settings.updateTimeout,
       match: computed(() => store.state.matchmaker),
-      timer: computed(() =>
-        seconds.value > 0 ? formatSeconds(seconds.value) : '',
-      ),
+      timer: computed(() => store.getters.timer.getTimer),
       loading: computed(() => store.state.matchmaker.loading),
       matchmakerButton: computed(() => store.state.config.buttons.matchmaker),
       matchmakerHelp: computed(() => store.state.config.buttons.matchmakerHelp),
