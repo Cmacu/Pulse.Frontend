@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import { defineModule } from 'direct-vuex'
 import {
   MatchState,
@@ -7,12 +8,34 @@ import {
 } from './config'
 import store from '../index'
 import { Notify } from 'quasar'
-import * as socket from 'src/utils/socket'
+import { DeltaInterface, defaultDelta } from 'src/store/modules/player'
+import router from 'src/router'
 import api from 'src/utils/api'
 import { timestampToUtc } from 'src/utils/format'
 import { playMatchedSound } from 'src/utils/audio'
-import { DeltaInterface, defaultDelta } from 'src/store/modules/player'
-import router from 'src/router'
+import { getRandomInRange } from 'src/utils/tools'
+import { hub, HubConnection } from 'src/utils/hub'
+
+let connection: HubConnection | undefined = undefined
+
+const HUB = {
+  url: process.env.API + '/matchmaker',
+  sendRun: 'RunMatchmaker',
+  scheduleMatchmakerRun: 'ScheduleMatchmakerRun',
+  receiveDisconnect: 'Disconnect',
+  receiveMatched: 'Matched',
+  receivePlaying: 'Playing',
+}
+
+let _runTimeout: undefined | NodeJS.Timeout = undefined
+const scheduleMatchmakerRun = (
+  connection: HubConnection | undefined,
+  delay: number,
+) => {
+  if (_runTimeout !== undefined) clearTimeout(_runTimeout)
+  const runDelay = getRandomInRange(delay, delay * 0.2)
+  _runTimeout = setTimeout(() => connection?.send(HUB.sendRun), runDelay)
+}
 
 export interface OpponentInterface {
   id: string
@@ -223,15 +246,24 @@ const matchmakerModule = defineModule({
         return
       }
 
-      socket.reset()
-      await socket.connect()
+      connection = await hub.connect(HUB.url)
+      connection.on(HUB.scheduleMatchmakerRun, (delay: number) =>
+        scheduleMatchmakerRun(connection, delay),
+      )
+      connection.on(HUB.receiveMatched, store.dispatch.matchmaker.setMatched)
+      connection.on(HUB.receivePlaying, store.dispatch.matchmaker.startMatch)
+      connection.on(
+        HUB.receiveDisconnect,
+        store.dispatch.matchmaker.cancelSearch,
+      )
       context.commit(mutations.SET_STATE.name, MATCH_STATES.SEARCHING)
       store.dispatch.timer.startTimer()
     },
     async cancelSearch(context) {
       context.commit(mutations.START_LOADING.name)
+      if (_runTimeout !== undefined) clearTimeout(_runTimeout)
+      connection = await hub.disconnect(HUB.url)
       store.dispatch.timer.stopTimer()
-      await socket.disconnect()
       if (context.state.status != MATCH_STATES.MATCHED) {
         context.commit(mutations.SET_STATE.name, MATCH_STATES.AVAILABLE)
       }

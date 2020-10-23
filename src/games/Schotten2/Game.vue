@@ -2,12 +2,12 @@
   <q-page class="flex flex-center full-height" :class="pageClass">
     <section
       class="absolute-top page-container row no-wrap q-px-sm justify-between items-start text-dark"
-      style="font-size: 0.7rem; line-height: 1;"
+      style="font-size: 0.7rem; line-height: 1"
     >
       <Log :matchId="matchId" :attacker="attacker" :defender="defender" />
       <div
         class="column bg-white shadow-2 q-pa-xs items-center"
-        style="z-index: 3;"
+        style="z-index: 3"
       >
         <div class="row q-pb-sm border-bottom text-center text-underline">
           {{ matchName }}
@@ -115,12 +115,11 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props, context) {
+  setup(props) {
     const htmlElement = document.documentElement
     onMounted(async () => {
       window.scrollTo(0, 1)
       htmlElement.className = 'schotten2-game'
-      context.root.$forceUpdate()
       await game.actions.loadState(props.matchId)
     })
     onUnmounted(async () => {
