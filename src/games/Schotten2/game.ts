@@ -230,6 +230,7 @@ const isGameOver = (gameState: Schotten2State): boolean => {
     Object.assign({}, notification, {
       timeout: 0,
       closeBtn: false,
+      classes: 'pulse',
       actions: [
         {
           label: 'Open Pulse Games',

@@ -21,7 +21,7 @@
     </section>
     <Info :opponent="opponent" />
 
-    <table class="schotten2-wall page-container">
+    <table class="schotten2-wall">
       <!-- Opponent Cards -->
       <tr>
         <td
@@ -148,17 +148,21 @@ export default defineComponent({
 html.schotten2-game,
 html.schotten2-game body,
   overflow: hidden
-  font-size: 16px
-  @media(min-width: 400px)
-    font-size: 19px
-  @media(min-width: 500px)
+  font-size: 14px
+  @media(min-width: 375px) and (min-height: 667px)
+    font-size: 16px
+  @media(min-width: 490px) and (min-height: 700px)
+    font-size: 18px
+  @media(min-width: 566px) and (min-height: 800px)
+    font-size: 20px
+  @media(min-width: 622px) and (min-height: 800px)
     font-size: 22px
-  @media(min-width: 600px)
-    font-size: 25px
-  @media(min-width: 700px)
+  @media(min-width: 706px) and (min-height: 800px)
+    font-size: 24px
+  @media(min-width: 776px) and (min-height: 800px)
+    font-size: 26px
+  @media(min-width: 800px) and (min-height: 800px)
     font-size: 28px
-  @media(min-width: 800px)
-    font-size: 31px
 
 .match-layout
   // font-size: 0.85rem
@@ -176,15 +180,17 @@ html.schotten2-game body,
 .schotten2-game .schotten2-defender
   background-image: url("/st2/info/defense/background.png")
 
-.schotten2-wall,
-.schotten2-discards
-  width: 100%;
+table
   table-layout: fixed
   border-collapse: collapse
   border-spacing: 0
 
+.schotten2-discards
+  width: 100%;
+
 .schotten2-wall td
   padding: 0px
+  text-align: center
 
 .schotten2-discards td
   padding: 5px
@@ -200,13 +206,24 @@ html.schotten2-game body,
 .schotten2-defender .schotten2-hand .schotten2-card
   background: white
 
+.schotten2-section,
+.schotten2-card,
+.drop-zone
+  max-width: 13.6vw
+  width: 4rem
+  max-height: 17.2vw
+  height: 5rem
+
+.schotten2-section
+  display: inline-block
+  max-width: 14.2vw
+  width: 4.3rem
+  max-height: 18.6vw
+  height: 6.4rem
+
 .schotten2-card
   display: inline-block
   border: none
-  max-width: 110px
-  width: 13.8vw
-  max-height: 145px
-  height: 18.22vw
 
 .schotten2-attacker .drop-zone
   background: $dark-page
@@ -216,10 +233,6 @@ html.schotten2-game body,
 .drop-zone
   display: none
   opacity: 0.8
-  max-width: 110px
-  width: 13.8vw
-  max-height: 145px
-  height: 18.22vw
 .drop-zone-active
   -webkit-filter: drop-shadow(0 0 0.2rem $accent)
   -moz-filter: drop-shadow(0 0 0.2rem $accent)

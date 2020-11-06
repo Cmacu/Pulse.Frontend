@@ -1,7 +1,7 @@
 <template>
   <q-card class="pulse-card">
     <q-item>
-      <q-item-section avatar @click="showSlot = !showSlot">
+      <q-item-section avatar @click="toggleSlot">
         <q-avatar>
           <q-icon size="27px" :name="mainIcon" />
         </q-avatar>
@@ -9,7 +9,7 @@
       <q-item-section
         class="text-subtitle1"
         :class="{ 'text-center': titleCenter }"
-        @click="showSlot = !showSlot"
+        @click="toggleSlot"
       >
         <q-item-label class="text-primary">{{ title }}</q-item-label>
         <q-item-label caption v-html="subtitle" />
@@ -18,8 +18,8 @@
         <slot name="extra" />
       </q-item-section>
     </q-item>
-    <q-separator v-if="showSlot" />
-    <q-linear-progress v-if="loading" indeterminate size="xs" />
+    <q-separator v-if="showSlot && !loading" />
+    <q-linear-progress v-if="loading" indeterminate size="1px" />
     <slot v-if="showSlot" />
   </q-card>
 </template>
@@ -50,12 +50,20 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    collapsible: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup: (props) => {
     const showSlot = ref(true)
     return {
       showSlot,
       mainIcon: computed(() => (showSlot.value ? props.icon : 'unfold_more')),
+      toggleSlot: () => {
+        if (!props.collapsible) return
+        showSlot.value = !showSlot.value
+      },
     }
   },
 })

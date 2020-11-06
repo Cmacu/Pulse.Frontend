@@ -1,8 +1,8 @@
 <template>
   <div id="q-app">
     <div
-      class="loading-screen q-pa-xl text-center"
       v-if="$q.loading.isActive"
+      class="loading-screen q-pa-xl text-center"
     />
     <router-view />
   </div>
@@ -34,7 +34,7 @@ export default defineComponent({
   bottom: 0px
   background-color: $dark-page
   background-image: url('/logo.png')
-  background-position: center
-  background-size: contain
+  background-position: 50% 33%
+  background-size: 67%;
   background-repeat: no-repeat
 </style>

@@ -43,9 +43,6 @@ body.body--dark h2
 .bg-negative .q-notification__actions,
   color: white
 
-.q-linear-progress
-  margin-top: -3px
-
 .bottom-tabs .q-tab__label
   font-size: 0.9em
 
@@ -86,19 +83,19 @@ body.body--dark .text-default
   -ms-filter: drop-shadow(0 0 15px $primary)
   -o-filter: drop-shadow(0 0 15px $primary)
 
-.glow-1st
+.glow-primary
   -webkit-filter: drop-shadow(0 0 10px $primary)
   -moz-filter: drop-shadow(0 0 10px $primary)
   -ms-filter: drop-shadow(0 0 10px $primary)
   -o-filter: drop-shadow(0 0 10px $primary)
 
-.glow-2nd
+.glow-info
   -webkit-filter: drop-shadow(0 0 10px $info)
   -moz-filter: drop-shadow(0 0 10px $info)
   -ms-filter: drop-shadow(0 0 10px $info)
   -o-filter: drop-shadow(0 0 10px $info)
 
-.glow-3rd
+.glow-secondary
   -webkit-filter: drop-shadow(0 0 10px $secondary)
   -moz-filter: drop-shadow(0 0 10px $secondary)
   -ms-filter: drop-shadow(0 0 10px $secondary)
@@ -236,3 +233,41 @@ body.body--dark .highcharts-root .highcharts-background
 
 .highcharts-legend-box
   fill: transparent
+
+// Pulse
+.pulse
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 1)
+  transform: scale(1)
+  animation: pulse 1s infinite
+
+@keyframes pulse
+  0%
+    transform: scale(0.98)
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.8)
+
+  70%
+    transform: scale(1)
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0)
+
+  100%
+    transform: scale(0.98)
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0)
+
+.notify-pulse .q-btn
+  font-weight: bold
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 1)
+  transform: scale(1)
+  animation: pulse2 1s infinite
+
+@keyframes pulse2
+  0%
+    transform: scale(1.20)
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7)
+
+  70%
+    transform: scale(1)
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0)
+
+  100%
+    transform: scale(1.20)
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0)

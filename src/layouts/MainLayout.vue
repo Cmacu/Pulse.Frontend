@@ -3,7 +3,7 @@
     <q-spinner-dots size="10em" color="primary" />
   </div>
   <q-layout v-else view="hHh lpR fFf">
-    <q-header class="bg-default" style="font-size: 21px;" elevated>
+    <q-header class="bg-default" style="font-size: 21px" elevated>
       <q-toolbar class="page-container row">
         <div class="col-1 col-sm-3">
           <base-btn
@@ -65,7 +65,7 @@
       </div>
     </q-drawer>
 
-    <q-page-container style="margin-bottom: 50px;">
+    <q-page-container>
       <router-view :key="$route.fullPath" />
       <q-page-sticky v-if="showFab" position="bottom-right" :offset="[10, 10]">
         <base-btn
@@ -104,7 +104,7 @@
           :to="config.buttons.settings.to"
         />
       </div>
-      <div v-else class="q-ma-md" style="height: 18px;">
+      <div v-else class="q-ma-md" style="height: 18px">
         {{ config.name }} @ 2020 - {{ config.game }}
       </div>
     </q-footer>
@@ -144,7 +144,9 @@ export default defineComponent({
       match: computed(() => store.state.matchmaker),
       ...store.dispatch.config,
       toggleMatch: store.dispatch.matchmaker.toggle,
-      showFab: computed(() => store.state.settings.showFab),
+      showFab: computed(
+        () => store.state.filter.modeId == 2 && store.state.settings.showFab,
+      ),
       animate: computed(
         () =>
           store.state.settings.enableClock &&

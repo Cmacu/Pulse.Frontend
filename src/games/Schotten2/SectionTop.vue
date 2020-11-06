@@ -1,7 +1,7 @@
 <template>
   <div
     class="flex column items-center"
-    style="margin-bottom: -42%;"
+    style="margin-bottom: -2rem"
     :class="{ 'enable-oil': enableOil }"
     @click="atUseOil(sectionIndex)"
   >
@@ -9,7 +9,7 @@
       v-for="(card, cardIndex) in cards"
       :key="cardIndex"
       v-bind="card"
-      style="margin-top: -80%;"
+      style="margin-top: -2.8rem"
     />
   </div>
 </template>

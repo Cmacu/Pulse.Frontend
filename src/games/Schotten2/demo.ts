@@ -10,6 +10,7 @@ const demoOver = () => {
 export interface DemoMessage {
   avatar: string
   color: string
+  classes?: string
   html: boolean
   timeout: number
   position: 'top' | 'bottom' | 'center'

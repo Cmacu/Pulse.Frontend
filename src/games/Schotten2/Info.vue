@@ -1,7 +1,7 @@
 <template>
   <section
     class="absolute-top page-container text-dark q-pt-md q-px-sm"
-    style="margin-top: 1rem;"
+    style="margin-top: 1rem"
   >
     <div class="row no-wrap">
       <div class="col column">
@@ -24,13 +24,14 @@
         <q-img
           class="absolute-top"
           src="/symbols/SchottenTotten2InGame.png"
+          style="height: 15vh"
           contain
         />
       </div>
 
       <div
         class="relative-position col column text-right justify-end"
-        style="margin-top: -0.4rem; margin-bottom: 0.2rem;"
+        style="margin-top: -0.4rem; margin-bottom: 0.2rem"
       >
         <div class="row justify-end" @click="showOilDescription = true">
           <q-icon
@@ -62,7 +63,7 @@
                 </div>
               </div>
             </template>
-            <q-list style="font-size: 1rem;">
+            <q-list style="font-size: 1rem">
               <q-item
                 clickable
                 v-ripple
@@ -189,7 +190,7 @@
                 </div>
                 <q-img
                   :src="`/st2/symbols/${suitIndex}.png`"
-                  style="width: 1rem; height: 1rem;"
+                  style="width: 1rem; height: 1rem"
                   contain
                 />
               </div>
@@ -233,7 +234,7 @@
       </q-card>
     </q-dialog>
     <q-dialog v-model="showOilDescription" auto-close>
-      <q-card class="page-container q-pa-md" style="font-size: 0.7rem;">
+      <q-card class="page-container q-pa-md" style="font-size: 0.7rem">
         <q-card-section class="row items-center">
           <div>Oil Cauldrons ({{ oilCount }} left)</div>
           <q-space />

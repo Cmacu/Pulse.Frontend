@@ -1,5 +1,5 @@
 <template>
-  <div class="row justify-between">
+  <div class="row justify-center">
     <Container
       orientation="horizontal"
       class="bg-transparent row justify-evenly items-end"

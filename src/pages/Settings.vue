@@ -1,178 +1,182 @@
 <template>
-  <q-page class="flex flex-center">
-    <div class="page-container row q-pa-sm q-gutter-sm">
-      <base-card
-        :icon="settingsButton.icon"
-        :title="settingsButton.label"
-        subtitle="Preferences"
-        :loading="settings.loading"
-      >
-        <template slot="extra">
-          <base-btn v-bind="settingsHelp" flat round />
-        </template>
-        <q-list padding>
-          <q-item-label header>Account</q-item-label>
-          <!-- Gravatar -->
-          <q-item>
-            <q-item-section>
-              <q-item-label class="text-accent">
-                <a href="https://en.gravatar.com/support/" target="_blank">
-                  <span>Update Avatar (gravatar.com) </span>
-                  <q-icon name="help_outline" size="24px" />
-                </a>
-              </q-item-label>
-            </q-item-section>
-            <q-item-section side>
-              <q-toggle
-                color="accent"
-                :value="settings.enableGravatar"
-                :val="true"
-                @input="updateGravatar"
-              />
-            </q-item-section>
-          </q-item>
-          <!-- Country Flag -->
-          <q-item>
-            <q-item-section>
-              <q-item-label class="text-accent">Country</q-item-label>
-            </q-item-section>
-            <q-item-section side>
-              <q-select
-                :value="country"
-                @input="updateCountryFlag"
-                :options="countryOptions"
-                option-value="code"
-                option-label="name"
-                behavior="dialog"
-                color="accent"
-                use-chips
-                borderless
-                style="width: 100%; min-width: 50px;"
-              >
-                <template v-slot:no-option>
-                  <q-item>
-                    <q-item-section class="text-grey">
-                      No results
-                    </q-item-section>
-                  </q-item>
-                </template>
-              </q-select>
-            </q-item-section>
-          </q-item>
-          <q-item-label header>Interface</q-item-label>
-          <!-- Dark Mode -->
-          <q-item tag="label" v-ripple>
-            <q-item-section>
-              <q-item-label class="text-accent">Enable Dark Mode</q-item-label>
-            </q-item-section>
-            <q-item-section side>
-              <q-toggle
-                color="accent"
-                :value="settings.isDark"
-                :val="true"
-                @input="updateDarkMode"
-              />
-            </q-item-section>
-          </q-item>
-          <!-- Floating Action Button -->
-          <q-item tag="label" v-ripple>
-            <q-item-section>
-              <q-item-label class="text-accent"
-                >Enable FAB (Floating Action Button)</q-item-label
-              >
-            </q-item-section>
-            <q-item-section side>
-              <q-toggle
-                color="accent"
-                :value="settings.showFab"
-                :val="true"
-                @input="updateShowFab"
-              />
-            </q-item-section>
-          </q-item>
-          <!-- Timeout Animation -->
-          <q-item tag="label" v-ripple>
-            <q-item-section>
-              <q-item-label class="text-accent"
-                >Enable Timeout Animation</q-item-label
-              >
-            </q-item-section>
-            <q-item-section side>
-              <q-toggle
-                color="accent"
-                :value="settings.enableClock"
-                :val="true"
-                @input="updateAnimateClock"
-              />
-            </q-item-section>
-          </q-item>
-          <q-item-label header>Matchmaker</q-item-label>
-          <!-- Timeout Setting -->
-          <q-item tag="label" v-ripple>
-            <q-item-section>
-              <q-item-label class="text-accent">
-                Find Match Timeout ({{ settings.matchmakerTimeout }} minutes)
-              </q-item-label>
-            </q-item-section>
-            <q-item-section>
-              <q-slider
-                :value="settings.matchmakerTimeout"
-                :min="1"
-                :max="60"
-                label
-                @change="updateTimeout"
-                color="accent"
-              />
-            </q-item-section>
-            <q-item-section side>
-              <q-icon color="accent" name="hourglass_full" />
-            </q-item-section>
-          </q-item>
-          <!-- Email notifications -->
-          <q-item>
-            <q-item-section>
-              <q-item-label class="text-accent"
-                >Email Notifications</q-item-label
-              >
-            </q-item-section>
-            <q-item-section side>
-              <q-toggle
-                color="accent"
-                :value="enableEmailNotifications"
-                :val="true"
-                @input="setEmailNotifications"
-              />
-            </q-item-section>
-          </q-item>
-          <q-item tag="label" v-ripple>
-            <q-item-section>
-              <q-item-label class="text-accent"
-                >Pour me a beer on Match Found</q-item-label
-              >
-            </q-item-section>
-            <q-item-section side>
-              <q-toggle
-                color="accent"
-                :value="settings.enableSound"
-                :val="true"
-                @input="updateSound"
-              />
-            </q-item-section>
-          </q-item>
-          <q-item tag="label" v-ripple to="/logout">
-            <q-item-section>
-              <q-item-label class="text-negative">Logout</q-item-label>
-            </q-item-section>
-            <q-item-section side>
-              <q-btn icon="exit_to_app" color="negative" to="/logout" flat />
-            </q-item-section>
-          </q-item>
-          <!-- Version -->
-          <q-item-label header class="text-right"
-            >version: {{ version }}</q-item-label
-          >
-        </q-list>
-      </base-card>
+  <q-page>
+    <div class="page-container q-pa-sm">
+      <div class="row q-gutter-sm">
+        <base-card
+          :icon="settingsButton.icon"
+          :title="settingsButton.label"
+          subtitle="Preferences"
+          :loading="settings.loading"
+        >
+          <template slot="extra">
+            <base-btn v-bind="settingsHelp" flat round />
+          </template>
+          <q-list padding>
+            <q-item-label header>Account</q-item-label>
+            <!-- Gravatar -->
+            <q-item>
+              <q-item-section>
+                <q-item-label class="text-accent">
+                  <a href="https://en.gravatar.com/support/" target="_blank">
+                    <span>Update Avatar (gravatar.com) </span>
+                    <q-icon name="help_outline" size="24px" />
+                  </a>
+                </q-item-label>
+              </q-item-section>
+              <q-item-section side>
+                <q-toggle
+                  color="accent"
+                  :value="settings.enableGravatar"
+                  :val="true"
+                  @input="updateGravatar"
+                />
+              </q-item-section>
+            </q-item>
+            <!-- Country Flag -->
+            <q-item>
+              <q-item-section>
+                <q-item-label class="text-accent">Country</q-item-label>
+              </q-item-section>
+              <q-item-section side>
+                <q-select
+                  :value="country"
+                  @input="updateCountryFlag"
+                  :options="countryOptions"
+                  option-value="code"
+                  option-label="name"
+                  behavior="dialog"
+                  color="accent"
+                  use-chips
+                  borderless
+                  style="width: 100%; min-width: 50px"
+                >
+                  <template v-slot:no-option>
+                    <q-item>
+                      <q-item-section class="text-grey">
+                        No results
+                      </q-item-section>
+                    </q-item>
+                  </template>
+                </q-select>
+              </q-item-section>
+            </q-item>
+            <q-item-label header>Interface</q-item-label>
+            <!-- Dark Mode -->
+            <q-item tag="label" v-ripple>
+              <q-item-section>
+                <q-item-label class="text-accent"
+                  >Enable Dark Mode</q-item-label
+                >
+              </q-item-section>
+              <q-item-section side>
+                <q-toggle
+                  color="accent"
+                  :value="settings.isDark"
+                  :val="true"
+                  @input="updateDarkMode"
+                />
+              </q-item-section>
+            </q-item>
+            <!-- Floating Action Button -->
+            <q-item tag="label" v-ripple>
+              <q-item-section>
+                <q-item-label class="text-accent"
+                  >Enable FAB (Floating Action Button)</q-item-label
+                >
+              </q-item-section>
+              <q-item-section side>
+                <q-toggle
+                  color="accent"
+                  :value="settings.showFab"
+                  :val="true"
+                  @input="updateShowFab"
+                />
+              </q-item-section>
+            </q-item>
+            <!-- Timeout Animation -->
+            <q-item tag="label" v-ripple>
+              <q-item-section>
+                <q-item-label class="text-accent"
+                  >Enable Timeout Animation</q-item-label
+                >
+              </q-item-section>
+              <q-item-section side>
+                <q-toggle
+                  color="accent"
+                  :value="settings.enableClock"
+                  :val="true"
+                  @input="updateAnimateClock"
+                />
+              </q-item-section>
+            </q-item>
+            <q-item-label header>Matchmaker</q-item-label>
+            <!-- Timeout Setting -->
+            <q-item tag="label" v-ripple>
+              <q-item-section>
+                <q-item-label class="text-accent">
+                  Find Match Timeout ({{ settings.matchmakerTimeout }} minutes)
+                </q-item-label>
+              </q-item-section>
+              <q-item-section>
+                <q-slider
+                  :value="settings.matchmakerTimeout"
+                  :min="1"
+                  :max="60"
+                  label
+                  @change="updateTimeout"
+                  color="accent"
+                />
+              </q-item-section>
+              <q-item-section side>
+                <q-icon color="accent" name="hourglass_full" />
+              </q-item-section>
+            </q-item>
+            <!-- Email notifications -->
+            <q-item>
+              <q-item-section>
+                <q-item-label class="text-accent"
+                  >Email Notifications</q-item-label
+                >
+              </q-item-section>
+              <q-item-section side>
+                <q-toggle
+                  color="accent"
+                  :value="enableEmailNotifications"
+                  :val="true"
+                  @input="setEmailNotifications"
+                />
+              </q-item-section>
+            </q-item>
+            <q-item tag="label" v-ripple>
+              <q-item-section>
+                <q-item-label class="text-accent"
+                  >Pour me a beer on Match Found</q-item-label
+                >
+              </q-item-section>
+              <q-item-section side>
+                <q-toggle
+                  color="accent"
+                  :value="settings.enableSound"
+                  :val="true"
+                  @input="updateSound"
+                />
+              </q-item-section>
+            </q-item>
+            <q-item tag="label" v-ripple to="/logout">
+              <q-item-section>
+                <q-item-label class="text-negative">Logout</q-item-label>
+              </q-item-section>
+              <q-item-section side>
+                <q-btn icon="exit_to_app" color="negative" to="/logout" flat />
+              </q-item-section>
+            </q-item>
+            <!-- Version -->
+            <q-item-label header class="text-right"
+              >version: {{ version }}</q-item-label
+            >
+          </q-list>
+        </base-card>
+      </div>
     </div>
   </q-page>
 </template>

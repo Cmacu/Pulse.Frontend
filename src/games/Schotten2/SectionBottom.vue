@@ -3,18 +3,18 @@
     class="flex column items-center"
     :class="{ 'enable-retreat': enableRetreat }"
     @click="atRetreat(sectionIndex)"
-    style="margin-top: -20%;"
+    style="margin-top: -1rem"
   >
     <SiegeCard
       v-for="(card, cardIndex) in cards"
       :key="cardIndex"
       v-bind="card"
-      style="margin-bottom: -82%;"
+      style="margin-bottom: -2.8rem"
     />
     <Container
       v-if="enableDropZone"
       class="drop-zone-active"
-      style="display: flex;"
+      style="display: flex"
       behaviour="drop-zone"
       :should-accept-drop="() => true"
       @drop="(dropResult) => atWallDrop(sectionIndex, dropResult)"

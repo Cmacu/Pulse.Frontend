@@ -1,18 +1,20 @@
 <template>
-  <q-page class="flex flex-center" v-touch-swipe.right="swipeRight">
-    <div class="page-container row q-pa-sm q-gutter-sm">
-      <!-- Info -->
-      <ProfileInfo :player="player" />
-      <!-- VS History -->
-      <MatchHistory
-        v-if="!isCurrentPlayer"
-        :player="player"
-        :opponent="opponent"
-        title="Games Against You"
-        subtitle="History"
-      />
-      <!-- Game History -->
-      <MatchHistory :player="player" />
+  <q-page v-touch-swipe.right="swipeRight">
+    <div class="page-container q-pa-sm">
+      <div class="row q-gutter-sm">
+        <!-- Info -->
+        <ProfileInfo :player="player" />
+        <!-- VS History -->
+        <MatchHistory
+          v-if="!isCurrentPlayer"
+          :player="player"
+          :opponent="opponent"
+          title="Games Against You"
+          subtitle="History"
+        />
+        <!-- Game History -->
+        <MatchHistory :player="player" />
+      </div>
     </div>
   </q-page>
 </template>

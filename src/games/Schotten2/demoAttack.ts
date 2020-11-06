@@ -19,6 +19,7 @@ const eventDelay = 2 * 1000
 export const attackerMessage: DemoMessage = {
   avatar: '/symbols/Will.png',
   color: 'accent',
+  classes: 'notify-pulse',
   html: true,
   timeout: 0,
   position: 'bottom',
@@ -28,6 +29,7 @@ export const attackerMessage: DemoMessage = {
 export const defenderMessage: DemoMessage = {
   avatar: '/symbols/Cmacu.png',
   color: 'primary',
+  classes: 'notify-pulse',
   html: true,
   timeout: 0,
   position: 'center',
