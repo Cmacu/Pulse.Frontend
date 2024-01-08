@@ -20,7 +20,7 @@
             behavior="dialog"
             color="accent"
             borderless
-            style="width: 200px;"
+            style="width: 200px"
           />
         </div>
         <div>
@@ -30,7 +30,7 @@
             :options="modeOptions"
             color="accent"
             borderless
-            style="width: 200px;"
+            style="width: 200px"
           />
           <q-select
             label="Speed"
@@ -38,7 +38,7 @@
             :options="speedOptions"
             color="accent"
             borderless
-            style="width: 200px;"
+            style="width: 200px"
           />
         </div>
       </div>
@@ -55,7 +55,7 @@ export default defineComponent({
   setup: () => {
     const loading = ref(false)
     const titleOptions = ref<string[]>([
-      '<img src="/symbols/SchottenTotten2.png" height="200" />',
+      // '<img src="/symbols/SchottenTotten2.png" height="200" />',
     ])
     const modeOptions = ref<string[]>(['Competitive', 'Casual', 'Demo'])
     const speedOptions = ref<string[]>(['Blitz', 'Async', 'Unlimited'])
