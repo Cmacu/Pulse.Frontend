@@ -2,8 +2,21 @@
 
 All notable changes to this project will be documented in this file. Dates are displayed in UTC.
 
+#### [0.5.0](https://github.com/Cmacu/Pulse.Frontend/compare/0.4.5...0.5.0)
+
+- fix(UI): bug fixes and improvements [`0669841`](https://github.com/Cmacu/Pulse.Frontend/commit/0669841904501c23f5dd8b6b088435802b025b7c)
+- refactor(api): web socket connection [`4b5a34e`](https://github.com/Cmacu/Pulse.Frontend/commit/4b5a34e738e5799a0a02eca850c4d03a318b011c)
+- refactor(chat): move to separate component [`be4cc8f`](https://github.com/Cmacu/Pulse.Frontend/commit/be4cc8f253781ee96fccc6a08d3d344513157c12)
+- fix(games): disable schotten-totten [`4b9b3c1`](https://github.com/Cmacu/Pulse.Frontend/commit/4b9b3c1d7e4924234f5f1b0c4e8ac835e3da5b06)
+- refactor(utils): date utility [`7688c9a`](https://github.com/Cmacu/Pulse.Frontend/commit/7688c9a76492a30693720ec223b506b9bdbccb39)
+- fix(matchmaker): play audio bug [`a38116b`](https://github.com/Cmacu/Pulse.Frontend/commit/a38116bb28fee4f04ab8253f237de0b2fc34c583)
+- fix(games): remove schotten-totten [`1b439bb`](https://github.com/Cmacu/Pulse.Frontend/commit/1b439bba3ad138feaf797382630480fd32b10185)
+
 #### [0.4.5](https://github.com/Cmacu/Pulse.Frontend/compare/0.4.4...0.4.5)
 
+> 21 October 2020
+
+- Release 0.4.5 [`29be6cd`](https://github.com/Cmacu/Pulse.Frontend/commit/29be6cdd0176d5cd46b45c368f5628ada78e98ba)
 - fix(auth): update demo link [`a7e23fe`](https://github.com/Cmacu/Pulse.Frontend/commit/a7e23fe625a056b0160535c5a754a193b9abec5f)
 
 #### [0.4.4](https://github.com/Cmacu/Pulse.Frontend/compare/0.4.3...0.4.4)
